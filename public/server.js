@@ -4,7 +4,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var Garden = require('../model/gardens');
 var Tile = require('../model/tiles');
+var TileType = require('../model/tiletypes');
 
 //and create our instances
 var app = express();
@@ -94,9 +96,51 @@ router.route('/comments/:garden_id')
        res.send(err);
      res.json({ message: 'Comment has been deleted' })
    })
- });
+});
 
 
+//create a new garden token
+router.route('/create')
+	//post new garden
+	.post(function(req, res) {
+    	var garden = new Garden();
+
+    	garden.location = req.body.location;
+    	garden.tiles = [];
+
+    	garden.save(function(err) {
+      		if (err)
+        	res.send(err);
+      		res.json({ message: 'Garden created!' });
+    	});
+});
+
+router.route('/garden/:garden_id')
+//The put method gives us the chance to update our comment based on the ID passed to the route
+	.put(function(req, res) {
+		Garden.findById(req.params.garden_id, function(err, garden) {
+    		if (err)
+    		res.send(err);
+        	//setting the new author and text to whatever was changed. If nothing was changed
+       		// we will not alter the field.
+        	(req.body.location) ? garden.location = req.body.location : null;
+            //save comment
+        	garden.save(function(err) {
+            	if (err)
+            	res.send(err);
+            	res.json({ message: 'Garden location has been updated' });
+        	});
+    	});
+ 	})
+ 	//delete method for removing a comment from our database
+ 	.delete(function(req, res) {
+    	//selects the comment by its ID, then removes it.
+   		Garden.remove({ _id: req.params.garden_id }, function(err, garden) {
+     		if (err)
+       		res.send(err);
+     		res.json({ message: 'Garden has been deleted' })
+  		})
+});
 
 
 
