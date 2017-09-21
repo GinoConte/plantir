@@ -12,8 +12,9 @@ var Schema = mongoose.Schema;
 
 //tile schema (owner(gardenid), tile type(from preset scraped list), properties)
 var TileSchema = new Schema({
-	_parentgarden: {type: Schema.Types.ObjectId, ref: 'Garden'},
-	tiletype: {type: Schema.Types.ObjectId, ref: 'TileType'},
+	_id : Schema.Types.ObjectId,
+	parentgarden: {type: Schema.Types.ObjectId, ref: 'Garden'},
+	//tiletype: {type: Schema.Types.ObjectId, ref: 'TileType'},
 	tileprops: {
 		soiltype: String,
 		ph: Number,

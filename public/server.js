@@ -100,23 +100,49 @@ router.route('/comments/:garden_id')
 
 
 //create a new garden token
-router.route('/create')
+router.route('/garden')
 	//post new garden
 	.post(function(req, res) {
-    	var garden = new Garden();
-
-    	garden.location = req.body.location;
-    	garden.tiles = [];
+    	var garden = new Garden({
+    		_id: new mongoose.Types.ObjectId(),
+    		location: req.body.location
+    	});
+    	//garden.location = req.body.location;
+    	console.log(garden._id);
 
     	garden.save(function(err) {
       		if (err)
         	res.send(err);
+
+        	var emptytile = new Tile({
+    			_id: new mongoose.Types.ObjectId(),
+        		parentgarden: garden._id,
+        		tileprops: {
+        			soiltype: "hi",
+        			ph: 5,
+        			sunlight: "lo",
+        			moisture: "med"
+        		}
+        	});
+        	emptytile.save(function (err) {
+        		if (err) 
+        		res.send(err);
+
+        	})
+
       		res.json({ message: 'Garden created!' });
     	});
 });
 
 router.route('/garden/:garden_id')
 //The put method gives us the chance to update our comment based on the ID passed to the route
+  	.get(function(req, res) {
+		Garden.findById(req.params.garden_id, function(err, garden) {
+  			if (err)
+  				res.send(err);
+  			res.json(garden)
+  		});
+  	})
 	.put(function(req, res) {
 		Garden.findById(req.params.garden_id, function(err, garden) {
     		if (err)
@@ -142,7 +168,15 @@ router.route('/garden/:garden_id')
   		})
 });
 
-
+//get all tiles for a given "parent" garden
+router.route('/garden/:garden_id/findtiles')
+  	.get(function(req, res) {
+		Tile.find( {parentgarden: req.params.garden_id}, function(err, tiles) {
+  			if (err)
+  				res.send(err);
+  			res.json(tiles)
+  		});
+});
 
 
 

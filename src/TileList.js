@@ -7,12 +7,13 @@ class TileList extends Component {
     let tileNodes = this.props.data.map(tile => {
       return (
         <Tile
-          author={ tile.author } 
-          uniqueID={ tile['_id'] } 
+          uniqueID={tile['_id']} 
+          key={tile['_id']} 
           onTileDelete={this.props.onTileDelete} 
-          onTileUpdate={this.props.onTileUpdate} 
-          key={tile['_id']}> 
-          {tile.text}
+          onTileUpdate={this.props.onTileUpdate}    
+          parentgarden={tile.parentgarden} 
+          tileprops={tile.tileprops}>
+          {'pls workarino'}
         </Tile>
       )
     })

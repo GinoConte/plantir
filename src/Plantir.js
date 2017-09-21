@@ -15,7 +15,9 @@ class Plantir extends Component {
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
   }
   loadTilesFromServer() {
-    axios.get(this.props.url)
+    var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
+    //axios.get(this.props.url)
+    axios.get(gardenURL)
       .then(res => {
         this.setState({ data: res.data });
       })
@@ -57,12 +59,14 @@ class Plantir extends Component {
   render() {
     return (
       <div style={ style.commentBox }>
-        <h2>Comments:</h2>
+        <h2>Gardens created:</h2>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate} 
         data={ this.state.data }/>
       <EditTile onTileSubmit={this.handleTileSubmit} />
+      <hr></hr>
+
       </div>
     )
   }

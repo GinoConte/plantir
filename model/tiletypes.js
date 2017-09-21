@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 //tiletype schema (name, altname(e.g latin/scientific), isPlant, list of requirements)
 var TileTypeSchema = new Schema({
+	_id : Schema.Types.ObjectId,
 	name: String,
 	altname: String,
 	isplant: Boolean, 

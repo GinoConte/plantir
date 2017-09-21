@@ -55,7 +55,7 @@ class Tile extends Component {
   render() {
     return (
       <div style={ style.comment }>
-        <h3>{this.props.author}</h3>
+        <h3>tile id: {this.props.uniqueID}</h3>
         <span dangerouslySetInnerHTML={ this.rawMarkup() } />
         <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
         <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>

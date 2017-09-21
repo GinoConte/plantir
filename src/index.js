@@ -5,7 +5,7 @@ import Plantir from './Plantir';
 
 ReactDOM.render(
 	<Plantir
-		url='http://localhost:3001/api/comments'
+		//url='http://localhost:3001/api/comments'
 		pollInterval={800} />,
 	 document.getElementById('root')
 );

@@ -5,8 +5,9 @@ var Schema = mongoose.Schema;
 
 //garden schema (list of tiles, creation date, id(token), location text(for weather api)
 var GardenSchema = new Schema({
+	_id : Schema.Types.ObjectId,
 	location : String,
-	tiles : [{type: Schema.Types.ObjectId, ref: 'Tile'}]
+	//tiles : [{type: Schema.Types.ObjectId, ref: 'Tile'}]
 });
 
 //export our modules to use in server.js
