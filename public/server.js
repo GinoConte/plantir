@@ -43,6 +43,7 @@ router.get('/', function(req, res) {
   res.json({ message: 'API Initialized!'});
 });
 
+//NOT USED -- DEMO PURPOSES ONLY
 //adding the /comments route to our /api router
 router.route('/comments')
   //retrieve all comments from the database
@@ -70,6 +71,7 @@ router.route('/comments')
   });
 
 
+//NOT USED -- DEMO PURPOSES ONLY
 router.route('/comments/:garden_id')
 //The put method gives us the chance to update our comment based on the ID passed to the route
  .put(function(req, res) {
@@ -99,8 +101,17 @@ router.route('/comments/:garden_id')
 });
 
 
-//create a new garden token
+//POST -- CREATE NEW GARDEN TOKEN
+//GET  -- RETRIEVE LIST OF ALL GARDENS
 router.route('/garden')
+  	.get(function(req, res) {
+    	Garden.find(function(err, gardens) {
+    		if (err)
+        		res.send(err);
+      		//responds with a json object of our database gardens
+      		res.json(gardens)
+    	});
+  	})
 	//post new garden
 	.post(function(req, res) {
     	var garden = new Garden({
@@ -130,7 +141,7 @@ router.route('/garden')
 
         	})
 
-      		res.json({ message: 'Garden created!' });
+      		res.json({ message: 'Garden created! ID: garden._id' });
     	});
 });
 
@@ -168,7 +179,7 @@ router.route('/garden/:garden_id')
   		})
 });
 
-//get all tiles for a given "parent" garden
+//GET -- RETRIEVE ALL TILES BELONGING TO A SINGLE GARDEN-ID
 router.route('/garden/:garden_id/findtiles')
   	.get(function(req, res) {
 		Tile.find( {parentgarden: req.params.garden_id}, function(err, tiles) {
@@ -177,9 +188,6 @@ router.route('/garden/:garden_id/findtiles')
   			res.json(tiles)
   		});
 });
-
-
-
 
 
 //Use our router configuration when we call /api

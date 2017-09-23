@@ -2,25 +2,43 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import TileList from './TileList';
 import EditTile from './EditTile';
+import WelcomeHeader from './WelcomeHeader';
 import DATA from './data';
 import style from './style';
 
 class Plantir extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
+    this.state = { 
+      data: [],
+      garden: {}
+    };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
+    this.handleTokenSubmit = this.handleTokenSubmit.bind(this);
     this.handleTileSubmit = this.handleTileSubmit.bind(this);
     this.handleTileDelete = this.handleTileDelete.bind(this);
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
   }
   loadTilesFromServer() {
-    var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
+    //if garden id has been submitted
+    if (this.state.garden._id) {
+      //get token
+      var gardentoken = this.state.garden._id;
+      axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
+        .then(res => {
+          this.setState({ data: res.data });
+        })
+      }
+    //var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
     //axios.get(this.props.url)
-    axios.get(gardenURL)
+
+  }
+  loadGardenFromServer() {
+    var gardenURL2 = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59';
+    axios.get(gardenURL2)
       .then(res => {
-        this.setState({ data: res.data });
-      })
+        this.setState({ garden: res.data });
+    })
   }
   handleTileSubmit(tile) {
     let tiles = this.state.data;
@@ -52,24 +70,32 @@ class Plantir extends Component {
         console.log(err);
       })
   }
+  handleTokenSubmit(token) {
+    axios.get('http://localhost:3001/api/garden/'+token)
+      .then(res => {
+        this.setState({ garden: res.data });
+    })
+  }
   componentDidMount() {
+    //this.loadGardenFromServer();
     this.loadTilesFromServer();
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
   }
   render() {
     return (
       <div style={ style.commentBox }>
-        <h2>Gardens created:</h2>
+      <WelcomeHeader onTokenSubmit={this.handleTokenSubmit}/>
+        <h2>Garden token: {this.state.garden._id}</h2>
+        <p>Example garden token (for testing, copy and paste into token field, it takes a few seconds): 59c3a401c6038385985dfd59</p>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate} 
         data={ this.state.data }/>
-      <EditTile onTileSubmit={this.handleTileSubmit} />
-      <hr></hr>
-
       </div>
     )
   }
 }
 
 export default Plantir;
+
+//      <EditTile onTileSubmit={this.handleTileSubmit} />
