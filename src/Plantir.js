@@ -14,6 +14,7 @@ class Plantir extends Component {
       garden: {}
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
+    this.handleCreateClicked = this.handleCreateClicked.bind(this);    
     this.handleTokenSubmit = this.handleTokenSubmit.bind(this);
     this.handleTileSubmit = this.handleTileSubmit.bind(this);
     this.handleTileDelete = this.handleTileDelete.bind(this);
@@ -32,13 +33,6 @@ class Plantir extends Component {
     //var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
     //axios.get(this.props.url)
 
-  }
-  loadGardenFromServer() {
-    var gardenURL2 = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59';
-    axios.get(gardenURL2)
-      .then(res => {
-        this.setState({ garden: res.data });
-    })
   }
   handleTileSubmit(tile) {
     let tiles = this.state.data;
@@ -71,9 +65,20 @@ class Plantir extends Component {
       })
   }
   handleTokenSubmit(token) {
+    //token has been given
+    console.log("garden created!");
     axios.get('http://localhost:3001/api/garden/'+token)
       .then(res => {
         this.setState({ garden: res.data });
+    })
+  }
+  handleCreateClicked() {
+    axios.post('http://localhost:3001/api/garden')
+      .then(res => {
+        var newID = res.data.gardenid;
+        //get new garden object
+        this.handleTokenSubmit(newID);
+        //this.setState({ garden: res.data });
     })
   }
   componentDidMount() {
@@ -84,9 +89,11 @@ class Plantir extends Component {
   render() {
     return (
       <div style={ style.commentBox }>
-      <WelcomeHeader onTokenSubmit={this.handleTokenSubmit}/>
-        <h2>Garden token: {this.state.garden._id}</h2>
+      <WelcomeHeader 
+        onTokenSubmit={this.handleTokenSubmit}
+        onCreateClicked={this.handleCreateClicked} />
         <p>Example garden token (for testing, copy and paste into token field, it takes a few seconds): 59c3a401c6038385985dfd59</p>
+        <h2>Garden token: {this.state.garden._id}</h2>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate} 

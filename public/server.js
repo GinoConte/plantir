@@ -116,7 +116,8 @@ router.route('/garden')
 	.post(function(req, res) {
     	var garden = new Garden({
     		_id: new mongoose.Types.ObjectId(),
-    		location: req.body.location
+    		location: 'Sydney'
+    		//location: req.body.location;
     	});
     	//garden.location = req.body.location;
     	console.log(garden._id);
@@ -141,7 +142,8 @@ router.route('/garden')
 
         	})
 
-      		res.json({ message: 'Garden created! ID: garden._id' });
+      		res.json({ message: 'Garden created!',
+      			       gardenid: garden._id });
     	});
 });
 
