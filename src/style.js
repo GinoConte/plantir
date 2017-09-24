@@ -1,5 +1,20 @@
 //style.js
 const style = {
+
+  content:{
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  },
+
+  tile:{
+    border: '1px solid',
+    position: 'relative',
+  },
+
   commentBox: {
     width:'80vw',
     margin:'0 auto',
@@ -13,7 +28,7 @@ const style = {
     border:'1px solid #f1f1f1',
     padding:'0 12px',
     maxHeight:'70vh',
-    overflow:'scroll'
+    //overflow:'scroll'
   },
   comment: {
     backgroundColor:'#fafafa',
@@ -66,7 +81,8 @@ const style = {
     paddingRight:'15px',
     fontSize:'.7rem',
     color:'red'
-  }
+  },
+
 }
 
 module.exports = style;
