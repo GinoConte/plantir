@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var Garden = require('../model/gardens');
 var Tile = require('../model/tiles');
 var TileType = require('../model/tiletypes');
+var Schema = mongoose.Schema;
 
 //and create our instances
 var app = express();
@@ -189,6 +190,29 @@ router.route('/garden/:garden_id/findtiles')
   				res.send(err);
   			res.json(tiles)
   		});
+});
+
+//POST -- CREATE A NEW TOKEN WITH PARENT GARDEN
+router.route('/tile')
+	.post(function(req, res) {
+    	var tile = new Tile({
+    		_id: new mongoose.Types.ObjectId(),
+    		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
+    		tileprops: {
+    			soiltype: req.body.soiltype,
+    			ph: req.body.ph,
+    			sunlight: req.body.sunlight,
+    			moisture: req.body.moisture
+    		}
+    		//location: req.body.location;
+    	});
+    	tile.save(function(err) {
+      		if (err)
+        	res.send(err);
+
+      		res.json({ message: 'Tile created!',
+      			       tileid: tile._id });
+    	});
 });
 
 
