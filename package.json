@@ -11,6 +11,7 @@
     "mongoose": "^4.11.12",
     "nodemon": "^1.12.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.3",
     "react-center": "^1.1.1",
     "react-dom": "^15.6.1",
     "react-modal": "^2.3.2",
