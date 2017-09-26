@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
 
+import { Container, Row, Col } from 'reactstrap';
+
 class TileList extends Component {
   render() {
     let tileNodes = this.props.data.map(tile => {
@@ -17,10 +19,33 @@ class TileList extends Component {
         </Tile>
       )
     })
+    let myPaddingStyle = {
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft:0,
+      paddingRight:0,
+    }
+
     return (
-      <div style={ style.commentList }>
-        { tileNodes }
-      </div>
+
+      <Container>
+        <div style = {myPaddingStyle} className = "col-md-2 ">
+          {tileNodes.slice(0,2)}
+        </div>
+        <div style = {myPaddingStyle} className = "col-md-2 ">
+          {tileNodes.slice(2,4)}
+        </div>
+        <div style = {myPaddingStyle} className = "col-md-2 ">
+          {tileNodes.slice(2,4)}
+        </div>
+        <div style = {myPaddingStyle} className = "col-md-2">
+          {tileNodes.slice(2,4)}
+        </div>
+          <div style = {myPaddingStyle} className = "col-md-2">
+          {tileNodes.slice(2,4)}
+        </div>
+      </Container>
+      
     )
   }
 }
