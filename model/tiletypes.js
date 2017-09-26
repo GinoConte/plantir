@@ -19,7 +19,6 @@ var TileTypeSchema = new Schema({
 		moisture: String,
 		soiltype: String
 	}
-
 });
 
 //export our modules to use in server.js

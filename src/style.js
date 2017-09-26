@@ -11,8 +11,10 @@ const style = {
   },
 
   tile:{
+    width: '20vw',
     border: '1px solid',
     position: 'relative',
+    display: 'inline-block',
   },
 
   commentBox: {

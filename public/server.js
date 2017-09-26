@@ -198,6 +198,7 @@ router.route('/tile')
     	var tile = new Tile({
     		_id: new mongoose.Types.ObjectId(),
     		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
+    		tiletype: Schema.Types.ObjectId(req.body.tiletype),
     		tileprops: {
     			soiltype: req.body.soiltype,
     			ph: req.body.ph,
@@ -215,6 +216,29 @@ router.route('/tile')
     	});
 });
 
+//POST -- NEEDS TO BE DONE
+//GET
+router.route('/tiletype')
+	.post(function(req, res) {
+    	var tile = new Tile({
+    		_id: new mongoose.Types.ObjectId(),
+    		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
+    		tileprops: {
+    			soiltype: req.body.soiltype,
+    			ph: req.body.ph,
+    			sunlight: req.body.sunlight,
+    			moisture: req.body.moisture
+    		}
+    		//location: req.body.location;
+    	});
+    	tile.save(function(err) {
+      		if (err)
+        	res.send(err);
+
+      		res.json({ message: 'Tile created!',
+      			       tileid: tile._id });
+    	});
+});
 
 //Use our router configuration when we call /api
 app.use('/api', router);
