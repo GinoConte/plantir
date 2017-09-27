@@ -10,10 +10,12 @@ class Plantir extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      data: [],
-      garden: {}
+      data: [], //i.e the Tiles belonging to a garden
+      tiletypes: [],
+      garden: {} //the Garden object, includes location, id, etc
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
+    this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
     this.handleCreateClicked = this.handleCreateClicked.bind(this);    
     this.handleTokenSubmit = this.handleTokenSubmit.bind(this);
     this.handleTileSubmit = this.handleTileSubmit.bind(this);
@@ -27,11 +29,42 @@ class Plantir extends Component {
       var gardentoken = this.state.garden._id;
       axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
         .then(res => {
-          this.setState({ data: res.data });
+          this.setState({ data: res.data },
+            function() {
+              this.loadTileTypesFromServer();
+            })
         })
       }
     //var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
     //axios.get(this.props.url)
+
+  }
+  //*** not sure if this is the best way to do it,
+  //    but it works by loading all needed tiletypes
+  //    into an array and we can match that to tiles'
+  //    tiletype_id later - Gino
+  loadTileTypesFromServer() {
+    if (this.state.garden._id) {
+      //assume we have a valid garden at this point?
+      var neededTileTypes = this.state.tiletypes.slice();
+      //loop through all tiles
+      //console.log(this.state.data);
+      for(var i=0;i<this.state.data.length;i++) {
+        //create a list of needed tiles?
+        var currentid = this.state.data[i].tiletype;
+        //retrieve tiletype from db
+        axios.get('http://localhost:3001/api/tiletype/'+currentid)
+          .then(res => {
+              //console.log(res.data);
+              if(!neededTileTypes.includes(res.data)) {
+                neededTileTypes.push(res.data);
+              }
+          })
+      }
+      //console.log(neededTileTypes)
+      //console.log(this.state.tiletypes)
+      this.setState({ tiletypes: neededTileTypes})
+    }
 
   }
   handleTileSubmit(tile) {
@@ -66,10 +99,11 @@ class Plantir extends Component {
   }
   handleTokenSubmit(token) {
     //token has been given
-    console.log("garden created!");
     axios.get('http://localhost:3001/api/garden/'+token)
       .then(res => {
         this.setState({ garden: res.data });
+        //this.loadTileTypesFromServer();
+
     })
   }
   handleCreateClicked() {
@@ -85,6 +119,8 @@ class Plantir extends Component {
     //this.loadGardenFromServer();
     this.loadTilesFromServer();
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
+    //setInterval(this.loadTileTypesFromServer, this.props.pollInterval);
+
   }
   render() {
     return (
@@ -92,12 +128,13 @@ class Plantir extends Component {
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
-        <p>Example garden token (for testing, copy and paste into token field, it takes a few seconds): 59c3a401c6038385985dfd59</p>
+        <p>Example token: 59cb8884bb4c0a1fa7fc2853</p>
         <h2>Garden token: {this.state.garden._id}</h2>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate} 
-        data={ this.state.data }/>
+        data={ this.state.data }
+        tiletypes={this.state.tiletypes} />
       </div>
     )
   }

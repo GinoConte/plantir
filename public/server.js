@@ -127,21 +127,32 @@ router.route('/garden')
       		if (err)
         	res.send(err);
 
-        	var emptytile = new Tile({
-    			_id: new mongoose.Types.ObjectId(),
-        		parentgarden: garden._id,
-        		tileprops: {
-        			soiltype: "hi",
-        			ph: 5,
-        			sunlight: "lo",
-        			moisture: "med"
-        		}
-        	});
-        	emptytile.save(function (err) {
-        		if (err) 
-        		res.send(err);
 
-        	})
+        	//loop to add 5 tiles for demo purposes
+        	for (var i=0; i<25; i++) {
+        		//change to brick for demo purposes
+        		var tiletypeobject = mongoose.Types.ObjectId("59cb40fa9b7ea709e92b151a")
+        		if([2,3,7,8].includes(i)) {
+        			tiletypeobject = mongoose.Types.ObjectId("59cb41419b7ea709e92b151c")
+        		} 
+	        	var emptytile = new Tile({
+	    			_id: new mongoose.Types.ObjectId(),
+	        		parentgarden: garden._id,
+	        		//add grass as default tiletype on new garden creation
+	        		tiletype: tiletypeobject,
+	        		tileprops: {
+	        			soiltype: "Loam",
+	        			ph: 5,
+	        			sunlight: "Moderate",
+	        			moisture: "Moderate"
+	        		}
+	        	});
+	        	emptytile.save(function (err) {
+	        		if (err) 
+	        		res.send(err);
+
+	        	})
+	        }
 
       		res.json({ message: 'Garden created!',
       			       gardenid: garden._id });
@@ -220,24 +231,32 @@ router.route('/tile')
 //GET
 router.route('/tiletype')
 	.post(function(req, res) {
-    	var tile = new Tile({
+    	var tiletype = new TileType({
     		_id: new mongoose.Types.ObjectId(),
-    		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
-    		tileprops: {
-    			soiltype: req.body.soiltype,
-    			ph: req.body.ph,
-    			sunlight: req.body.sunlight,
-    			moisture: req.body.moisture
-    		}
+    		name: req.body.name,
+    		altname: "Default",
+    		isplant: req.body.isplant,
+    		info: "Default",
+    		tilecolour: req.body.tilecolour,
+    		davesgardenid: -1,
     		//location: req.body.location;
     	});
-    	tile.save(function(err) {
+    	tiletype.save(function(err) {
       		if (err)
         	res.send(err);
 
-      		res.json({ message: 'Tile created!',
-      			       tileid: tile._id });
+      		res.json({ message: 'Tiletype created!',
+      			       tiletypeid: tiletype._id });
     	});
+});
+
+router.route('/tiletype/:tiletype_id')
+  	.get(function(req, res) {
+		TileType.findById(req.params.tiletype_id, function(err, tiletype) {
+  			if (err)
+  				res.send(err);
+  			res.json(tiletype)
+  		});
 });
 
 //Use our router configuration when we call /api

@@ -76,7 +76,7 @@ class Tile extends Component {
   render() {
     return (
       <div style={style.tile}>
-        <p>Plant</p> 
+        <p>{this.props.tiletypename}</p>
         <button onClick={this.openModal}>Details</button>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -91,6 +91,7 @@ class Tile extends Component {
             <div style={ style.comment }>
               <h3>Tile ID: {this.props.uniqueID}</h3>
               <p>Parent garden: {this.props.parentgarden}</p>
+              <p>Tile type: {this.props.tiletypename}</p>
               <p><b>Tile properties:</b></p>
               <p>Moisture: {this.props.tileprops.moisture}</p>
               <p>Sunlight: {this.props.tileprops.sunlight}</p>

@@ -1,5 +1,5 @@
 'use strict';
-//import dependency
+//import dependencies
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -11,14 +11,7 @@ var TileTypeSchema = new Schema({
 	isplant: Boolean, 
 	info: String,
 	tilecolour: String,
-	requirements: {
-		watering: String,
-		blossom: String,
-		ph: String,
-		sunlight: String,
-		moisture: String,
-		soiltype: String
-	}
+	davesgardenid: Number,
 });
 
 //export our modules to use in server.js

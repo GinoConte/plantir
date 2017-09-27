@@ -11,7 +11,7 @@ const style = {
   },
 
   tile:{
-    width: '20vw',
+    width: '20%',
     border: '1px solid',
     position: 'relative',
     display: 'inline-block',
