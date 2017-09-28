@@ -76,7 +76,7 @@ class Tile extends Component {
   render() {
     return (
       <div style={style.tile}>
-        <p>{this.props.tiletypename}</p>
+        <p>{this.props.tiletypename}</p><br></br><br></br>
         <button onClick={this.openModal}>Details</button>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -87,12 +87,13 @@ class Tile extends Component {
         >
 
           <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
-          <div style={ style.tile }>
+          <div style={ style.tilebox }>
             <div style={ style.comment }>
               <h3>Tile ID: {this.props.uniqueID}</h3>
               <p>Parent garden: {this.props.parentgarden}</p>
               <p>Tile type: {this.props.tiletypename}</p>
               <p><b>Tile properties:</b></p>
+              <p>Soil type: {this.props.tileprops.soiltype}</p>
               <p>Moisture: {this.props.tileprops.moisture}</p>
               <p>Sunlight: {this.props.tileprops.sunlight}</p>
               <p>pH balance: {this.props.tileprops.ph}</p>
@@ -100,18 +101,29 @@ class Tile extends Component {
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
               { (this.state.toBeUpdated)
                 ? (<form onSubmit={ this.handleTileUpdate }>
-                    <input
-                      type='text'
-                      placeholder='Update name...'
-                      style={ style.commentFormAuthor }
-                      value={ this.state.author }
-                      onChange= { this.handleAuthorChange } />
-                    <input
-                      type='text'
-                      placeholder='Update your comment...'
-                      style= { style.commentFormText }
-                      value={ this.state.text }
-                      onChange={ this.handleTextChange } />
+                    <select name="soiltype">
+                      <option value="Select" selected>Soil Type</option>
+                      <option value="Loam">Loam</option>
+                      <option value="Sandy">Sandy</option>
+                      <option value="Clay">Clay</option>
+                      <option value="Silty">Silty</option>
+                      <option value="Peaty">Peaty</option>
+                    </select>
+                    <select name="soilsunlight">
+                      <option value="Select" selected>Sunlight</option>
+                      <option value="None">None</option>
+                      <option value="Low">Low</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="High">High</option>
+                    </select>
+                    <select name="soilmoisture">
+                      <option value="Select" selected>Moisture</option>
+                      <option value="None">None</option>
+                      <option value="Low">Low</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="High">High</option>
+                      <option value="Waterlogged">Drenched</option>
+                    </select>
                     <input
                       type='submit'
                       style={ style.commentFormPost }

@@ -9,14 +9,17 @@ const style = {
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)'
   },
-
   tile:{
     width: '20%',
     border: '1px solid',
     position: 'relative',
     display: 'inline-block',
   },
-
+  tilebox:{
+    border: '1px solid',
+    position: 'relative',
+    display: 'inline-block',
+  },
   commentBox: {
     width:'80vw',
     margin:'0 auto',
@@ -36,7 +39,7 @@ const style = {
     backgroundColor:'#fafafa',
     margin:'10px',
     padding:'3px 10px',
-    fontSize:'.85rem'
+    fontSize:'2rem'
   },
   commentForm: {
     margin:'10px',
@@ -76,12 +79,12 @@ const style = {
   updateLink: {
     textDecoration:'none',
     paddingRight:'15px',
-    fontSize:'.7rem'
+    fontSize:'1.5rem'
   },
   deleteLink: {
     textDecoration:'none',
     paddingRight:'15px',
-    fontSize:'.7rem',
+    fontSize:'1.5rem',
     color:'red'
   },
 
