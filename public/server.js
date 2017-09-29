@@ -227,7 +227,7 @@ router.route('/tile')
     	});
 });
 
-//POST -- NEEDS TO BE DONE
+//POST -- CREATE NEW TILETYPE | TAKES: name(string), isplant(bool), tilecolour(#ffffff)
 //GET
 router.route('/tiletype')
 	.post(function(req, res) {
@@ -250,6 +250,8 @@ router.route('/tiletype')
     	});
 });
 
+//GET -- RETRIEVE TILETYPE FROM KNOWN IDS
+//USED WHEN CREATING DEFAULT GRASS TILES
 router.route('/tiletype/:tiletype_id')
   	.get(function(req, res) {
 		TileType.findById(req.params.tiletype_id, function(err, tiletype) {

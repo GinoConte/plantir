@@ -21,6 +21,7 @@ class TileList extends Component {
         //console.log(tiletypes[j].name);
         if(currentTileTypeID === tiletypes[j]._id) {
           tiles[i].tiletypename = tiletypes[j].name;
+          tiles[i].tiletypecolour = tiletypes[j].tilecolour;
         }
       }
     }
@@ -35,7 +36,8 @@ class TileList extends Component {
           onTileUpdate={this.props.onTileUpdate}    
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
-          tiletypename={tile['tiletypename']}>
+          tiletypename={tile['tiletypename']}
+          tiletypecolour={tile['tiletypecolour']}>
           {'pls workarino'}
         </Tile>
       )

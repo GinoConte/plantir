@@ -15,6 +15,9 @@ const style = {
     position: 'relative',
     display: 'inline-block',
   },
+  grasstile: {
+    backgroundColor: "#9fd64d",
+  },
   tilebox:{
     border: '1px solid',
     position: 'relative',

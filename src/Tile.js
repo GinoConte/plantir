@@ -75,9 +75,9 @@ class Tile extends Component {
 
   render() {
     return (
-      <div style={style.tile}>
-        <p>{this.props.tiletypename}</p><br></br><br></br>
-        <button onClick={this.openModal}>Details</button>
+      <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
+        <center>&nbsp;{this.props.tiletypename}</center><br></br><br></br>
+        <center><button onClick={this.openModal}>Details</button></center>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -89,14 +89,15 @@ class Tile extends Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
           <div style={ style.tilebox }>
             <div style={ style.comment }>
-              <h3>Tile ID: {this.props.uniqueID}</h3>
-              <p>Parent garden: {this.props.parentgarden}</p>
-              <p>Tile type: {this.props.tiletypename}</p>
-              <p><b>Tile properties:</b></p>
-              <p>Soil type: {this.props.tileprops.soiltype}</p>
-              <p>Moisture: {this.props.tileprops.moisture}</p>
-              <p>Sunlight: {this.props.tileprops.sunlight}</p>
-              <p>pH balance: {this.props.tileprops.ph}</p>
+              <center><b>{this.props.tiletypename}</b></center>
+              <p><b>Properties:</b></p>
+              <ul>
+                <li>Soil type: {this.props.tileprops.soiltype}</li>
+                <li>Moisture: {this.props.tileprops.moisture}</li>
+                <li>Sunlight: {this.props.tileprops.sunlight}</li>
+                <li>pH balance: {this.props.tileprops.ph}</li>
+                <li>Tile ID: {this.props.uniqueID}</li>
+              </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
               { (this.state.toBeUpdated)
