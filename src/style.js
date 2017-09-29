@@ -10,10 +10,12 @@ const style = {
     transform             : 'translate(-50%, -50%)'
   },
   tile:{
-    width: '20%',
+    width: '15vmin',
+    height: '15vmin',
     border: '1px solid',
     position: 'relative',
     display: 'inline-block',
+    float: 'left',
   },
   tilebox:{
     border: '1px solid',
@@ -21,7 +23,8 @@ const style = {
     display: 'inline-block',
   },
   commentBox: {
-    width:'80vw',
+    width:'80vmin',
+    height: '80vmin',
     margin:'0 auto',
     fontFamily:'Helvetica, sans-serif'
   },
