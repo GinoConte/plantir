@@ -160,7 +160,6 @@ router.route('/garden')
 });
 
 router.route('/garden/:garden_id')
-//The put method gives us the chance to update our comment based on the ID passed to the route
   	.get(function(req, res) {
 		Garden.findById(req.params.garden_id, function(err, garden) {
   			if (err)
@@ -172,10 +171,7 @@ router.route('/garden/:garden_id')
 		Garden.findById(req.params.garden_id, function(err, garden) {
     		if (err)
     		res.send(err);
-        	//setting the new author and text to whatever was changed. If nothing was changed
-       		// we will not alter the field.
         	(req.body.location) ? garden.location = req.body.location : null;
-            //save comment
         	garden.save(function(err) {
             	if (err)
             	res.send(err);
@@ -226,6 +222,28 @@ router.route('/tile')
       			       tileid: tile._id });
     	});
 });
+
+//POST -- EDIT A TILE (i.e the plot information): Takes: soiltype, moisture, ph(int), sunlight
+router.route('/tile/:tile_id')
+		.put(function(req, res) {
+			Tile.findById(req.params.tile_id, function(err, tile) {
+	    		if (err)
+	    		res.send(err);
+	        	(req.body.moisture) ? tile.tileprops.moisture = req.body.moisture : null;
+	        	(req.body.sunlight) ? tile.tileprops.sunlight = req.body.sunlight : null;
+	        	//(req.body.ph) ? tile.location = req.body.ph : null;
+	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
+
+	        	tile.save(function(err) {
+	            	if (err)
+	            	res.send(err);
+	            	//console.log('Plot information has been updated');
+	            	res.json({ message: 'Plot information has been updated' });
+
+	        	});
+    	});
+});
+
 
 //POST -- CREATE NEW TILETYPE | TAKES: name(string), isplant(bool), tilecolour(#ffffff)
 //GET

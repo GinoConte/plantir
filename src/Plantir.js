@@ -97,6 +97,24 @@ class Plantir extends Component {
         console.log(err);
       })
   }
+  handlePlotUpdate(id, plot) {
+    if (plot.ph === "Select") {
+      plot.ph = '';
+    }
+    if (plot.moisture === "Select") {
+      plot.moisture = '';
+    }
+    if (plot.sunlight === "Select") {
+      plot.sunlight = '';
+    }
+    if (plot.soiltype === "Select") {
+      plot.soiltype = '';
+    }
+    axios.put('http://localhost:3001/api/tile/'+id, plot)
+      .catch(err => {
+        console.log(err);
+    })
+  }
   handleTokenSubmit(token) {
     //token has been given
     axios.get('http://localhost:3001/api/garden/'+token)
@@ -123,7 +141,7 @@ class Plantir extends Component {
 
   }
   render() {
-    return (
+    return ( 
       <div style={ style.commentBox }>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
@@ -132,7 +150,8 @@ class Plantir extends Component {
         <h2>Garden token: {this.state.garden._id}</h2>
       <TileList
         onTileDelete={this.handleTileDelete} 
-        onTileUpdate={this.handleTileUpdate} 
+        onTileUpdate={this.handleTileUpdate}
+        onPlotUpdate={this.handlePlotUpdate} 
         data={ this.state.data }
         tiletypes={this.state.tiletypes} />
       </div>

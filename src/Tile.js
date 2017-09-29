@@ -11,14 +11,23 @@ class Tile extends Component {
       toBeUpdated: false,
       author: '',
       text: '',
+      moisture: '',
+      sunlight: '',
+      ph: 5,
+      soiltype: '',
       modalIsOpen: false,
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
     this.updateTile = this.updateTile.bind(this);
-    this.handleAuthorChange = this.handleAuthorChange.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
+
+    this.handleSoilTypeChange = this.handleSoilTypeChange.bind(this);
+    this.handlePHChange = this.handlePHChange.bind(this);
+    this.handleMoistureChange = this.handleMoistureChange.bind(this);
+    this.handleSunlightChange = this.handleSunlightChange.bind(this);
+
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
+    this.handlePlotUpdate = this.handlePlotUpdate.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -43,17 +52,46 @@ class Tile extends Component {
 
     })
   }
+  handlePlotUpdate(e) {
+    e.preventDefault();
+    console.log(this.props.uniqueID);
+    let id = this.props.uniqueID;
+    let moisture = (this.state.moisture) ? this.state.moisture : null;
+    let sunlight = (this.state.sunlight) ? this.state.sunlight : null;
+    let soiltype = (this.state.soiltype) ? this.state.soiltype : null;
+    let ph = (this.state.ph) ? this.state.ph : null;
+    let plot = {
+      moisture: moisture,
+      sunlight: sunlight,
+      ph: ph,
+      soiltype: soiltype,
+    }
+    this.props.onPlotUpdate(id, plot);
+    this.setState({
+      toBeUpdated: !this.state.toBeUpdated,
+      moisture: '',
+      sunlight: '',
+      soiltype: '',
+      ph: 5,
+    })
+  }
   deleteTile(e) {
     e.preventDefault();
     let id = this.props.uniqueID;
     this.props.onTileDelete(id);
     console.log('Tile deleted');
   }
-  handleTextChange(e) {
-    this.setState({text: e.target.value});
+  handleSoilTypeChange(e) {
+    this.setState({soiltype: e.target.value});
   }
-  handleAuthorChange(e) {
-    this.setState({author: e.target.value});
+  handleMoistureChange(e) {
+    this.setState({moisture: e.target.value});
+  }
+  handleSunlightChange(e) {
+    this.setState({sunlight: e.target.value});
+  }
+  handlePHChange(e) {
+    this.setState({ph: e.target.value});
   }
   rawMarkup() {
     let rawMarkup = marked(this.props.children.toString());
@@ -76,7 +114,7 @@ class Tile extends Component {
   render() {
     return (
       <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
-        <center>&nbsp;{this.props.tiletypename}</center><br></br><br></br>
+        <center>&nbsp;{this.props.tiletypename}</center><br></br><br></br><br></br>
         <center><button onClick={this.openModal}>Details</button></center>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -101,8 +139,8 @@ class Tile extends Component {
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
               { (this.state.toBeUpdated)
-                ? (<form onSubmit={ this.handleTileUpdate }>
-                    <select name="soiltype">
+                ? (<form onSubmit={ this.handlePlotUpdate }>
+                    <select name="soiltype" onChange={this.handleSoilTypeChange}>
                       <option value="Select" selected>Soil Type</option>
                       <option value="Loam">Loam</option>
                       <option value="Sandy">Sandy</option>
@@ -110,20 +148,27 @@ class Tile extends Component {
                       <option value="Silty">Silty</option>
                       <option value="Peaty">Peaty</option>
                     </select>
-                    <select name="soilsunlight">
+                    <select name="sunlight" onChange={this.handleSunlightChange}>
                       <option value="Select" selected>Sunlight</option>
                       <option value="None">None</option>
                       <option value="Low">Low</option>
                       <option value="Moderate">Moderate</option>
                       <option value="High">High</option>
                     </select>
-                    <select name="soilmoisture">
+                    <select name="moisture" onChange={this.handleMoistureChange}>
                       <option value="Select" selected>Moisture</option>
                       <option value="None">None</option>
                       <option value="Low">Low</option>
                       <option value="Moderate">Moderate</option>
                       <option value="High">High</option>
                       <option value="Waterlogged">Drenched</option>
+                    </select>
+                    <select name="ph" onChange={this.handlePHChange}>
+                      <option value="Select" selected>pH</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
                     </select>
                     <input
                       type='submit'
@@ -134,7 +179,8 @@ class Tile extends Component {
             </div>
         </div>
         <Center>
-         <button onClick={this.closeModal}>close</button>
+          <br></br>
+          <button onClick={this.closeModal}>Close</button>
         </Center>
         </Modal>
       </div>
