@@ -244,6 +244,7 @@ router.route('/tile/:tile_id')
 	        	(req.body.sunlight) ? tile.tileprops.sunlight = req.body.sunlight : null;
 	        	//(req.body.ph) ? tile.location = req.body.ph : null;
 	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
+	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
 
 	        	tile.save(function(err) {
 	            	if (err)
@@ -284,6 +285,16 @@ router.route('/tiletype')
 router.route('/tiletype/:tiletype_id')
   	.get(function(req, res) {
 		TileType.findById(req.params.tiletype_id, function(err, tiletype) {
+  			if (err)
+  				res.send(err);
+  			res.json(tiletype)
+  		});
+});
+
+//GET -- RETRIEVE TILETYPE FROM NAME
+router.route('/tiletype/name/:tiletypename')
+  	.get(function(req, res) {
+		TileType.findOne({name: req.params.tiletypename}, function(err, tiletype) {
   			if (err)
   				res.send(err);
   			res.json(tiletype)

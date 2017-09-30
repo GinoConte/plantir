@@ -9,25 +9,30 @@ class Tile extends Component {
     super(props);
     this.state= {
       toBeUpdated: false,
+      toChangeTile: false,
       author: '',
       text: '',
       moisture: '',
       sunlight: '',
       ph: 5,
       soiltype: '',
+      newtiletypename: '',
       modalIsOpen: false,
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
     this.updateTile = this.updateTile.bind(this);
+    this.changeTileType = this.changeTileType.bind(this);
+    this.handleTileTypeDropdownChange = this.handleTileTypeDropdownChange.bind(this);
 
     this.handleSoilTypeChange = this.handleSoilTypeChange.bind(this);
     this.handlePHChange = this.handlePHChange.bind(this);
     this.handleMoistureChange = this.handleMoistureChange.bind(this);
     this.handleSunlightChange = this.handleSunlightChange.bind(this);
 
-    this.handleTileUpdate = this.handleTileUpdate.bind(this);
+    //this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handlePlotUpdate = this.handlePlotUpdate.bind(this);
+    this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -38,23 +43,13 @@ class Tile extends Component {
     //set update flag in the state
     this.setState({ toBeUpdated: !this.state.toBeUpdated });
   }
-  handleTileUpdate(e) {
+  changeTileType(e) {
     e.preventDefault();
-    let id = this.props.uniqueID;
-    let author = (this.state.author) ? this.state.author : null;
-    let text = (this.state.text) ? this.state.text : null;
-    let tile = {author: author, text: text};
-    this.props.onTileUpdate(id, tile);
-    this.setState({
-      toBeUpdated: !this.state.toBeUpdated,
-      author: '',
-      text: ''
-
-    })
+    this.setState({ toChangeTile: !this.state.toChangeTile });
   }
   handlePlotUpdate(e) {
     e.preventDefault();
-    console.log(this.props.uniqueID);
+    //console.log(this.props.uniqueID);
     let id = this.props.uniqueID;
     let moisture = (this.state.moisture) ? this.state.moisture : null;
     let sunlight = (this.state.sunlight) ? this.state.sunlight : null;
@@ -75,6 +70,18 @@ class Tile extends Component {
       ph: 5,
     })
   }
+  handleTileTypeUpdate(e) {
+    e.preventDefault();
+    console.log("hi");
+    let tileId = this.props.uniqueID;
+    let newTileTypeName = this.state.newtiletypename;
+    this.props.onTileTypeUpdate(tileId, newTileTypeName);
+    this.setState({
+      toChangeTile: false,
+      newtiletypename: '',
+    })
+
+  }
   deleteTile(e) {
     e.preventDefault();
     let id = this.props.uniqueID;
@@ -92,6 +99,9 @@ class Tile extends Component {
   }
   handlePHChange(e) {
     this.setState({ph: e.target.value});
+  }
+  handleTileTypeDropdownChange(e) {
+    this.setState({newtiletypename: e.target.value});
   }
   rawMarkup() {
     let rawMarkup = marked(this.props.children.toString());
@@ -113,7 +123,7 @@ class Tile extends Component {
 
   render() {
     //check if tile is plant or not
-    var contents = "Add Plant";
+    var contents = "Change Tile";
     if (this.props.tiletypeisplant) {
       contents = "Biology"
     }
@@ -137,7 +147,6 @@ class Tile extends Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
           <div style={ style.tilebox }>
             <div style={ style.comment }>
-              <center><b>{this.props.tiletypename}</b></center>
               <p><b>Properties:</b></p>
               <ul>
                 <li>Soil type: {this.props.tileprops.soiltype}</li>
@@ -196,77 +205,29 @@ class Tile extends Component {
 
         <button 
           style={ style.tilebutton } 
-          onClick={this.openModal}
+          onClick={this.changeTileType}
           value='Contents'>
           {contents}
         </button></center>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          contentLabel="Tile Information Modal"
-          style={ style }
-        >
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
-          <div style={ style.tilebox }>
-            <div style={ style.comment }>
-              <center><b>{this.props.tiletypename}</b></center>
-              <p><b>Properties:</b></p>
-              <ul>
-                <li>Soil type: {this.props.tileprops.soiltype}</li>
-                <li>Moisture: {this.props.tileprops.moisture}</li>
-                <li>Sunlight: {this.props.tileprops.sunlight}</li>
-                <li>pH balance: {this.props.tileprops.ph}</li>
-                <li>Tile ID: {this.props.uniqueID}</li>
-              </ul>
-              <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
-              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
-              { (this.state.toBeUpdated)
-                ? (<form onSubmit={ this.handlePlotUpdate }>
-                    <select name="soiltype" onChange={this.handleSoilTypeChange}>
-                      <option value="Select" selected>Soil Type</option>
-                      <option value="Loam">Loam</option>
-                      <option value="Sandy">Sandy</option>
-                      <option value="Clay">Clay</option>
-                      <option value="Silty">Silty</option>
-                      <option value="Peaty">Peaty</option>
-                    </select>
-                    <select name="sunlight" onChange={this.handleSunlightChange}>
-                      <option value="Select" selected>Sunlight</option>
-                      <option value="None">None</option>
-                      <option value="Low">Low</option>
-                      <option value="Moderate">Moderate</option>
-                      <option value="High">High</option>
-                    </select>
-                    <select name="moisture" onChange={this.handleMoistureChange}>
-                      <option value="Select" selected>Moisture</option>
-                      <option value="None">None</option>
-                      <option value="Low">Low</option>
-                      <option value="Moderate">Moderate</option>
-                      <option value="High">High</option>
-                      <option value="Waterlogged">Drenched</option>
-                    </select>
-                    <select name="ph" onChange={this.handlePHChange}>
-                      <option value="Select" selected>pH</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                    </select>
-                    <input
-                      type='submit'
-                      style={ style.commentFormPost }
-                      value='Update' />
-                  </form>)
-                : null}
-            </div>
-        </div>
-        <Center>
-          <br></br>
-          <button onClick={this.closeModal}>Close</button>
-        </Center>
-        </Modal>
+        { (this.state.toChangeTile)
+         ? (<form onSubmit={ this.handleTileTypeUpdate }>
+                <select name="soiltype" onChange={this.handleTileTypeDropdownChange}>
+                  <option value="Select" selected>Tile</option>
+                  <option value="Grass">Grass</option>
+                  <option value="House">House</option>
+                  <option value="Path">Path</option>
+                  <option value="Sunflower">Sunflower</option>
+                  <option value="Daisy">Daisy</option>
+                  <option value="Rose">Rose</option>
+                  <option value="Violet">Violet</option>
+                </select>
+                <input
+                  type='submit'
+                  style={ style.commentFormPost }
+                  value='Change' 
+                />
+              </form>): null}
 
 
       </div>

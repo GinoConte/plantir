@@ -12,7 +12,8 @@ class Plantir extends Component {
     this.state = { 
       data: [], //i.e the Tiles belonging to a garden
       tiletypes: [],
-      garden: {} //the Garden object, includes location, id, etc
+      garden: {}, //the Garden object, includes location, id, etc
+      temp: 25.1,
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -21,6 +22,8 @@ class Plantir extends Component {
     this.handleTileSubmit = this.handleTileSubmit.bind(this);
     this.handleTileDelete = this.handleTileDelete.bind(this);
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
+    this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
+
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -115,6 +118,22 @@ class Plantir extends Component {
         console.log(err);
     })
   }
+  handleTileTypeUpdate(tileid, tiletypename) {
+
+    axios.get('http://localhost:3001/api/tiletype/name/'+tiletypename)
+      .then(res => {
+        var tiletypeid = res.data._id;
+        var body = {tiletype: tiletypeid};
+
+      axios.put('http://localhost:3001/api/tile/'+tileid, body)
+        .catch(err => {
+        console.log(err);
+      })
+    })
+
+
+
+  }
   handleTokenSubmit(token) {
     //token has been given
     axios.get('http://localhost:3001/api/garden/'+token)
@@ -141,6 +160,11 @@ class Plantir extends Component {
 
   }
   render() {
+    //weather api
+    // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
+    //   .then(res => {
+    //     this.setState({ temp: res.data.main.temp });
+    // })
     return ( 
       <div style={ style.commentBox }>
       <WelcomeHeader 
@@ -148,11 +172,12 @@ class Plantir extends Component {
         onCreateClicked={this.handleCreateClicked} />
       <p>Example token: 59cf38f50f739a46a9121d1d</p>
       <h3><b>Garden token: {this.state.garden._id}</b></h3>
-      <h4>Location: {this.state.garden.location}</h4>
+      <h4>Location: {this.state.garden.location} </h4>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
+        onTileTypeUpdate={this.handleTileTypeUpdate} 
         data={ this.state.data }
         tiletypes={this.state.tiletypes} />
       </div>

@@ -42,7 +42,8 @@ class TileList extends Component {
           key={tile['_id']} 
           onTileDelete={this.props.onTileDelete} 
           onPlotUpdate={this.props.onPlotUpdate} 
-          onTileUpdate={this.props.onTileUpdate}    
+          onTileUpdate={this.props.onTileUpdate}  
+          onTileTypeUpdate={this.props.onTileTypeUpdate}   
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
           gridorder={tile.gridorder} 
