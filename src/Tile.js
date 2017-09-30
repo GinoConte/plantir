@@ -112,10 +112,20 @@ class Tile extends Component {
 
 
   render() {
+    //check if tile is plant or not
+    var contents = "Add Plant";
+    if (this.props.tiletypeisplant) {
+      contents = "Biology"
+    }
     return (
       <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
-        <center>&nbsp;{this.props.tiletypename}</center><br></br><br></br><br></br>
-        <center><button onClick={this.openModal}>Details</button></center>
+        <center><b>&nbsp;{this.props.tiletypename}</b></center><br></br><br></br><br></br>
+        <center><button 
+                  style={ style.tilebutton } 
+                  onClick={this.openModal}
+                  value='Plot'>
+                  Plot
+                </button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -183,6 +193,82 @@ class Tile extends Component {
           <button onClick={this.closeModal}>Close</button>
         </Center>
         </Modal>
+
+        <button 
+          style={ style.tilebutton } 
+          onClick={this.openModal}
+          value='Contents'>
+          {contents}
+        </button></center>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          contentLabel="Tile Information Modal"
+          style={ style }
+        >
+
+          <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
+          <div style={ style.tilebox }>
+            <div style={ style.comment }>
+              <center><b>{this.props.tiletypename}</b></center>
+              <p><b>Properties:</b></p>
+              <ul>
+                <li>Soil type: {this.props.tileprops.soiltype}</li>
+                <li>Moisture: {this.props.tileprops.moisture}</li>
+                <li>Sunlight: {this.props.tileprops.sunlight}</li>
+                <li>pH balance: {this.props.tileprops.ph}</li>
+                <li>Tile ID: {this.props.uniqueID}</li>
+              </ul>
+              <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
+              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
+              { (this.state.toBeUpdated)
+                ? (<form onSubmit={ this.handlePlotUpdate }>
+                    <select name="soiltype" onChange={this.handleSoilTypeChange}>
+                      <option value="Select" selected>Soil Type</option>
+                      <option value="Loam">Loam</option>
+                      <option value="Sandy">Sandy</option>
+                      <option value="Clay">Clay</option>
+                      <option value="Silty">Silty</option>
+                      <option value="Peaty">Peaty</option>
+                    </select>
+                    <select name="sunlight" onChange={this.handleSunlightChange}>
+                      <option value="Select" selected>Sunlight</option>
+                      <option value="None">None</option>
+                      <option value="Low">Low</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="High">High</option>
+                    </select>
+                    <select name="moisture" onChange={this.handleMoistureChange}>
+                      <option value="Select" selected>Moisture</option>
+                      <option value="None">None</option>
+                      <option value="Low">Low</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="High">High</option>
+                      <option value="Waterlogged">Drenched</option>
+                    </select>
+                    <select name="ph" onChange={this.handlePHChange}>
+                      <option value="Select" selected>pH</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                    </select>
+                    <input
+                      type='submit'
+                      style={ style.commentFormPost }
+                      value='Update' />
+                  </form>)
+                : null}
+            </div>
+        </div>
+        <Center>
+          <br></br>
+          <button onClick={this.closeModal}>Close</button>
+        </Center>
+        </Modal>
+
+
       </div>
     )
   }

@@ -22,6 +22,7 @@ class TileList extends Component {
         if(currentTileTypeID === tiletypes[j]._id) {
           tiles[i].tiletypename = tiletypes[j].name;
           tiles[i].tiletypecolour = tiletypes[j].tilecolour;
+          tiles[i].tiletypeisplant = tiletypes[j].isplant;
         }
       }
     }
@@ -38,7 +39,8 @@ class TileList extends Component {
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
           tiletypename={tile['tiletypename']}
-          tiletypecolour={tile['tiletypecolour']}>
+          tiletypecolour={tile['tiletypecolour']} 
+          tiletypeisplant={tile['tiletypeisplant']}>
           {'pls workarino'}
         </Tile>
       )

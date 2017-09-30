@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 //import registerServiceWorker from './registerServiceWorker';
 import Plantir from './Plantir';
+import style from './style';
 
 ReactDOM.render(
 	<Plantir

@@ -18,6 +18,14 @@ const style = {
   grasstile: {
     backgroundColor: "#9fd64d",
   },
+  tilebutton: {
+    border: "2px solid ",
+    color: "black",
+    backgroundColor: "Transparent",
+    marginBottom: "5px",
+    marginRight: "2px",
+    marginLeft: "2px",
+  },
   tilebox:{
     border: '1px solid',
     position: 'relative',

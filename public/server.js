@@ -135,6 +135,9 @@ router.route('/garden')
         		if([2,3,7,8].includes(i)) {
         			tiletypeobject = mongoose.Types.ObjectId("59cb41419b7ea709e92b151c")
         		} 
+        		if([4,9].includes(i)) {
+        			tiletypeobject = mongoose.Types.ObjectId("59cf04d4eba6283df8131bb1")
+        		}
 	        	var emptytile = new Tile({
 	    			_id: new mongoose.Types.ObjectId(),
 	        		parentgarden: garden._id,
