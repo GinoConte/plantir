@@ -80,9 +80,9 @@ const style = {
     height:'40px',
     margin:'5px 3px',
     fontSize:'1rem',
-    backgroundColor:'#A3CDFD',
+    backgroundColor:'#83b538',
     borderRadius:'3px',
-    color:'#fff',
+    color:'#000',
     textTransform:'uppercase',
     letterSpacing:'.055rem',
     border:'none'

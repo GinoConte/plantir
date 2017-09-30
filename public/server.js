@@ -128,15 +128,22 @@ router.route('/garden')
         	res.send(err);
 
 
-        	//loop to add 5 tiles for demo purposes
+        	//loop to add 25 tiles to create default demo house
         	for (var i=0; i<25; i++) {
         		//change to brick for demo purposes
+        		//grass
         		var tiletypeobject = mongoose.Types.ObjectId("59cb40fa9b7ea709e92b151a")
-        		if([2,3,7,8].includes(i)) {
+        		//house
+        		if([1,2,3,6,7,8].includes(i)) {
         			tiletypeobject = mongoose.Types.ObjectId("59cb41419b7ea709e92b151c")
         		} 
-        		if([4,9].includes(i)) {
+        		//sunflower
+        		if([11,12].includes(i)) {
         			tiletypeobject = mongoose.Types.ObjectId("59cf04d4eba6283df8131bb1")
+        		} 
+        		//path
+        		if([13,18,23].includes(i)) {
+        			tiletypeobject = mongoose.Types.ObjectId("59cf36be829c56459f23ea37")
         		}
 	        	var emptytile = new Tile({
 	    			_id: new mongoose.Types.ObjectId(),
@@ -148,7 +155,8 @@ router.route('/garden')
 	        			ph: 5,
 	        			sunlight: "Moderate",
 	        			moisture: "Moderate"
-	        		}
+	        		},
+	        		gridorder: i
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 

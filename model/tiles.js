@@ -20,8 +20,8 @@ var TileSchema = new Schema({
 		ph: Number,
 		sunlight: String,
 		moisture: String,
-	}
-
+	},
+	gridorder: Number
 });
 
 //export our modules to use in server.js

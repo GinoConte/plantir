@@ -119,7 +119,7 @@ class Tile extends Component {
     }
     return (
       <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
-        <center><b>&nbsp;{this.props.tiletypename}</b></center><br></br><br></br><br></br>
+        <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center><br></br><br></br><br></br>
         <center><button 
                   style={ style.tilebutton } 
                   onClick={this.openModal}

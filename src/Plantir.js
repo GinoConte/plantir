@@ -146,9 +146,9 @@ class Plantir extends Component {
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
-        <p>Example token: 59cf07e21c63d63f22aab2fd</p>
-        <h3><b>Garden token: {this.state.garden._id}</b></h3>
-        <h4>Location: {this.state.garden.location}</h4>
+      <p>Example token: 59cf38f50f739a46a9121d1d</p>
+      <h3><b>Garden token: {this.state.garden._id}</b></h3>
+      <h4>Location: {this.state.garden.location}</h4>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}

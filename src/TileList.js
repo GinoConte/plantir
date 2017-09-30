@@ -13,6 +13,13 @@ class TileList extends Component {
 
     //match tiletype id
     var tiles = this.props.data.slice();
+
+    //sort into ascending grid order
+    tiles.sort(function(a,b) {
+      return parseInt(a.gridorder) - parseInt(b.gridorder);
+    })
+
+
     var tiletypes = this.props.tiletypes.slice();
     for(var i=0; i<tiles.length; i++) {
       var currentTileTypeID = tiles[i].tiletype;
@@ -38,19 +45,21 @@ class TileList extends Component {
           onTileUpdate={this.props.onTileUpdate}    
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
+          gridorder={tile.gridorder} 
           tiletypename={tile['tiletypename']}
           tiletypecolour={tile['tiletypecolour']} 
           tiletypeisplant={tile['tiletypeisplant']}>
-          {'pls workarino'}
         </Tile>
       )
     })
+
     let myPaddingStyle = {
       paddingTop: 0,
       paddingBottom: 0,
       paddingLeft:0,
       paddingRight:0,
     }
+
 
     return (
       <div style={ style.commentList }>
