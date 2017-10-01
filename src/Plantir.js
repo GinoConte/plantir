@@ -16,7 +16,7 @@ class Plantir extends Component {
 
       tempVal: 'oi',
       searchRet: '43534',
-      currentBiology: '',
+      currentBiology: 'ghdfdg',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -32,6 +32,7 @@ class Plantir extends Component {
   }
   loadTilesFromServer() {
     //if garden id has been submitted
+    console.log(this.state.currentBiology.usage)
     if (this.state.garden._id) {
       //get token
       var gardentoken = this.state.garden._id;
@@ -124,8 +125,6 @@ class Plantir extends Component {
     })
   }
   handleTileTypeUpdate(tileid, tiletypename) {
-    console.log("slow??");
-
     axios.get('http://localhost:3001/api/tiletype/name/'+tiletypename)
       .then(res => {
         var tiletypeid = res.data._id;
@@ -170,7 +169,7 @@ class Plantir extends Component {
     //this.loadGardenFromServer();
     this.loadTilesFromServer();
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
-    //setInterval(this.loadTileTypesFromServer, this.props.pollInterval);
+    //setInterval(this.handleBiologyClicked, this.props.pollInterval);
   }
   
   handleSearchReq(evt) {
@@ -211,10 +210,12 @@ class Plantir extends Component {
         data={ this.state.data }
         tiletypes={this.state.tiletypes} />
       
-      <textarea rows="4" cols="50">
-      {this.state.currentBiology}
-
-      </textarea>
+      <br></br>
+      <center>
+        <textarea rows="4" cols="130"
+          value={JSON.stringify(this.state.currentBiology)}>
+        </textarea>
+      </center>
 
         <form style={ style.commentForm }>
           <button

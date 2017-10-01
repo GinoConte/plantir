@@ -141,7 +141,7 @@ class Tile extends Component {
         <br></br>
         { (this.props.tiletypeisplant) 
         ? (<center><button 
-          style={ style.tilebutton } 
+          style={ style.biologybutton } 
           onClick={this.handleBiologyClicked}
           value='Biology'>
           Biology

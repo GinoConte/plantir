@@ -26,6 +26,14 @@ const style = {
     marginRight: "2px",
     marginLeft: "2px",
   },
+  biologybutton: {
+    border: "2px solid ",
+    color: "black",
+    backgroundColor: "Transparent",
+    marginBottom: "16px",
+    marginRight: "2px",
+    marginLeft: "2px",
+  },
   tilebox:{
     border: '1px solid',
     position: 'relative',
