@@ -34,6 +34,7 @@ class Tile extends Component {
     //this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handlePlotUpdate = this.handlePlotUpdate.bind(this);
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
+    this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -82,6 +83,12 @@ class Tile extends Component {
     })
 
   }
+  handleBiologyClicked(e) {
+    e.preventDefault();
+    //let tileid = this.props.uniqueID;
+    let name = this.props.tiletypename;
+    this.props.onBiologyClicked(name);
+  }
   deleteTile(e) {
     e.preventDefault();
     let id = this.props.uniqueID;
@@ -125,11 +132,24 @@ class Tile extends Component {
     //check if tile is plant or not
     var contents = "Change Tile";
     if (this.props.tiletypeisplant) {
-      contents = "Biology"
+      //contents = "Biology"
     }
+
     return (
       <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
-        <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center><br></br><br></br><br></br>
+        <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center>
+        <br></br>
+        { (this.props.tiletypeisplant) 
+        ? (<center><button 
+          style={ style.tilebutton } 
+          onClick={this.handleBiologyClicked}
+          value='Biology'>
+          Biology
+        </button><br></br></center>) : (<div><br></br><br></br></div>)
+        }
+
+
+
         <center><button 
                   style={ style.tilebutton } 
                   onClick={this.openModal}

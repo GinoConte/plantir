@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import TileList from './TileList';
-import EditTile from './EditTile';
+//import EditTile from './EditTile';
 import WelcomeHeader from './WelcomeHeader';
-import DATA from './data';
 import style from './style';
 
 class Plantir extends Component {
@@ -17,6 +16,7 @@ class Plantir extends Component {
 
       tempVal: 'oi',
       searchRet: '43534',
+      currentBiology: '',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -26,7 +26,7 @@ class Plantir extends Component {
     this.handleTileDelete = this.handleTileDelete.bind(this);
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
-
+    this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
@@ -158,6 +158,14 @@ class Plantir extends Component {
         //this.setState({ garden: res.data });
     })
   }
+  handleBiologyClicked(name) {
+    axios.get('http://localhost:3001/api/search/'+name)
+    //axios.get('http://localhost:3001/api/search')
+      .then(res =>{
+        this.setState({ currentBiology: res.data });
+        //console.log(this.state.searchRet);
+      })
+  }
   componentDidMount() {
     //this.loadGardenFromServer();
     this.loadTilesFromServer();
@@ -199,10 +207,14 @@ class Plantir extends Component {
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
         onTileTypeUpdate={this.handleTileTypeUpdate} 
+        onBiologyClicked={this.handleBiologyClicked} 
         data={ this.state.data }
         tiletypes={this.state.tiletypes} />
       
+      <textarea rows="4" cols="50">
+      {this.state.currentBiology}
 
+      </textarea>
 
         <form style={ style.commentForm }>
           <button

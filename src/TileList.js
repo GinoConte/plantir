@@ -44,6 +44,7 @@ class TileList extends Component {
           onTileDelete={this.props.onTileDelete} 
           onPlotUpdate={this.props.onPlotUpdate} 
           onTileUpdate={this.props.onTileUpdate}  
+          onBiologyClicked={this.props.onBiologyClicked} 
           onTileTypeUpdate={this.props.onTileTypeUpdate}   
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
