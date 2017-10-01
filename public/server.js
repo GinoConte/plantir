@@ -9,6 +9,9 @@ var Tile = require('../model/tiles');
 var TileType = require('../model/tiletypes');
 var Schema = mongoose.Schema;
 
+const { exec } = require('child_process');
+const spawn = require('child_process').spawn;
+
 //and create our instances
 var app = express();
 var router = express.Router();
@@ -122,7 +125,6 @@ router.route('/garden')
     	});
     	//garden.location = req.body.location;
     	console.log(garden._id);
-
     	garden.save(function(err) {
       		if (err)
         	res.send(err);
@@ -254,6 +256,36 @@ router.route('/tile/:tile_id')
 
 	        	});
     	});
+});
+
+router.route('/search/:search_str')
+	.get(function(req, res) {
+		console.log('hello ddd ' + req.params.search_str);
+		console.log(process.cwd());
+	// 	execString = 'python ../scraper/scraper.py ' + req.params.search_str;
+	// 	exec(execString, (err, stdout, stderr)) => {
+	// 		if (err) {
+	// 			console.error(`exec error: ${err}`);
+	// 			return;
+	// 		}
+	// 		console.log('returned');
+	// 		console.log($(stdout));
+	// }
+
+		const prog = spawn('python', ['scraper/scraper.py', req.params.search_str]);
+		prog.stderr.on('data', (data) =>{
+			console.log(`error: ${data}`);
+		});
+		prog.stdout.on('data', (data) =>{
+			console.log(`output: ${data}`);
+			res.send(data);
+		});
+		prog.on('close', (code) => {
+		  console.log(`child process exited with code ${code}`);
+		});
+
+
+    	//res.json({ message: req.params.search_str });
 });
 
 
