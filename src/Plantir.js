@@ -119,6 +119,7 @@ class Plantir extends Component {
     })
   }
   handleTileTypeUpdate(tileid, tiletypename) {
+    console.log("slow??");
 
     axios.get('http://localhost:3001/api/tiletype/name/'+tiletypename)
       .then(res => {

@@ -72,7 +72,6 @@ class Tile extends Component {
   }
   handleTileTypeUpdate(e) {
     e.preventDefault();
-    console.log("hi");
     let tileId = this.props.uniqueID;
     let newTileTypeName = this.state.newtiletypename;
     this.props.onTileTypeUpdate(tileId, newTileTypeName);
@@ -210,9 +209,28 @@ class Tile extends Component {
           {contents}
         </button></center>
 
-        { (this.state.toChangeTile)
+        { (this.state.toChangeTile && this.props.tiletypeisplant)
          ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                <select name="soiltype" onChange={this.handleTileTypeDropdownChange}>
+                <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
+                  <option value="Select" selected>Tile</option>
+                  <option value="Grass">Grass</option>
+                  <option value="House">House</option>
+                  <option value="Path">Path</option>
+                  <option value="Sunflower">Sunflower</option>
+                  <option value="Daisy">Daisy</option>
+                  <option value="Rose">Rose</option>
+                  <option value="Violet">Violet</option>
+                </select>
+                <input
+                  type='submit'
+                  style={ style.commentFormPost }
+                  value='Change' 
+                />
+              </form>): null}
+
+        { (this.state.toChangeTile && !this.props.tiletypeisplant)
+         ? (<form onSubmit={ this.handleTileTypeUpdate }>
+                <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
                   <option value="Select" selected>Tile</option>
                   <option value="Grass">Grass</option>
                   <option value="House">House</option>

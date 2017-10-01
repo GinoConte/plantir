@@ -7,7 +7,7 @@ import style from './style';
 ReactDOM.render(
 	<Plantir
 		//url='http://localhost:3001/api/comments'
-		pollInterval={800} />,
+		pollInterval={2000} />,
 	 document.getElementById('root')
 );
 

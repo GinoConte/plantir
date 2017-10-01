@@ -30,6 +30,7 @@ class TileList extends Component {
           tiles[i].tiletypename = tiletypes[j].name;
           tiles[i].tiletypecolour = tiletypes[j].tilecolour;
           tiles[i].tiletypeisplant = tiletypes[j].isplant;
+          tiles[i].tiletypeinfo = tiletypes[j].info;
         }
       }
     }
@@ -48,7 +49,8 @@ class TileList extends Component {
           tileprops={tile.tileprops}
           gridorder={tile.gridorder} 
           tiletypename={tile['tiletypename']}
-          tiletypecolour={tile['tiletypecolour']} 
+          tiletypecolour={tile['tiletypecolour']}
+          tiletypeinfo = {tile['tiletypeinfo']}  
           tiletypeisplant={tile['tiletypeisplant']}>
         </Tile>
       )
