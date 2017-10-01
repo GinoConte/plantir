@@ -14,6 +14,9 @@ class Plantir extends Component {
       tiletypes: [],
       garden: {}, //the Garden object, includes location, id, etc
       temp: 25.1,
+
+      tempVal: 'oi',
+      searchRet: '43534',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -24,6 +27,8 @@ class Plantir extends Component {
     this.handleTileUpdate = this.handleTileUpdate.bind(this);
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
 
+    this.handleSearchReq = this.handleSearchReq.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -157,7 +162,22 @@ class Plantir extends Component {
     this.loadTilesFromServer();
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
     //setInterval(this.loadTileTypesFromServer, this.props.pollInterval);
-
+  }
+  
+  handleSearchReq(evt) {
+      //alert('search request submitted  ' + this.state.tempVal);
+      evt.preventDefault();
+      this.setState({ searchRet: 's' });
+            console.log(this.state.searchRet);
+      axios.get('http://localhost:3001/api/search/'+this.state.tempVal)
+      //axios.get('http://localhost:3001/api/search')
+        .then(res =>{
+          this.setState({ searchRet: res.data });
+            console.log(this.state.searchRet);
+        })
+  }
+  handleSearchChange(evt){
+    this.setState({tempVal: evt.target.value});
   }
   render() {
     //weather api
@@ -180,8 +200,28 @@ class Plantir extends Component {
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         data={ this.state.data }
         tiletypes={this.state.tiletypes} />
+      
+
+
+        <form style={ style.commentForm }>
+          <button
+          style={ style.commentFormPost }
+          value='submit no refresh' 
+          onClick={ this.handleSearchReq } >search</button>
+          <input
+            type='text'
+            placeholder='search me!'
+            style={ style.commentFormText}
+            value={ this.state.tempVal }
+            onChange={this.handleSearchChange} />
+
+        </form>
+        <p> results currently printed in console </p>
+        <p>  </p>
+
       </div>
-    )
+      )
+
   }
 }
 

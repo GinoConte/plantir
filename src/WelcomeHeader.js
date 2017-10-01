@@ -53,6 +53,7 @@ class WelcomeHeader extends Component {
           style={ style.commentFormPost }
           value='Submit' />
       </form>
+
     )
   }
 }

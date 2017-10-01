@@ -27,11 +27,12 @@ with urllib.request.urlopen(req) as response:
 
 soup = BeautifulSoup(html,"html.parser")
 # print(soup)
-allDicts = []
+# allDicts = []
+allDicts = {}
 if isSearch:
 
 	dumbCheck = soup.find(text = 'Plant name')
-	print(dumbCheck)
+	# print(dumbCheck)
 	if dumbCheck != None:
 		temp = soup.find(text = 'Plant name').parent.parent.parent.parent
 		# print("tehmp is")
@@ -67,7 +68,8 @@ if isSearch:
 				d['imgLink'] = row.img['src']
 				d['imgAlt'] = row.img['alt']
 			if d['normal'] != '<br/>':
-				allDicts.append(d)
+				# allDicts.append(d)
+				allDicts[d['id']] = d
 			row = row.findNextSibling('tr')
 
 else:
