@@ -46,6 +46,7 @@ class Tile extends Component {
     this.setState({ toBeUpdated: !this.state.toBeUpdated });
   }
   changeTileType(e) {
+  //changeTileType(){
     e.preventDefault();
     this.setState({ toChangeTile: !this.state.toChangeTile });
   }
@@ -154,7 +155,7 @@ class Tile extends Component {
                   style={ style.tilebutton } 
                   onClick={this.openModal}
                   value='Plot'>
-                  Plot
+                  Edit
                 </button>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -175,8 +176,9 @@ class Tile extends Component {
                 <li>pH balance: {this.props.tileprops.ph}</li>
                 <li>Tile ID: {this.props.uniqueID}</li>
               </ul>
-              <a style={ style.updateLink } href='#' onClick={ this.updateTile }>update</a>
-              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>delete</a>
+              <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
+              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
+              <a style={ style.updateLink } href='#' onClick={ this.changeTileType }>Type</a>
               { (this.state.toBeUpdated)
                 ? (<form onSubmit={ this.handlePlotUpdate }>
                     <select name="soiltype" onChange={this.handleSoilTypeChange}>
@@ -215,13 +217,62 @@ class Tile extends Component {
                       value='Update' />
                   </form>)
                 : null}
+                <div>
+                      { (this.state.toChangeTile && this.props.tiletypeisplant)
+           ? (<form onSubmit={ this.handleTileTypeUpdate }>
+                  <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
+                    <option value="Select" selected>Tile</option>
+                    <option value="Grass">Grass</option>
+                    <option value="House">House</option>
+                    <option value="Path">Path</option>
+                    <option value="Sunflower">Sunflower</option>
+                    <option value="Daisy">Daisy</option>
+                    <option value="Rose">Rose</option>
+                    <option value="Violet">Violet</option>
+                  </select>
+                  <input
+                    type='submit'
+                    style={ style.commentFormPost }
+                    value='Change' 
+                  />
+                </form>): null}
+
+          { (this.state.toChangeTile && !this.props.tiletypeisplant)
+           ? (<form onSubmit={ this.handleTileTypeUpdate }>
+                  <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
+                    <option value="Select" selected>Tile</option>
+                    <option value="Grass">Grass</option>
+                    <option value="House">House</option>
+                    <option value="Path">Path</option>
+                    <option value="Sunflower">Sunflower</option>
+                    <option value="Daisy">Daisy</option>
+                    <option value="Rose">Rose</option>
+                    <option value="Violet">Violet</option>
+                  </select>
+                  <input
+                    type='submit'
+                    style={ style.commentFormPost }
+                    value='Change' 
+                  />
+                </form>): null}
+                </div>
             </div>
+
         </div>
         <Center>
           <br></br>
           <button onClick={this.closeModal}>Close</button>
         </Center>
         </Modal>
+        </center>
+      </div>
+    )
+  }
+}
+
+export default Tile;
+
+/*
 
         <button 
           style={ style.tilebutton } 
@@ -229,49 +280,4 @@ class Tile extends Component {
           value='Contents'>
           {contents}
         </button></center>
-
-        { (this.state.toChangeTile && this.props.tiletypeisplant)
-         ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
-                  <option value="Select" selected>Tile</option>
-                  <option value="Grass">Grass</option>
-                  <option value="House">House</option>
-                  <option value="Path">Path</option>
-                  <option value="Sunflower">Sunflower</option>
-                  <option value="Daisy">Daisy</option>
-                  <option value="Rose">Rose</option>
-                  <option value="Violet">Violet</option>
-                </select>
-                <input
-                  type='submit'
-                  style={ style.commentFormPost }
-                  value='Change' 
-                />
-              </form>): null}
-
-        { (this.state.toChangeTile && !this.props.tiletypeisplant)
-         ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
-                  <option value="Select" selected>Tile</option>
-                  <option value="Grass">Grass</option>
-                  <option value="House">House</option>
-                  <option value="Path">Path</option>
-                  <option value="Sunflower">Sunflower</option>
-                  <option value="Daisy">Daisy</option>
-                  <option value="Rose">Rose</option>
-                  <option value="Violet">Violet</option>
-                </select>
-                <input
-                  type='submit'
-                  style={ style.commentFormPost }
-                  value='Change' 
-                />
-              </form>): null}
-
-
-      </div>
-    )
-  }
-}
-
-export default Tile;
+*/
