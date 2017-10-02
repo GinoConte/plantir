@@ -136,8 +136,25 @@ class Tile extends Component {
       //contents = "Biology"
     }
 
+    var tileColour = this.props.tiletypecolour;
+    //get filter colours
+    if (this.props.filterState === "Sunlight") {
+      if (this.props.tileprops.sunlight === "Moderate") {
+        tileColour = '#ffdf00';
+      }
+      if (this.props.tileprops.sunlight === "None") {
+        tileColour = '#8d90ff';
+      }
+      if (this.props.tileprops.sunlight === "Low") {
+        tileColour = '#ffff80';
+      }
+      if (this.props.tileprops.sunlight === "High") {
+        tileColour = '#ff6000';
+      }
+    }
+
     return (
-      <div style={Object.assign(style.tile, {backgroundColor: this.props.tiletypecolour})}>
+      <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center>
         <br></br>
         { (this.props.tiletypeisplant) 

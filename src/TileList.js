@@ -45,7 +45,8 @@ class TileList extends Component {
           onPlotUpdate={this.props.onPlotUpdate} 
           onTileUpdate={this.props.onTileUpdate}  
           onBiologyClicked={this.props.onBiologyClicked} 
-          onTileTypeUpdate={this.props.onTileTypeUpdate}   
+          onTileTypeUpdate={this.props.onTileTypeUpdate} 
+          filterState={this.props.filterState}  
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
           gridorder={tile.gridorder} 

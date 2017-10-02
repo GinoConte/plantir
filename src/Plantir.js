@@ -17,6 +17,7 @@ class Plantir extends Component {
       tempVal: 'oi',
       searchRet: '43534',
       currentBiology: 'Biological Information',
+      filter: 'None',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -29,6 +30,8 @@ class Plantir extends Component {
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleNoneFilter = this.handleNoneFilter.bind(this);
+    this.handleSunlightFilter = this.handleSunlightFilter.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -52,6 +55,7 @@ class Plantir extends Component {
   //    but it works by loading all needed tiletypes
   //    into an array and we can match that to tiles'
   //    tiletype_id later - Gino
+  // update: THIS MADE IT SLOW :'( BAD IDEA
   loadTileTypesFromServer() {
     // if (this.state.garden._id) {
     //   //assume we have a valid garden at this point?
@@ -105,7 +109,6 @@ class Plantir extends Component {
       });
   }
   handleTileUpdate(id, tile) {
-    //sends the comment id and new author/text to our api
     axios.put(`${this.props.url}/${id}`, tile)
       .catch(err => {
         console.log(err);
@@ -140,9 +143,6 @@ class Plantir extends Component {
         console.log(err);
       })
     })
-
-
-
   }
   handleTokenSubmit(token) {
     //token has been given
@@ -176,7 +176,6 @@ class Plantir extends Component {
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
     //setInterval(this.handleBiologyClicked, this.props.pollInterval);
   }
-  
   handleSearchReq(evt) {
       //alert('search request submitted  ' + this.state.tempVal);
       evt.preventDefault();
@@ -191,6 +190,12 @@ class Plantir extends Component {
   }
   handleSearchChange(evt){
     this.setState({tempVal: evt.target.value});
+  }
+  handleNoneFilter(e) {
+    this.setState({filter: e.target.value});
+  }
+  handleSunlightFilter(e) {
+    this.setState({filter: e.target.value});
   }
   render() {
     //weather api
@@ -208,8 +213,18 @@ class Plantir extends Component {
       { (this.state.garden._id) ?
       <div><p><b>Accepted token:</b> {this.state.garden._id}</p>
       <p><b>Location:</b> {this.state.garden.location} </p>
-      <p><b>Filters:</b> <input type="radio" name="filter" value="None" checked="checked"></input> None
-      <input type="radio" name="filter" value="Sunlight"></input> Sun Exposure</p>
+      <p><b>Filters:</b> <input type="radio" 
+                                name="filter"  
+                                value="None" 
+                                checked={this.state.filter === "None"}
+                                onChange={this.handleNoneFilter}
+                          ></input> None
+                          <input  type="radio" 
+                                  name="filter" 
+                                  value="Sunlight" 
+                                  checked={this.state.filter === "Sunlight"}
+                                  onChange={this.handleSunlightFilter}
+                          ></input> Sun Exposure</p>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
@@ -217,6 +232,7 @@ class Plantir extends Component {
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         data={ this.state.data }
+        filterState = {this.state.filter} 
         tiletypes={this.state.tiletypes} />
       
       <br></br>
