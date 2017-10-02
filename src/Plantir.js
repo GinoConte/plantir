@@ -206,8 +206,10 @@ class Plantir extends Component {
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
       { (this.state.garden._id) ?
-      <div><h4><b>Accepted token: {this.state.garden._id}</b></h4>
-      <h4>Location: {this.state.garden.location} </h4>
+      <div><p><b>Accepted token:</b> {this.state.garden._id}</p>
+      <p><b>Location:</b> {this.state.garden.location} </p>
+      <p><b>Filters:</b> <input type="radio" name="filter" value="None" checked="checked"></input> None
+      <input type="radio" name="filter" value="Sunlight"></input> Sun Exposure</p>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
@@ -219,7 +221,7 @@ class Plantir extends Component {
       
       <br></br>
       <center>
-        <textarea rows="4" cols="130"
+        <textarea rows="4" cols="90"
           value={JSON.stringify(this.state.currentBiology)}>
         </textarea>
       </center>
