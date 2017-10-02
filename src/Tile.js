@@ -1,9 +1,9 @@
-
 import React, { Component } from 'react';
 import Center from 'react-center';
 import Modal from 'react-modal';
 import style from './style';
 import marked from 'marked';
+import ReactTooltip from 'react-tooltip'
 
 class Tile extends Component {
   constructor(props) {
@@ -39,6 +39,8 @@ class Tile extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    this.appendTileNum = this.appendTileNum.bind(this);
   }
   updateTile(e) {
     e.preventDefault();
@@ -127,7 +129,9 @@ class Tile extends Component {
   closeModal() {
     this.setState({modalIsOpen: false});
   }
-
+  appendTileNum(str){
+    return str + this.props.gridorder.toString();
+  }
 
   render() {
     //check if tile is plant or not
@@ -141,6 +145,32 @@ class Tile extends Component {
     flowerImages["Sunflower"] = "https://pbs.twimg.com/profile_images/639501065210105860/BntxzORs.jpg";
     flowerImages["Daisy"] = "https://68.media.tumblr.com/avatar_d6bca09754c0_128.png";
     flowerImages["Rose"] = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Rose_Ingrid_Bergmann.jpg/256px-Rose_Ingrid_Bergmann.jpg";
+    flowerImages["nothing"] = "https://p.memecdn.com/avatars/s_15452_506ee39357ccf.jpg"
+
+    var flowerInfo = {};
+    flowerInfo["Violet"] = "Violet Information";
+    flowerInfo["Sunflower"] = "Sunflower Information";
+    flowerInfo["Daisy"] = "Daisy Information"; 
+    flowerInfo["Rose"] = "Rose Information";
+
+    var flowerSunInfo = {};
+    flowerSunInfo["Violet"] = "Sun Exposure: Full Sun";
+    flowerSunInfo["Sunflower"] = "Sun Exposure: Full Sun";
+    flowerSunInfo["Daisy"] = "Sun Exposure: Sun to Partial Shade";  
+    flowerSunInfo["Rose"] = "Sun Exposure: Full Sun";
+
+    var flowerMoistureInfo = {};
+    flowerMoistureInfo["Violet"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
+    flowerMoistureInfo["Sunflower"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
+    flowerMoistureInfo["Daisy"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";  
+    flowerMoistureInfo["Rose"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
+
+    var flowerPHInfo = {};
+    flowerPHInfo["Violet"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
+    flowerPHInfo["Sunflower"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
+    flowerPHInfo["Daisy"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
+    flowerPHInfo["Rose"] = "Soil pH requirements: 6.1 to 6.5 (mildly acidic)";
+
 
     var tileColour = this.props.tiletypecolour;
     //get filter colours
@@ -180,8 +210,16 @@ class Tile extends Component {
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center>
         { (this.props.tiletypeisplant) 
-        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } /></center>) : 
-        (<center><img src={flowerImages["Violet"]} style={ style.invisibleImage } /></center>) }
+        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } data-tip data-for={this.appendTileNum("tooltip")}/>
+          <ReactTooltip id={this.appendTileNum("tooltip")}>
+            <p>{flowerInfo[this.props.tiletypename]}</p>
+            <p>{flowerSunInfo[this.props.tiletypename]}</p>
+            <p>{flowerMoistureInfo[this.props.tiletypename]}</p>
+            <p>{flowerPHInfo[this.props.tiletypename]}</p>
+          </ReactTooltip>
+          </center>
+        ) : 
+        (<center><img src={flowerImages["nothing"]} style={ style.invisibleImage } /></center>) }
         <br></br>
         <center><button 
                   style={ style.tilebutton } 
