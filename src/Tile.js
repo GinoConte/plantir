@@ -205,10 +205,10 @@ class Tile extends Component {
         tileColour = '#003b56';
       }
     }
-
+//{this.props.gridorder} 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
-        <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center>
+        <center><b>&nbsp;{this.props.tiletypename}</b></center>
         { (this.props.tiletypeisplant) 
         ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
@@ -244,7 +244,7 @@ class Tile extends Component {
                 <li>Moisture: {this.props.tileprops.moisture}</li>
                 <li>Sunlight: {this.props.tileprops.sunlight}</li>
                 <li>pH balance: {this.props.tileprops.ph}</li>
-                <li>Tile ID: {this.props.uniqueID}</li>
+                
               </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
@@ -351,3 +351,6 @@ export default Tile;
           {contents}
         </button></center>
 */
+
+//line 247:
+//<li>Tile ID: {this.props.uniqueID}</li>
