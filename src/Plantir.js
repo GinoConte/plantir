@@ -32,6 +32,7 @@ class Plantir extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleNoneFilter = this.handleNoneFilter.bind(this);
     this.handleSunlightFilter = this.handleSunlightFilter.bind(this);
+    this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -197,6 +198,9 @@ class Plantir extends Component {
   handleSunlightFilter(e) {
     this.setState({filter: e.target.value});
   }
+  handleMoistureFilter(e) {
+    this.setState({filter: e.target.value});
+  }
   render() {
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
@@ -218,13 +222,19 @@ class Plantir extends Component {
                                 value="None" 
                                 checked={this.state.filter === "None"}
                                 onChange={this.handleNoneFilter}
-                          ></input> None
+                          ></input> None&nbsp;&nbsp;
                           <input  type="radio" 
                                   name="filter" 
                                   value="Sunlight" 
                                   checked={this.state.filter === "Sunlight"}
                                   onChange={this.handleSunlightFilter}
-                          ></input> Sun Exposure</p>
+                          ></input> Sun Exposure&nbsp;&nbsp;
+                          <input  type="radio" 
+                                  name="filter" 
+                                  value="Moisture" 
+                                  checked={this.state.filter === "Moisture"}
+                                  onChange={this.handleMoistureFilter}
+                          ></input> Water Content&nbsp;&nbsp;</p>
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}

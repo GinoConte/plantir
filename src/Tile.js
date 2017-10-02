@@ -158,6 +158,23 @@ class Tile extends Component {
         tileColour = '#ff6000';
       }
     }
+    if (this.props.filterState === "Moisture") {
+      if (this.props.tileprops.moisture === "None") {
+        tileColour = '#d9eafd';
+      }
+      if (this.props.tileprops.moisture === "Low") {
+        tileColour = '#5aaee1';
+      }
+      if (this.props.tileprops.moisture === "Moderate") {
+        tileColour = '#1e8acb';
+      }
+      if (this.props.tileprops.moisture === "High") {
+        tileColour = '#00608b';
+      }
+      if (this.props.tileprops.moisture === "Drenched") {
+        tileColour = '#003b56';
+      }
+    }
 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
@@ -217,7 +234,7 @@ class Tile extends Component {
                       <option value="Low">Low</option>
                       <option value="Moderate">Moderate</option>
                       <option value="High">High</option>
-                      <option value="Waterlogged">Drenched</option>
+                      <option value="Drenched">Drenched</option>
                     </select>
                     <select name="ph" onChange={this.handlePHChange}>
                       <option value="Select" selected>pH</option>
