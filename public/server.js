@@ -292,6 +292,14 @@ router.route('/search/:search_str')
 //POST -- CREATE NEW TILETYPE | TAKES: name(string), isplant(bool), tilecolour(#ffffff)
 //GET
 router.route('/tiletype')
+  	.get(function(req, res) {
+    	TileType.find(function(err, tiletypes) {
+    		if (err)
+        		res.send(err);
+      		//responds with a json object of our database gardens
+      		res.json(tiletypes)
+    	});
+  	})
 	.post(function(req, res) {
     	var tiletype = new TileType({
     		_id: new mongoose.Types.ObjectId(),
