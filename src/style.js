@@ -26,6 +26,15 @@ const style = {
     marginRight: "2px",
     marginLeft: "2px",
   },
+  images: {
+    width: "5vmin",
+    height: "5vmin",
+  },
+  invisibleImage: {
+    opacity: 0,    
+    width: "5vmin",
+    height: "5vmin",
+  },
   biologybutton: {
     border: "2px solid ",
     color: "black",

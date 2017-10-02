@@ -136,6 +136,12 @@ class Tile extends Component {
       //contents = "Biology"
     }
 
+    var flowerImages = {};
+    flowerImages["Violet"] = "https://pbs.twimg.com/profile_images/3126414057/556f01d63b0e2bb607bed06ff359ce84.jpeg";
+    flowerImages["Sunflower"] = "https://pbs.twimg.com/profile_images/639501065210105860/BntxzORs.jpg";
+    flowerImages["Daisy"] = "https://68.media.tumblr.com/avatar_d6bca09754c0_128.png";
+    flowerImages["Rose"] = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Rose_Ingrid_Bergmann.jpg/256px-Rose_Ingrid_Bergmann.jpg";
+
     var tileColour = this.props.tiletypecolour;
     //get filter colours
     if (this.props.filterState === "Sunlight") {
@@ -156,18 +162,10 @@ class Tile extends Component {
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.props.gridorder} {this.props.tiletypename}</b></center>
-        <br></br>
         { (this.props.tiletypeisplant) 
-        ? (<center><button 
-          style={ style.biologybutton } 
-          onClick={this.handleBiologyClicked}
-          value='Biology'>
-          Biology
-        </button><br></br></center>) : (<div><br></br><br></br></div>)
-        }
-
-
-
+        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } /></center>) : 
+        (<center><img src={flowerImages["Violet"]} style={ style.invisibleImage } /></center>) }
+        <br></br>
         <center><button 
                   style={ style.tilebutton } 
                   onClick={this.openModal}
