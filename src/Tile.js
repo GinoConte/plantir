@@ -154,10 +154,10 @@ class Tile extends Component {
     flowerInfo["Rose"] = "Rose Information";
 
     var flowerSunInfo = {};
-    flowerSunInfo["Violet"] = "Sun Exposure: Full Sun";
-    flowerSunInfo["Sunflower"] = "Sun Exposure: Full Sun";
-    flowerSunInfo["Daisy"] = "Sun Exposure: Sun to Partial Shade";  
-    flowerSunInfo["Rose"] = "Sun Exposure: Full Sun";
+    flowerSunInfo["Violet"] = "Required Sun Exposure: Full Sun";
+    flowerSunInfo["Sunflower"] = "Required Sun Exposure: Full Sun";
+    flowerSunInfo["Daisy"] = "Required Sun Exposure: Sun to Partial Shade";  
+    flowerSunInfo["Rose"] = "Required Sun Exposure: Full Sun";
 
     var flowerMoistureInfo = {};
     flowerMoistureInfo["Violet"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
@@ -209,7 +209,7 @@ class Tile extends Component {
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.props.tiletypename}</b></center>
-        { (this.props.tiletypeisplant) 
+        { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p>{flowerInfo[this.props.tiletypename]}</p>
