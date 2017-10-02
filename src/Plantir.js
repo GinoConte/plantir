@@ -16,7 +16,7 @@ class Plantir extends Component {
 
       tempVal: 'oi',
       searchRet: '43534',
-      currentBiology: 'ghdfdg',
+      currentBiology: 'Biological Information',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -32,7 +32,7 @@ class Plantir extends Component {
   }
   loadTilesFromServer() {
     //if garden id has been submitted
-    console.log(this.state.currentBiology.usage)
+    //console.log(this.state.currentBiology.usage)
     if (this.state.garden._id) {
       //get token
       var gardentoken = this.state.garden._id;
@@ -53,27 +53,32 @@ class Plantir extends Component {
   //    into an array and we can match that to tiles'
   //    tiletype_id later - Gino
   loadTileTypesFromServer() {
-    if (this.state.garden._id) {
-      //assume we have a valid garden at this point?
-      var neededTileTypes = this.state.tiletypes.slice();
-      //loop through all tiles
-      //console.log(this.state.data);
-      for(var i=0;i<this.state.data.length;i++) {
-        //create a list of needed tiles?
-        var currentid = this.state.data[i].tiletype;
-        //retrieve tiletype from db
-        axios.get('http://localhost:3001/api/tiletype/'+currentid)
-          .then(res => {
-              //console.log(res.data);
-              if(!neededTileTypes.includes(res.data)) {
-                neededTileTypes.push(res.data);
-              }
-          })
-      }
-      //console.log(neededTileTypes)
-      //console.log(this.state.tiletypes)
-      this.setState({ tiletypes: neededTileTypes})
-    }
+    // if (this.state.garden._id) {
+    //   //assume we have a valid garden at this point?
+    //   var neededTileTypes = this.state.tiletypes.slice();
+    //   //loop through all tiles
+    //   //console.log(this.state.data);
+    //   for(var i=0;i<this.state.data.length;i++) {
+    //     //create a list of needed tiles?
+    //     var currentid = this.state.data[i].tiletype;
+    //     //retrieve tiletype from db
+    //     axios.get('http://localhost:3001/api/tiletype/'+currentid)
+    //       .then(res => {
+    //           //console.log(res.data);
+    //           if(!neededTileTypes.includes(res.data)) {
+    //             neededTileTypes.push(res.data);
+    //           }
+    //       })
+    //   }
+    //   //console.log(neededTileTypes)
+    //   //console.log(this.state.tiletypes)
+    //   this.setState({ tiletypes: neededTileTypes})
+    // }
+    axios.get('http://localhost:3001/api/tiletype/')
+      .then(res => {
+        //console.log(res.data);
+        this.setState({tiletypes: res.data})
+    })
 
   }
   handleTileSubmit(tile) {
@@ -195,11 +200,13 @@ class Plantir extends Component {
     // })
     return ( 
       <div style={ style.commentBox }>
+      <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
+      <center><p>Create a new garden or enter an existing token. Try: <b>59cf38f50f739a46a9121d1d</b></p></center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
-      <p>Example token: 59cf38f50f739a46a9121d1d</p>
-      <h3><b>Garden token: {this.state.garden._id}</b></h3>
+      { (this.state.garden._id) ?
+      <div><h4><b>Accepted token: {this.state.garden._id}</b></h4>
       <h4>Location: {this.state.garden.location} </h4>
       <TileList
         onTileDelete={this.handleTileDelete} 
@@ -217,21 +224,9 @@ class Plantir extends Component {
         </textarea>
       </center>
 
-        <form style={ style.commentForm }>
-          <button
-          style={ style.commentFormPost }
-          value='submit no refresh' 
-          onClick={ this.handleSearchReq } >search</button>
-          <input
-            type='text'
-            placeholder='search me!'
-            style={ style.commentFormText}
-            value={ this.state.tempVal }
-            onChange={this.handleSearchChange} />
+      </div> :null }
 
-        </form>
-        <p> results currently printed in console </p>
-        <p>  </p>
+
 
       </div>
       )
@@ -242,3 +237,18 @@ class Plantir extends Component {
 export default Plantir;
 
 //      <EditTile onTileSubmit={this.handleTileSubmit} />
+        // <form style={ style.commentForm }>
+        //   <button
+        //   style={ style.commentFormPost }
+        //   value='submit no refresh' 
+        //   onClick={ this.handleSearchReq } >search</button>
+        //   <input
+        //     type='text'
+        //     placeholder='search me!'
+        //     style={ style.commentFormText}
+        //     value={ this.state.tempVal }
+        //     onChange={this.handleSearchChange} />
+
+        // </form>
+        // <p> results currently printed in console </p>
+        // <p>  </p>
