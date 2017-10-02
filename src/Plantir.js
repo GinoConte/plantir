@@ -246,11 +246,7 @@ class Plantir extends Component {
         tiletypes={this.state.tiletypes} />
       
       <br></br>
-      <center>
-        <textarea rows="4" cols="90"
-          value={JSON.stringify(this.state.currentBiology)}>
-        </textarea>
-      </center>
+
 
       </div> :null }
 
@@ -263,7 +259,13 @@ class Plantir extends Component {
 }
 
 export default Plantir;
-
+/* line 249
+      <center>
+        <textarea rows="4" cols="90"
+          value={JSON.stringify(this.state.currentBiology)}>
+        </textarea>
+      </center>
+*/
 //      <EditTile onTileSubmit={this.handleTileSubmit} />
         // <form style={ style.commentForm }>
         //   <button
