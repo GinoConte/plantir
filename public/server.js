@@ -274,7 +274,15 @@ router.route('/search/:search_str')
 
 		const prog = spawn('python', ['scraper/scraper.py', req.params.search_str]);
 		prog.stderr.on('data', (data) =>{
-			//console.log(`error: ${data}`);
+      const prog3 = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
+      prog3.stdout.on('data', (data) =>{
+        console.log(`output: ${data}`);
+       res.send(data);
+      });
+      prog3.on('close', (code) => {
+        //console.log(`child process exited with code ${code}`);
+      });
+			console.log(`error: ${data}`);
 		});
 		prog.stdout.on('data', (data) =>{
 			console.log(`output: ${data}`);

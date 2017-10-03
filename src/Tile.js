@@ -210,7 +210,7 @@ class Tile extends Component {
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.props.tiletypename}</b></center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images } data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p>{flowerInfo[this.props.tiletypename]}</p>
             <p>{flowerSunInfo[this.props.tiletypename]}</p>
