@@ -10,10 +10,7 @@ const style = {
     transform             : 'translate(-50%, -50%)'
   },
   tile:{
-    width: '20%',
-    border: '1px solid',
-    position: 'relative',
-    display: 'inline-block',
+
   },
   grasstile: {
     backgroundColor: "#9fd64d",
