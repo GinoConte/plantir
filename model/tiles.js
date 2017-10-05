@@ -21,7 +21,8 @@ var TileSchema = new Schema({
 		sunlight: String,
 		moisture: String,
 	},
-	gridorder: Number
+	gridorder: Number,
+	lastwatered: Date,
 });
 
 //export our modules to use in server.js

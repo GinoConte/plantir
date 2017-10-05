@@ -35,6 +35,7 @@ class Tile extends Component {
     this.handlePlotUpdate = this.handlePlotUpdate.bind(this);
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
+    this.handleWaterClicked = this.handleWaterClicked.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -91,6 +92,10 @@ class Tile extends Component {
     //let tileid = this.props.uniqueID;
     let name = this.props.tiletypename;
     this.props.onBiologyClicked(name);
+  }
+  handleWaterClicked(e) {
+    e.preventDefault();
+    this.props.onWaterClicked(this.props.uniqueID);
   }
   deleteTile(e) {
     e.preventDefault();
@@ -208,14 +213,24 @@ class Tile extends Component {
 //{this.props.gridorder} 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
-        <center><b>&nbsp;{this.props.tiletypename}</b></center>
+        <center><b>&nbsp;{this.props.tiletypename}&nbsp;&nbsp;</b>
+          { (this.props.tiletypeisplant) ?
+          (<button
+            style={style.emptybutton}
+            onClick={this.handleWaterClicked}
+            value='Water'>
+          <img src="https://i.imgur.com/9KRykNG.png" width="25"></img>
+          </button>) : null
+          }
+        </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
-            <p>{flowerInfo[this.props.tiletypename]}</p>
+            <p><b>{flowerInfo[this.props.tiletypename]}</b></p>
             <p>{flowerSunInfo[this.props.tiletypename]}</p>
             <p>{flowerMoistureInfo[this.props.tiletypename]}</p>
             <p>{flowerPHInfo[this.props.tiletypename]}</p>
+            <p>Last watered: {this.props.lastwatered}</p>
           </ReactTooltip>
           </center>
         ) : 
@@ -227,6 +242,7 @@ class Tile extends Component {
                   value='Plot'>
                   Edit
                 </button>
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -244,6 +260,7 @@ class Tile extends Component {
                 <li>Moisture: {this.props.tileprops.moisture}</li>
                 <li>Sunlight: {this.props.tileprops.sunlight}</li>
                 <li>pH balance: {this.props.tileprops.ph}</li>
+                <li>Last watered: {this.props.lastwatered.toString()}</li>
                 
               </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>

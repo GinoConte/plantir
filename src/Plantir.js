@@ -33,6 +33,7 @@ class Plantir extends Component {
     this.handleNoneFilter = this.handleNoneFilter.bind(this);
     this.handleSunlightFilter = this.handleSunlightFilter.bind(this);
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
+    this.handleWaterClicked = this.handleWaterClicked.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -171,6 +172,14 @@ class Plantir extends Component {
         //console.log(this.state.searchRet);
       })
   }
+  handleWaterClicked(id) {
+    let body = {lastwatered: new Date()}
+    console.log("hi")
+    axios.put('http://localhost:3001/api/tile/'+id, body)
+      .catch(err => {
+        console.log(err);
+    })
+  }
   componentDidMount() {
     //this.loadGardenFromServer();
     this.loadTilesFromServer();
@@ -210,7 +219,7 @@ class Plantir extends Component {
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
-      <center><p>Create a new garden or enter an existing token. Try: <b>59cf38f50f739a46a9121d1d</b></p></center>
+      <center><p>Create a new garden or enter an existing token. Try: <b>59d60d3f1a6391924a745a40</b></p></center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
@@ -241,6 +250,7 @@ class Plantir extends Component {
         onPlotUpdate={this.handlePlotUpdate} 
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
+        onWaterClicked={this.handleWaterClicked}
         data={ this.state.data }
         filterState = {this.state.filter} 
         tiletypes={this.state.tiletypes} />

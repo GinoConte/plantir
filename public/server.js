@@ -124,7 +124,7 @@ router.route('/garden')
     		//location: req.body.location;
     	});
     	//garden.location = req.body.location;
-    	console.log(garden._id);
+    	console.log("Garden created: "+garden._id);
     	garden.save(function(err) {
       		if (err)
         	res.send(err);
@@ -158,7 +158,8 @@ router.route('/garden')
 	        			sunlight: "Moderate",
 	        			moisture: "Moderate"
 	        		},
-	        		gridorder: i
+	        		gridorder: i,
+	        		lastwatered: new Date("13 Mar 2010") //fake date to test watering function
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 
@@ -247,6 +248,8 @@ router.route('/tile/:tile_id')
 	        	//(req.body.ph) ? tile.location = req.body.ph : null;
 	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
 	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
+	        	(req.body.lastwatered) ? tile.lastwatered = req.body.lastwatered : null;
+
 
 	        	tile.save(function(err) {
 	            	if (err)

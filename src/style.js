@@ -26,6 +26,12 @@ const style = {
     marginRight: "2px",
     marginLeft: "2px",
   },
+  emptybutton: {
+    padding: "0",
+    border: "none",
+    background: "none",
+    margin: "none",
+  },
   images: {
     width: "5vmin",
     height: "5vmin",

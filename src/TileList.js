@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
 
-import { Container, Row, Col } from 'reactstrap';
+//import { Container, Row, Col } from 'reactstrap';
 
 class TileList extends Component {
   render() {
@@ -46,10 +46,12 @@ class TileList extends Component {
           onTileUpdate={this.props.onTileUpdate}  
           onBiologyClicked={this.props.onBiologyClicked} 
           onTileTypeUpdate={this.props.onTileTypeUpdate} 
+          onWaterClicked={this.props.onWaterClicked} 
           filterState={this.props.filterState}  
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}
           gridorder={tile.gridorder} 
+          lastwatered={tile.lastwatered} 
           tiletypename={tile['tiletypename']}
           tiletypecolour={tile['tiletypecolour']}
           tiletypeinfo = {tile['tiletypeinfo']}  
@@ -58,12 +60,12 @@ class TileList extends Component {
       )
     })
 
-    let myPaddingStyle = {
-      paddingTop: 0,
-      paddingBottom: 0,
-      paddingLeft:0,
-      paddingRight:0,
-    }
+    // let myPaddingStyle = {
+    //   paddingTop: 0,
+    //   paddingBottom: 0,
+    //   paddingLeft:0,
+    //   paddingRight:0,
+    // }
 
 
     return (
