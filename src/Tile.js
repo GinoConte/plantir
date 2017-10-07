@@ -224,7 +224,7 @@ class Tile extends Component {
           }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={flowerImages[this.props.tiletypename]} style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={flowerImages[this.props.tiletypename]} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{flowerInfo[this.props.tiletypename]}</b></p>
             <p>{flowerSunInfo[this.props.tiletypename]}</p>
@@ -235,7 +235,7 @@ class Tile extends Component {
           </center>
         ) : 
         (<center><img src={flowerImages["nothing"]} style={ style.invisibleImage } /></center>) }
-        <br></br>
+        
         <center><button 
                   style={ style.tilebutton } 
                   onClick={this.openModal}

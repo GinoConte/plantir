@@ -23,6 +23,10 @@ var TileSchema = new Schema({
 	},
 	gridorder: Number,
 	lastwatered: Date,
+	x: Number,
+	y: Number,
+	width: Number,
+	height: Number,
 });
 
 //export our modules to use in server.js

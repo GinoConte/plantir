@@ -33,13 +33,19 @@ const style = {
     margin: "none",
   },
   images: {
-    width: "5vmin",
-    height: "5vmin",
+    width: "8vmin",
+    height: "8vmin",
+    paddingTop: "4",
+    paddingBottom: "5",
+
   },
   invisibleImage: {
     opacity: 0,    
-    width: "5vmin",
-    height: "5vmin",
+    width: "8vmin",
+    height: "8vmin",
+    paddingTop: "4",
+    paddingBottom: "5",
+
   },
   biologybutton: {
     border: "2px solid ",

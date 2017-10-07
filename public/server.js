@@ -225,7 +225,11 @@ router.route('/tile')
     			ph: req.body.ph,
     			sunlight: req.body.sunlight,
     			moisture: req.body.moisture
-    		}
+    		},
+    		x: req.body.x,
+    		y: req.body.y,
+    		height: req.body.height,
+    		width: req.body.width,
     		//location: req.body.location;
     	});
     	tile.save(function(err) {
@@ -249,7 +253,10 @@ router.route('/tile/:tile_id')
 	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
 	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
 	        	(req.body.lastwatered) ? tile.lastwatered = req.body.lastwatered : null;
-
+	        	(req.body.x) ? tile.x = req.body.x : null;
+	        	(req.body.y) ? tile.y = req.body.y : null;
+	        	(req.body.height) ? tile.height = req.body.height : null;
+	        	(req.body.width) ? tile.width = req.body.width : null;
 
 	        	tile.save(function(err) {
 	            	if (err)
