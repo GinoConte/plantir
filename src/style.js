@@ -1,6 +1,8 @@
 //style.js
 const style = {
-
+  grey:{
+    backgroundColor : "Grey",
+  },
   content:{
     top                   : '50%',
     left                  : '50%',

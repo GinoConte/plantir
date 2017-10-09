@@ -210,9 +210,10 @@ class Tile extends Component {
         tileColour = '#003b56';
       }
     }
+    //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 //{this.props.gridorder} 
     return (
-      <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
+      <div >
         <center><b>&nbsp;{this.props.tiletypename}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button

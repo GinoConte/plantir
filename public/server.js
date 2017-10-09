@@ -159,7 +159,11 @@ router.route('/garden')
 	        			moisture: "Moderate"
 	        		},
 	        		gridorder: i,
-	        		lastwatered: new Date("13 Mar 2010") //fake date to test watering function
+	        		lastwatered: new Date("13 Mar 2010"), //fake date to test watering function
+              x: i,
+              y: i,
+              width: 2,
+              height: 4,
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 
