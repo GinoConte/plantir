@@ -41,7 +41,7 @@ class TileList extends Component {
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
       return (
-        <div key={tile.gridorder} data-grid={{x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4}}>
+        <div key={tile.gridorder} data-grid={{x:0,y:0,w: 3, h: 2, minW: 2, maxW: 8,minH: 1, maxH:4}}>
           <Tile
             uniqueID={tile['_id']} 
             key={tile['_id']} 
@@ -73,8 +73,17 @@ class TileList extends Component {
 
     return (
       <div style={ style.commentList }>
-        <ReactGridLayout className="layout" cols={12} rowHeight={30} width={1200}>
-          {tileNodes}
+        <ReactGridLayout  style={myPaddingStyle} className="layout" cols={16} rowHeight={50} rowWidth={100}width={600}>
+          <div key={0} _grid={{x: 0, y: 0, w: 3, h: 2}}><tileNodes/></div>
+          <div key={1} _grid={{x: 3, y: 0, w: 3, h: 2}}><tileNodes/></div>
+          <div key={2} _grid={{x: 6, y: 0, w: 3, h: 2}}><tileNodes/></div>
+          <div key={3} _grid={{x: 9, y: 0, w: 3, h: 2}}><tileNodes/></div>
+          <div key={4} _grid={{x: 12, y: 0, w: 3, h: 2}}><tileNodes/></div>
+          <div key={5} _grid={{x: 0, y: 2, w: 3, h: 2}}><tileNodes/></div>
+          <div key={6} _grid={{x: 3, y: 2, w: 3, h: 2}}><tileNodes/></div>
+          <div key={7} _grid={{x: 6, y: 2, w: 3, h: 2}}><tileNodes/></div>
+          <div key={8} _grid={{x: 9, y: 2, w: 3, h: 2}}><tileNodes/></div>
+          <div key={9} _grid={{x: 12, y: 2, w: 3, h: 2}}><tileNodes/></div>
         </ReactGridLayout>
       </div>  
     )
