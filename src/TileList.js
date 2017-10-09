@@ -73,17 +73,36 @@ class TileList extends Component {
 
     return (
       <div style={ style.commentList }>
-        <ReactGridLayout  style={myPaddingStyle} className="layout" cols={16} rowHeight={50} rowWidth={100}width={600}>
-          <div key={0} _grid={{x: 0, y: 0, w: 3, h: 2}}><tileNodes/></div>
-          <div key={1} _grid={{x: 3, y: 0, w: 3, h: 2}}><tileNodes/></div>
-          <div key={2} _grid={{x: 6, y: 0, w: 3, h: 2}}><tileNodes/></div>
-          <div key={3} _grid={{x: 9, y: 0, w: 3, h: 2}}><tileNodes/></div>
-          <div key={4} _grid={{x: 12, y: 0, w: 3, h: 2}}><tileNodes/></div>
-          <div key={5} _grid={{x: 0, y: 2, w: 3, h: 2}}><tileNodes/></div>
-          <div key={6} _grid={{x: 3, y: 2, w: 3, h: 2}}><tileNodes/></div>
-          <div key={7} _grid={{x: 6, y: 2, w: 3, h: 2}}><tileNodes/></div>
-          <div key={8} _grid={{x: 9, y: 2, w: 3, h: 2}}><tileNodes/></div>
-          <div key={9} _grid={{x: 12, y: 2, w: 3, h: 2}}><tileNodes/></div>
+        <ReactGridLayout  style={myPaddingStyle} className="layout" cols={16} rowHeight={50} width={600}>
+          <div key={0} _grid={{x: 0, y: 0, w: 3, h: 1}}><tileNodes/></div>
+          <div key={1} _grid={{x: 3, y: 0, w: 3, h: 1}}><tileNodes/></div>
+          <div key={2} _grid={{x: 6, y: 0, w: 3, h: 1}}><tileNodes/></div>
+          <div key={3} _grid={{x: 9, y: 0, w: 3, h: 1}}><tileNodes/></div>
+          <div key={4} _grid={{x: 12, y: 0, w: 3, h: 1}}><tileNodes/></div>
+          <div key={5} _grid={{x: 0, y: 2, w: 3, h: 1}}><tileNodes/></div>
+          <div key={6} _grid={{x: 3, y: 2, w: 3, h: 1}}><tileNodes/></div>
+          <div key={7} _grid={{x: 6, y: 2, w: 3, h: 1}}><tileNodes/></div>
+          <div key={8} _grid={{x: 9, y: 2, w: 3, h: 1}}><tileNodes/></div>
+          <div key={9} _grid={{x: 12, y: 2, w: 3, h: 1}}><tileNodes/></div>
+          <div key={10} _grid={{x: 0, y: 4, w: 3, h: 1}}><tileNodes/></div>
+          <div key={11} _grid={{x: 3, y: 4, w: 3, h: 1}}><tileNodes/></div>
+          <div key={12} _grid={{x: 6, y: 4, w: 3, h: 1}}><tileNodes/></div>
+          <div key={13} _grid={{x: 9, y: 4, w: 3, h: 1}}><tileNodes/></div>
+          <div key={14} _grid={{x: 12, y: 4, w: 3, h: 1}}><tileNodes/></div>
+          <div key={15} _grid={{x: 0, y: 6, w: 3, h: 1}}><tileNodes/></div>
+          <div key={16} _grid={{x: 3, y: 6, w: 3, h: 1}}><tileNodes/></div>
+          <div key={17} _grid={{x: 6, y: 6, w: 3, h: 1}}><tileNodes/></div>
+          <div key={18} _grid={{x: 9, y: 6, w: 3, h: 1}}><tileNodes/></div>
+          <div key={19} _grid={{x: 12, y: 6, w: 3, h: 1}}><tileNodes/></div>
+          <div key={20} _grid={{x: 0, y: 8, w: 3, h: 1}}><tileNodes/></div>
+          <div key={21} _grid={{x: 3, y: 8, w: 3, h: 1}}><tileNodes/></div>          
+          <div key={22} _grid={{x: 6, y: 8, w: 3, h: 1}}><tileNodes/></div>
+          <div key={23} _grid={{x: 9, y: 8, w: 3, h: 1}}><tileNodes/></div>
+          <div key={24} _grid={{x: 12, y: 8, w: 3, h: 1}}><tileNodes/></div>
+          
+        
+          {tileNodes}
+
         </ReactGridLayout>
       </div>  
     )
