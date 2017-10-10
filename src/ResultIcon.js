@@ -59,7 +59,7 @@ class ResultIcon extends Component{
 //deal with the search results, as un-reacty as it is
 
 
-
+	render() {
 
 		return(
 			<div>
@@ -71,12 +71,8 @@ class ResultIcon extends Component{
 
 
 			<a href="#" onClick={ this.resClick }>lkjlkjlkj</a>
-			<div dangerouslySetInnerHTML={{ __html: this.state.tempString }}/>
+			<div dangerouslySetInnerHTML={{ __html: this.state.tempString }}/></div>
 
-
-
-
-			</div>
 				
 
 
