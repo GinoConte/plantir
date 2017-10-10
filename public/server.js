@@ -131,7 +131,7 @@ router.route('/garden')
 
 
         	//loop to add 25 tiles to create default demo house
-        	for (var i=0; i<25; i++) {
+        	for (var i=0; i<4; i++) {
         		//change to brick for demo purposes
         		//grass
         		var tiletypeobject = mongoose.Types.ObjectId("59cb40fa9b7ea709e92b151a")

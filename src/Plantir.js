@@ -220,6 +220,7 @@ class Plantir extends Component {
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
       <center><p>Create a new garden or enter an existing token. Try: <b>59d60d3f1a6391924a745a40</b></p></center>
+      <center> mendel's testing garden: 59dc2a8bd718870fb7478b82 </center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
