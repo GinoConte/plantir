@@ -3,7 +3,9 @@ import axios from 'axios';
 import TileList from './TileList';
 //import EditTile from './EditTile';
 import WelcomeHeader from './WelcomeHeader';
+import Timeline from './Timeline';
 import style from './style';
+
 
 class Plantir extends Component {
   constructor(props) {
@@ -286,11 +288,16 @@ class Plantir extends Component {
         tiletypes={this.state.tiletypes} />
       
       <br></br>
+
+      <Timeline />
+
       <center>
         <textarea rows="4" cols="90"
           value={JSON.stringify(this.state.currentBiology)}>
         </textarea>
       </center>
+
+
 
       </div> :null }
 
