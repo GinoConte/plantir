@@ -29,6 +29,7 @@ var TileSchema = new Schema({
 	height: Number,
 });
 
+
 //export our modules to use in server.js
 module.exports = mongoose.model('Tile', TileSchema);
 

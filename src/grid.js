@@ -19,20 +19,19 @@ class BasicLayout extends React.PureComponent {
     onLayoutChange: function() {},
     cols: 12,
     verticalCompact: false,
-    minW: 2,
-    minH: 4,
   };
 
   constructor(props) {
     super(props);
   }
   onLayoutChange(layout) {
-    this.props.onLayoutChange(layout);
+    
+    alert("This is here to annoy you.");
   }
 
   render() {
     return (
-      <ReactGridLayout {...this.props}>
+      <ReactGridLayout {...this.props} onLayoutChange={this.onLayoutChange}>
         {this.props.tiles}
       </ReactGridLayout>
     );

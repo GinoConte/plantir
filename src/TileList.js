@@ -46,7 +46,8 @@ class TileList extends Component {
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
       return (
-        <div key={tile['_id']} data-grid={{x:1,y:1,w:2,h:4, minW:2, minH:4}} style={style.grey} >
+        <div key={tile['_id']} data-grid={{x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}} 
+          style={Object.assign(style.tile, {backgroundColor: tile['tiletypecolour']})} > {tile['tiletypecolour']}
           <Tile
             uniqueID={tile['_id']} 
             key={tile['_id']} 
