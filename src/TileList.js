@@ -46,7 +46,10 @@ class TileList extends Component {
           onTileUpdate={this.props.onTileUpdate}  
           onBiologyClicked={this.props.onBiologyClicked} 
           onTileTypeUpdate={this.props.onTileTypeUpdate} 
-          onWaterClicked={this.props.onWaterClicked} 
+          onSearchReq={this.props.onSearchReq}
+          onSearchChange={this.props.onSearchChange}
+          onWaterClicked={this.props.onWaterClicked}
+          searchRet={this.props.searchRet} 
           filterState={this.props.filterState}  
           parentgarden={tile.parentgarden} 
           tileprops={tile.tileprops}

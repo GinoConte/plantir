@@ -18,6 +18,8 @@ class Plantir extends Component {
       searchRet: '43534',
       currentBiology: 'Biological Information',
       filter: 'None',
+
+      searchHtml: 'tt',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -186,7 +188,7 @@ class Plantir extends Component {
     setInterval(this.loadTilesFromServer, this.props.pollInterval);
     //setInterval(this.handleBiologyClicked, this.props.pollInterval);
   }
-  handleSearchReq(evt) {
+  handleSearchReq(evt, id) {
       //alert('search request submitted  ' + this.state.tempVal);
       evt.preventDefault();
       this.setState({ searchRet: 's' });
@@ -195,7 +197,32 @@ class Plantir extends Component {
       //axios.get('http://localhost:3001/api/search')
         .then(res =>{
           this.setState({ searchRet: res.data });
-            console.log(this.state.searchRet);
+            let p = this.state.searchRet;
+            console.log(p);
+            // var retString = '';
+            // if (Object.keys(p).length == 0){
+            //   console.log("empty response!");
+            //   retString = "<p>No results found!</p>";
+            // } else {
+
+            //   for (var key in p){
+            //     if(p.hasOwnProperty(key)){
+            //       console.log(key + "------>");
+            //       let j = p[key];
+            //       for(var key2 in j){
+            //         if (j.hasOwnProperty(key2)){
+            //             console.log(key2 + "->" + j[key2])
+
+            //             retString = retString + "<p>" + key2 + ': '+ j[key2]  +  "</p>"
+
+            //         }
+            //       }
+            //     }
+            //   }
+            // }
+            //this.setState({searchHtml: retString});
+            //this.setState({searchHtml: this.state.searchRet})
+            return this.state.searchRet;
         })
   }
   handleSearchChange(evt){
@@ -251,8 +278,11 @@ class Plantir extends Component {
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
+        onSearchReq={this.handleSearchReq}
+        onSearchChange={this.handleSearchChange}
         data={ this.state.data }
-        filterState = {this.state.filter} 
+        filterState = {this.state.filter}
+        searchRet = {this.state.searchRet} 
         tiletypes={this.state.tiletypes} />
       
       <br></br>
@@ -265,8 +295,22 @@ class Plantir extends Component {
       </div> :null }
 
 
+        <form>
+          <button
+            style={ style.commentFormPost }
+            value='submit no refresh' 
+            onClick={ this.handleSearchReq } 
+            > search
+          </button>
+          <input
+            type='text'
+            placeholder='search me!'
+            value={ this.state.tempVal }
+            onChange={this.handleSearchChange} />
 
+        </form>
       </div>
+
       )
 
   }

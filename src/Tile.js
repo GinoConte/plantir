@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import Center from 'react-center';
 import Modal from 'react-modal';
 import style from './style';
+import ResultIcon from './ResultIcon';
 import marked from 'marked';
 import ReactTooltip from 'react-tooltip'
+
+import axios from 'axios';
 
 class Tile extends Component {
   constructor(props) {
@@ -19,6 +22,10 @@ class Tile extends Component {
       soiltype: '',
       newtiletypename: '',
       modalIsOpen: false,
+      searchRet: '',
+      retString:'',
+      tempVal:'',
+      isResult:false,
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -36,6 +43,10 @@ class Tile extends Component {
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
+
+    this.handleSearchReq = this.handleSearchReq.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleParseSearch = this.handleParseSearch.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -132,15 +143,99 @@ class Tile extends Component {
   }
 
   closeModal() {
+    this.setState({isResult: false});
     this.setState({modalIsOpen: false});
   }
   appendTileNum(str){
     return str + this.props.gridorder.toString();
   }
 
+  handleSearchChange(e){
+    e.preventDefault();
+    this.setState({tempVal: e.target.value});
+  }
+  handleSearchReq(evt){
+    //e.preventDefault();
+    this.setState({isResult:false});
+    // this.props.onSearchReq(e,this.props.uniqueID);
+    // this.setState({retString: ''});
+    // console.log("?");
+
+    evt.preventDefault();
+      this.setState({ searchRet: 's' });
+            console.log(this.state.searchRet);
+      axios.get('http://localhost:3001/api/search/'+this.state.tempVal)
+      //axios.get('http://localhost:3001/api/search')
+        .then(res =>{
+          this.setState({ searchRet: res.data });
+            let p = this.state.searchRet;
+            console.log(p);
+            this.handleParseSearch();
+            // var retString = '';
+            // if (Object.keys(p).length == 0){
+            //   console.log("empty response!");
+            //   retString = "<p>No results found!</p>";
+            // } else {
+
+            //   for (var key in p){
+            //     if(p.hasOwnProperty(key)){
+            //       console.log(key + "------>");
+            //       let j = p[key];
+            //       for(var key2 in j){
+            //         if (j.hasOwnProperty(key2)){
+            //             console.log(key2 + "->" + j[key2])
+
+            //             retString = retString + "<p>" + key2 + ': '+ j[key2]  +  "</p>"
+
+            //         }
+            //       }
+            //     }
+            //   }
+            })
+            //this.setState({searchHtml: retString});
+            //this.setState({searchHtml: this.state.searchRet})
+
+
+  }
+  handleParseSearch(){
+    var p = this.state.searchRet;
+    console.log(Object.keys(p).length);
+    var retString = '';
+    if (Object.keys(p).length == 0){
+      console.log("empty response!");
+      retString = "<p>No results found!</p>";
+    } else {
+
+      for (var key in p){
+        if(p.hasOwnProperty(key)){
+          console.log(key + "------>");
+          let j = p[key];
+          for(var key2 in j){
+            if (j.hasOwnProperty(key2)){
+                console.log(key2 + "->" + j[key2])
+
+                retString = retString + "<p>" + key2 + ': '+ j[key2]  +  "</p>"
+
+            }
+          }
+        }
+      }
+    }
+    this.setState({retString: retString});
+    this.setState({isResult: true});
+
+  }
+
+
+
+
   render() {
     //check if tile is plant or not
+
     var contents = "Change Tile";
+    // if( this.state.retString == ''){
+    //   this.handleParseSearch();
+    // }
     if (this.props.tiletypeisplant) {
       //contents = "Biology"
     }
@@ -350,8 +445,31 @@ class Tile extends Component {
           <br></br>
           <button onClick={this.closeModal}>Close</button>
         </Center>
+          <form>
+          <button
+            style={ style.commentFormPost }
+            value='submit no refresh' 
+            onClick={ this.handleSearchReq } 
+            > search
+          </button>
+          <input
+            type='text'
+            placeholder='search me!'
+            value={ this.state.tempVal }
+            onChange={this.handleSearchChange} />
+
+          </form>
+          <p>d</p>
+          { (this.state.isResult)
+            ? <ResultIcon
+            results={this.state.searchRet}>
+          </ResultIcon>:null}
+          <p>ddd</p>
+
         </Modal>
         </center>
+
+
       </div>
     )
   }
