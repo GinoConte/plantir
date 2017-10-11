@@ -59,9 +59,10 @@ class ResultIcon extends Component{
 //deal with the search results, as un-reacty as it is
 
 
-
+	render(){
 
 		return(
+
 			<div>
 			<form>
 			  <button style={{display: false}} id="sneakyButton" value="submit_value" onClick={this.resClick}>
