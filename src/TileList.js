@@ -25,22 +25,25 @@ class TileList extends Component {
     compactType: null,
   };
 
+  state = {
+    layouts: [],
+    loaded: false,
+  }
+
   constructor(props) {
     super(props);
     const layout = this.generateLayout();
     console.log(layout);
-    this.state = { layout };
+    this.setState({ layouts: layout });
+    this.onLayoutChange = this.onLayoutChange.bind(this);
   }
-
-  componentDidMount(){
-    const layout = this.generateLayout();
-    this.state = { layout };
-  }
-
 
   onLayoutChange(layout) {
-      
-    //alert("This is here to annoy you.");
+    console.log('hi');
+    console.log(layout);
+    console.log('bye');
+    this.setState({layout});
+    this.props.onLayoutChange(layout); // updates status display
   }
 
   generateLayout(){
@@ -50,8 +53,12 @@ class TileList extends Component {
           {i:tile['_id'],x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}
       );
     });
-    console.log(layout);
     return layout;
+  }
+
+  updateLayout(){
+    let layout = this.generateLayout();
+    this.setState({layout});
   }
 
   appendTileNum(str, num){
@@ -116,10 +123,12 @@ class TileList extends Component {
         </div>
       )
     })
-    let l = this.generateLayout();
-    //console.log({l});
+    if(this.state.loaded == false && tileNodes.length != 0){
+      this.updateLayout();
+      this.setState({loaded: true});
+    }
     return (
-      <ReactGridLayout layout={this.generateLayout()} onLayoutChange={this.onLayoutChange}
+      <ReactGridLayout layout={this.state.layout} onLayoutChange={this.onLayoutChange}
           {...this.props}>
         {tileNodes}
       </ReactGridLayout>
