@@ -74,6 +74,7 @@ class ResultIcon extends Component{
 
 			<a href="#" onClick={ this.resClick }>lkjlkjlkj</a>
 			<div dangerouslySetInnerHTML={{ __html: this.state.tempString }}/>
+			</div>
 
 				
 
