@@ -10,13 +10,8 @@ import '../node_modules/react-resizable/css/styles.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
-class TileList extends React.PureComponent {
-  constructor(props) {
-    super(props);
-  }
-  appendTileNum(str, num){
-    return str + num.toString();
-  }
+class TileList extends Component {
+  
   static propTypes = {
     onLayoutChange: PropTypes.func.isRequired
   };
@@ -27,14 +22,42 @@ class TileList extends React.PureComponent {
     rowHeight: 30,
     onLayoutChange: function() {},
     cols: 12,
-    verticalCompact: false,
+    compactType: null,
   };
+
+  constructor(props) {
+    super(props);
+    const layout = this.generateLayout();
+    console.log(layout);
+    this.state = { layout };
+  }
+
+  componentDidMount(){
+    const layout = this.generateLayout();
+    this.state = { layout };
+  }
 
 
   onLayoutChange(layout) {
       
     //alert("This is here to annoy you.");
   }
+
+  generateLayout(){
+    var tiles = this.props.data.slice();
+    let layout = tiles.map(tile => {
+      return(
+          {i:tile['_id'],x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}
+      );
+    });
+    console.log(layout);
+    return layout;
+  }
+
+  appendTileNum(str, num){
+    return str + num.toString();
+  }
+
   render() {
     var test="nope";
     if(this.props.tiletypes.length > 0) {
@@ -68,8 +91,9 @@ class TileList extends React.PureComponent {
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
       return (
-        <div key={tile['_id']} data-grid={{x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}} 
-          style={Object.assign(style.tile, {backgroundColor: tile['tiletypecolour']})} > {tile['tiletypecolour']}
+        <div key={tile['_id']} 
+          style={Object.assign(style.tile, {backgroundColor: tile['tiletypecolour']})} > 
+          {tile['_id']}
           <Tile
             uniqueID={tile['_id']} 
             key={tile['_id']} 
@@ -92,12 +116,11 @@ class TileList extends React.PureComponent {
         </div>
       )
     })
-
-
-
-
+    let l = this.generateLayout();
+    //console.log({l});
     return (
-      <ReactGridLayout {...this.props} onLayoutChange={this.onLayoutChange}>
+      <ReactGridLayout layout={this.generateLayout()} onLayoutChange={this.onLayoutChange}
+          {...this.props}>
         {tileNodes}
       </ReactGridLayout>
     )
