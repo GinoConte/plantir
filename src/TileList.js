@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
-import ReactGridLayout from 'react-grid-layout';
-import BasicLayout from './grid.js';
 //import { Container, Row, Col } from 'reactstrap';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import PropTypes from 'prop-types';
 
 import '../node_modules/react-grid-layout/css/styles.css';
 import '../node_modules/react-resizable/css/styles.css';
 
-class TileList extends Component {
+const ReactGridLayout = WidthProvider(RGL);
+
+class TileList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
   appendTileNum(str, num){
     return str + num.toString();
   }
+  static propTypes = {
+    onLayoutChange: PropTypes.func.isRequired
+  };
 
+  static defaultProps = {
+    className: "layout",
+    items: 1,
+    rowHeight: 30,
+    onLayoutChange: function() {},
+    cols: 12,
+    verticalCompact: false,
+  };
+
+
+  onLayoutChange(layout) {
+      
+    //alert("This is here to annoy you.");
+  }
   render() {
     var test="nope";
     if(this.props.tiletypes.length > 0) {
@@ -71,18 +93,13 @@ class TileList extends Component {
       )
     })
 
-    // let myPaddingStyle = {
-    //   paddingTop: 0,
-    //   paddingBottom: 0,
-    //   paddingLeft:0,
-    //   paddingRight:0,
-    // }
+
 
 
     return (
-      <BasicLayout tiles={tileNodes}>
-        
-      </BasicLayout>
+      <ReactGridLayout {...this.props} onLayoutChange={this.onLayoutChange}>
+        {tileNodes}
+      </ReactGridLayout>
     )
   }
 }
@@ -106,3 +123,10 @@ export default TileList;
       //     {tileNodes.slice(2,4)}
       //   </div>
       // </Container>
+
+          // let myPaddingStyle = {
+    //   paddingTop: 0,
+    //   paddingBottom: 0,
+    //   paddingLeft:0,
+    //   paddingRight:0,
+    // }
