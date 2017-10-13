@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import TileList from './TileList';
+import WeatherWidget from './WeatherWidget';
 //import EditTile from './EditTile';
 import WelcomeHeader from './WelcomeHeader';
 import Timeline from './Timeline';
@@ -8,6 +9,12 @@ import style from './style';
 
 
 class Plantir extends Component {
+      //weather api
+    // axios.get('http://api.openweathermap.org/data/2.5/forecast?q=Sydney&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
+    //   .then(res => {
+    //     this.setState({ temp: res.data.main.temp });
+    // })
+    //https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/03n.png
   constructor(props) {
     super(props);
     this.state = { 
@@ -20,7 +27,8 @@ class Plantir extends Component {
       searchRet: '43534',
       currentBiology: 'Biological Information',
       filter: 'None',
-
+      haveWeather: false,
+      weatherMess: '',
       searchHtml: 'tt',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
@@ -38,12 +46,28 @@ class Plantir extends Component {
     this.handleSunlightFilter = this.handleSunlightFilter.bind(this);
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
+    this.getWeather = this.getWeather.bind(this);
   }
+  getWeather(){
+    var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
+    axios.get(reqStr)
+      .then(res => {
+        this.setState({ weatherMess: res.data.list , haveWeather: true });
+    })
+  }
+
+
+
+
+
+
+
+
   loadTilesFromServer() {
     //if garden id has been submitted
     //console.log(this.state.currentBiology.usage)
     if (this.state.garden._id) {
-      //get token
+      //get token 
       var gardentoken = this.state.garden._id;
       axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
         .then(res => {
@@ -155,6 +179,7 @@ class Plantir extends Component {
     axios.get('http://localhost:3001/api/garden/'+token)
       .then(res => {
         this.setState({ garden: res.data });
+        this.getWeather();
         //this.loadTileTypesFromServer();
 
     })
@@ -240,11 +265,7 @@ class Plantir extends Component {
     this.setState({filter: e.target.value});
   }
   render() {
-    //weather api
-    // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
-    //   .then(res => {
-    //     this.setState({ temp: res.data.main.temp });
-    // })
+
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
@@ -291,31 +312,16 @@ class Plantir extends Component {
 
       <Timeline />
 
-      <center>
-        <textarea rows="4" cols="90"
-          value={JSON.stringify(this.state.currentBiology)}>
-        </textarea>
-      </center>
-
 
 
       </div> :null }
-
-
-        <form>
-          <button
-            style={ style.commentFormPost }
-            value='submit no refresh' 
-            onClick={ this.handleSearchReq } 
-            > search
-          </button>
-          <input
-            type='text'
-            placeholder='search me!'
-            value={ this.state.tempVal }
-            onChange={this.handleSearchChange} />
-
-        </form>
+      {  (this.state.haveWeather) ?
+        <div>
+          <WeatherWidget
+            weatherMess={this.state.weatherMess}
+            check="alalal"
+          />
+        </div> :null }
       </div>
 
       )
