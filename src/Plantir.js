@@ -34,6 +34,7 @@ class Plantir extends Component {
     this.handleSunlightFilter = this.handleSunlightFilter.bind(this);
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
+    this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -211,7 +212,19 @@ class Plantir extends Component {
     this.setState({filter: e.target.value});
   }
   handleCreateTileClicked(e){
-    //TODO CREATE NEW TILE HERE
+    console.log(this.state);
+    axios.post('http://localhost:3001/api/tile/', {
+      parentgarden: this.state.garden._id,
+      tiletype: "59cf36be829c56459f23ea37",
+        tileprops: {
+          soiltype: "Peaty",
+          ph: 5,
+          sunlight: "None",
+          moisture: "Drenched"
+        },
+    }).then(res => {
+      console.log(res);
+    })
   }
   render() {
     //weather api

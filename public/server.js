@@ -243,7 +243,8 @@ router.route('/tile')
         	res.send(err);
 
       		res.json({ message: 'Tile created!',
-      			       tileid: tile._id });
+      			       tileid: tile._id , parent: tile.parentgarden
+                  });
     	});
 });
 
