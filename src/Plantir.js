@@ -210,6 +210,9 @@ class Plantir extends Component {
   handleMoistureFilter(e) {
     this.setState({filter: e.target.value});
   }
+  handleCreateTileClicked(e){
+    //TODO CREATE NEW TILE HERE
+  }
   render() {
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
@@ -252,6 +255,7 @@ class Plantir extends Component {
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
+        onCreateTile={this.handleCreateTileClicked}
         data={ this.state.data }
         filterState = {this.state.filter} 
         tiletypes={this.state.tiletypes} />

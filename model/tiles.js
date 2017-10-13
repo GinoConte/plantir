@@ -23,10 +23,10 @@ var TileSchema = new Schema({
 	},
 	gridorder: Number,
 	lastwatered: Date,
-	x: Number,
+	/*x: Number,
 	y: Number,
 	width: Number,
-	height: Number,
+	height: Number,*/
 });
 
 

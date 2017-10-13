@@ -36,6 +36,7 @@ class TileList extends Component {
     console.log(layout);
     this.setState({ layouts: layout });
     this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.handleCreateTile = this.handleCreateTile.bind(this);
   }
 
   onLayoutChange(layout) {
@@ -63,6 +64,11 @@ class TileList extends Component {
 
   appendTileNum(str, num){
     return str + num.toString();
+  }
+
+  handleCreateTile(e) {
+    e.preventDefault();
+    this.props.onCreateTile();
   }
 
   render() {
@@ -128,10 +134,13 @@ class TileList extends Component {
       this.setState({loaded: true});
     }
     return (
+      <div>
+      <button onClick={this.handleCreateTile}>Create Tile</button>
       <ReactGridLayout layout={this.state.layout} onLayoutChange={this.onLayoutChange}
           {...this.props}>
         {tileNodes}
       </ReactGridLayout>
+      </div>
     )
   }
 }

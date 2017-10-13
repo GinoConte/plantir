@@ -7,6 +7,7 @@ var Schema = mongoose.Schema;
 var GardenSchema = new Schema({
 	_id : Schema.Types.ObjectId,
 	location : String,
+	layout : [String]
 	//tiles : [{type: Schema.Types.ObjectId, ref: 'Tile'}]
 });
 

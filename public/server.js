@@ -120,7 +120,8 @@ router.route('/garden')
 	.post(function(req, res) {
     	var garden = new Garden({
     		_id: new mongoose.Types.ObjectId(),
-    		location: 'Sydney'
+    		location: 'Sydney',
+        layout: []
     		//location: req.body.location;
     	});
     	//garden.location = req.body.location;
@@ -160,10 +161,10 @@ router.route('/garden')
 	        		},
 	        		gridorder: i,
 	        		lastwatered: new Date("13 Mar 2010"), //fake date to test watering function
-              x: i,
+              /*x: i,
               y: i,
               width: 2,
-              height: 4,
+              height: 4,*/
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 
@@ -190,6 +191,7 @@ router.route('/garden/:garden_id')
     		if (err)
     		res.send(err);
         	(req.body.location) ? garden.location = req.body.location : null;
+          (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
             	if (err)
             	res.send(err);
@@ -230,10 +232,10 @@ router.route('/tile')
     			sunlight: req.body.sunlight,
     			moisture: req.body.moisture
     		},
-    		x: req.body.x,
+    		/*x: req.body.x,
     		y: req.body.y,
     		height: req.body.height,
-    		width: req.body.width,
+    		width: req.body.width,*/
     		//location: req.body.location;
     	});
     	tile.save(function(err) {
@@ -257,10 +259,10 @@ router.route('/tile/:tile_id')
 	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
 	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
 	        	(req.body.lastwatered) ? tile.lastwatered = req.body.lastwatered : null;
-	        	(req.body.x) ? tile.x = req.body.x : null;
+	        	/*(req.body.x) ? tile.x = req.body.x : null;
 	        	(req.body.y) ? tile.y = req.body.y : null;
 	        	(req.body.height) ? tile.height = req.body.height : null;
-	        	(req.body.width) ? tile.width = req.body.width : null;
+	        	(req.body.width) ? tile.width = req.body.width : null;*/
 
 	        	tile.save(function(err) {
 	            	if (err)
@@ -362,6 +364,7 @@ router.route('/tiletype/name/:tiletypename')
   			res.json(tiletype)
   		});
 });
+
 
 //Use our router configuration when we call /api
 app.use('/api', router);
