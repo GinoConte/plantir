@@ -443,22 +443,27 @@ class Tile extends Component {
         </div>
         <Center>
           <br></br>
-          <button onClick={this.closeModal}>Close</button>
-        </Center>
           <form>
+
+          <input
+            type='text'
+            placeholder='search me!'
+            style={ style.searchFormText}
+            value={ this.state.tempVal }
+            onChange={this.handleSearchChange} />
+
           <button
             style={ style.commentFormPost }
             value='submit no refresh' 
             onClick={ this.handleSearchReq } 
             > search
           </button>
-          <input
-            type='text'
-            placeholder='search me!'
-            value={ this.state.tempVal }
-            onChange={this.handleSearchChange} />
+          <button onClick={this.closeModal} style={ style.commentFormPost }>Close</button>
 
           </form>
+        </Center>
+
+
           { (this.state.isResult)
             ? <ResultIcon
             results={this.state.searchRet}>

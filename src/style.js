@@ -116,6 +116,15 @@ const style = {
     letterSpacing:'.055rem',
     border:'none'
   },
+  searchFormText: {
+    flex:'4',
+    minWidth:'250px',
+    margin:'3px',
+    padding:'0 10px',
+    height:'40px',
+    borderRadius:'3px'
+  },
+
   updateLink: {
     textDecoration:'none',
     paddingRight:'15px',
