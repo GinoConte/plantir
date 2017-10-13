@@ -42,7 +42,7 @@ class ResultIcon extends Component{
          //    retString = retString + '<p><i>' +  j['scientific']  +  '</i></p>'
 	        // }
 
-	        retString = retString + '<article class="search-result row"><div class="col-xs-12 col-sm-12 col-md-3"><a href="https://davesgarden.com'+j['link'] +'" target="_blank" title="Lorem ipsum" class="thumbnail">';
+	        retString = retString + '<article class="search-result row"><div class="col-xs-12 col-sm-12 col-md-3"><a href="https://davesgarden.com'+j['link'] +'" title="Lorem ipsum" class="thumbnail">';
 
 
 
@@ -56,7 +56,7 @@ class ResultIcon extends Component{
             }
         	retString = retString + '<a href="#" onClick="tempFunc(' +  j['id']  +  ')">'+ nameStr +'</a>'//ugly code alert
             retString = retString + '<p><i>' +  j['scientific']  +  '</i></p>'
-            retString = retString + '<span class="plus"><a href="#" onClick="tempFunc(' +  j['id']  +  ')" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span></div><span class="clearfix borda"></span></article>'
+            retString = retString + '<span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span></div><span class="clearfix borda"></span></article>'
 	        }
 	      }
 	    }//onClick="tempFunc(' +  j['id']  +  ')"

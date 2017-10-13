@@ -459,13 +459,10 @@ class Tile extends Component {
             onChange={this.handleSearchChange} />
 
           </form>
-          <p>d</p>
           { (this.state.isResult)
             ? <ResultIcon
             results={this.state.searchRet}>
           </ResultIcon>:null}
-          <p>ddd</p>
-
         </Modal>
         </center>
 
