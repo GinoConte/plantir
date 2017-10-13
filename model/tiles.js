@@ -22,6 +22,7 @@ var TileSchema = new Schema({
 		moisture: String,
 	},
 	gridorder: Number,
+	davesgardenid: Number,
 	lastwatered: Date,
 	x: Number,
 	y: Number,

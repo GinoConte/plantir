@@ -55,6 +55,7 @@ class TileList extends Component {
           tileprops={tile.tileprops}
           gridorder={tile.gridorder} 
           lastwatered={tile.lastwatered} 
+          davesgardenid={tile.davesgardenid}
           tiletypename={tile['tiletypename']}
           tiletypecolour={tile['tiletypecolour']}
           tiletypeinfo = {tile['tiletypeinfo']}  
