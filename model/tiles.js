@@ -23,6 +23,7 @@ var TileSchema = new Schema({
 	},
 	gridorder: Number,
 	davesgardenid: Number,
+	imglink: String,
 	lastwatered: Date,
 	x: Number,
 	y: Number,

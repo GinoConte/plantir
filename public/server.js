@@ -159,6 +159,7 @@ router.route('/garden')
 	        			moisture: "Moderate"
 	        		},
               davesgardenid: -1,
+              imglink: 'https://i.pinimg.com/236x/c4/ee/45/c4ee45976bd00727d6c8f90fb03c6eb3--icon-png-pixel-art.jpg',
 	        		gridorder: i,
 	        		lastwatered: new Date("13 Mar 2010") //fake date to test watering function
 	        	});
@@ -255,6 +256,7 @@ router.route('/tile/:tile_id')
 	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
 	        	(req.body.lastwatered) ? tile.lastwatered = req.body.lastwatered : null;
             (req.body.davesgardenid) ? tile.davesgardenid = req.body.davesgardenid : null;
+            (req.body.imglink) ? tile.imglink = req.body.imglink : null;
 	        	(req.body.x) ? tile.x = req.body.x : null;
 	        	(req.body.y) ? tile.y = req.body.y : null;
 	        	(req.body.height) ? tile.height = req.body.height : null;

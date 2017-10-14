@@ -4,7 +4,7 @@ import style from './style';
 class WelcomeHeader extends Component {
   constructor(props) {
     super(props);
-    this.state = { gardenid: '59e13addb5cdbea94da19eef' };
+    this.state = { gardenid: '59e1d08098987fc2c06dee24' };
     this.handleTokenChange = this.handleTokenChange.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

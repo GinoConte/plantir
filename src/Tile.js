@@ -232,14 +232,15 @@ class Tile extends Component {
     this.setState({isResult: true});
 
   }
-  handleResultClicked(dgId){
+  handleResultClicked(dgId, imglink){
     //e.preventDefault();
     //this.setState({isResult:false});\
 
     //we need to change the davesgardenid of the tile
     let tileId = this.props.uniqueID;
     let tempTile = {
-      davesgardenid: dgId
+      davesgardenid: dgId,
+      imglink: imglink,
     }
     this.props.onPlotUpdate(tileId, tempTile);
 
@@ -250,7 +251,10 @@ class Tile extends Component {
   findPlantFromId(dgId){
     axios.get('http://localhost:3001/api/search/'+dgId)
       .then(res =>{
-        this.setState({ davesgardenplant: res.data });
+        let plantname = res.data.name;
+        let regex = /^([A-Za-z0-9\s]+),.*/g;
+        let match = regex.exec(plantname);
+        this.setState({ davesgardenplant: match[1] });
           let p = this.state.davesgardenplant;
           console.log(p);
           //this.handleParseSearch();
@@ -263,7 +267,11 @@ class Tile extends Component {
   render() {
 
     //check if tiletype is davesgarden plant or default tiletype
-    var tileName = this.props.tiletypename;
+    if (this.state.davesgardenplant === '') {
+          var tileName = this.props.tiletypename;
+    } else {
+      var tileName = this.state.davesgardenplant;
+    }
     if (this.props.davesgardenid == -1) {
       //custom plant
     } else {
@@ -271,7 +279,8 @@ class Tile extends Component {
         this.findPlantFromId(this.props.davesgardenid);
         //this.setState({davesgardenplant: 'nope'})
         //console.log(this.props.tiletypename);
-        console.log("hfigohdfihjdfsh");
+        tileName = this.state.davesgardenplant;
+        console.log(tileName);
       }
     }
 
@@ -363,7 +372,7 @@ class Tile extends Component {
           }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={flowerImages[this.props.tiletypename]} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={this.props.imglink} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{flowerInfo[this.props.tiletypename]}</b></p>
             <p>{flowerSunInfo[this.props.tiletypename]}</p>

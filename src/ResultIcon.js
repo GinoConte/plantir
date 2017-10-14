@@ -13,7 +13,13 @@ class ResultIcon extends Component{
 		 	tempString: '',
 		 	importants:[],
 		 	id:-1,
+		 	imglinks: [],
 		};
+
+    	this.handleResultClick = this.handleResultClick.bind(this);
+
+
+
 		var p = this.state.bigDict;
 	    console.log(Object.keys(p).length);
 	    var retString = ''; //our html formatted string
@@ -22,7 +28,7 @@ class ResultIcon extends Component{
 	      console.log("empty response!");
 	      retString = "<p>No results found!</p>";
 	    } else {
-
+	      var foundimglinks = [];	
 	      for (var key in p){
 
 	        if(p.hasOwnProperty(key)){
@@ -48,8 +54,12 @@ class ResultIcon extends Component{
 
 
 	        if ('imgLink' in j){//if an image is provided for thumbnail
-	        	retString = retString + '<img src="'+  j['imgLink']  +'"  alt="'+ j['imgAlt'] +'" /></a></div><div class="col-xs-12 col-sm-12 col-md-9 excerpet">';
-						
+	        	retString = retString + '<img src="'+  j['imgLink']  +'"  alt="'+ j['imgAlt'] +'" /></a></div><div class="col-xs-12 col-sm-12 col-md-9 excerpet">';	
+            	var imgid = {
+            		id:  j['id'],
+            		imglink: j['imgLink'],
+            	}
+            	foundimglinks.push(imgid);
             	//retString = retString + '<a href="' + j['link'] +'"><img src="'+  j['imgLink'] +'" width="82" height="86" title="'+ j['imgAlt'] +'" alt="'+ j['imgAlt'] +'"></a>';
             } else {//otherwise just use the default image
             	retString = retString + '<img src="'+  defImg  +'"  alt="default icon" /></a></div><div class="col-xs-12 col-sm-12 col-md-9 excerpet">';;
@@ -59,15 +69,29 @@ class ResultIcon extends Component{
             retString = retString + '<span class="plus"><a href="#" onClick="tempFunc(' +  j['id']  +  ')" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span></div><span class="clearfix borda"></span></article>'
 	        }
 	      }
+
+	      //console.log(foundimglinks);
 	    }//onClick="tempFunc(' +  j['id']  +  ')"
+	    this.state.imglinks = foundimglinks;
 	    this.state.tempString = retString;
-    	this.handleResultClick = this.handleResultClick.bind(this);
+	    //this.setState({tempString: retString});
+
 	}
 
 	handleResultClick(e){ //ideally this will call props.updatetiletype etc with the id of the plant that it has chosen
 		e.preventDefault();
-		this.props.onResultClicked(e.target.value);
-		console.log(e.target.value + "IT WORKED");
+		var imglink = 'https://i.pinimg.com/236x/c4/ee/45/c4ee45976bd00727d6c8f90fb03c6eb3--icon-png-pixel-art.jpg';
+		//console.log(this.state.imglinks);
+		for(var i = 0; i<this.state.imglinks.length; i++) {
+			if (this.state.imglinks[i].id === e.target.value) {
+				imglink = this.state.imglinks[i].imglink;
+				//console.log("found %$#%#@$%#$%#$% " + imglink);
+			}
+		}
+		//imglink = this.state.imglinks[]
+		this.props.onResultClicked(e.target.value, imglink);
+		//console.log(this.state.imglinks);
+		//console.log(e.target.value + "IT WORKED");
 	}
 
 //this shit is super hacky lmao

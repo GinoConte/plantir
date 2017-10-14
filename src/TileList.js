@@ -56,6 +56,7 @@ class TileList extends Component {
           gridorder={tile.gridorder} 
           lastwatered={tile.lastwatered} 
           davesgardenid={tile.davesgardenid}
+          imglink={tile.imglink} 
           tiletypename={tile['tiletypename']}
           tiletypecolour={tile['tiletypecolour']}
           tiletypeinfo = {tile['tiletypeinfo']}  
