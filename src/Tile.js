@@ -27,6 +27,11 @@ class Tile extends Component {
       tempVal:'',
       isResult:false,
       davesgardenplant: '',
+      davesgardenph: '',
+      davesgardensun: '',
+      davesgardenwater: '',
+      davesgardenbloom: '',
+      davesgardensci: '',
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -252,12 +257,30 @@ class Tile extends Component {
   findPlantFromId(dgId){
     axios.get('http://localhost:3001/api/search/'+dgId)
       .then(res =>{
+        //set name (only take first couple words)
         let plantname = res.data.name;
         let regex = /^([A-Za-z0-9\s]+),.*/g;
         let match = regex.exec(plantname);
         this.setState({ davesgardenplant: match[1] });
-          let p = this.state.davesgardenplant;
-          console.log(p);
+        let p = this.state.davesgardenplant;
+        console.log(p);
+
+        //set ph
+        let ph = res.data['Soil pH requirements'];
+        this.setState({ davesgardenph: ph });
+
+        //set bloom time
+        let bloom = res.data['Bloom Time'];
+        this.setState({ davesgardenbloom: bloom });
+
+        //set scientific name
+        let sci = res.data['scientific'];
+        this.setState({ davesgardensci: sci });
+
+        //set watering
+        let water = res.data['Water Requirements'];
+        this.setState({ davesgardenwater: water });
+
           //this.handleParseSearch();
     })
   }
@@ -378,10 +401,12 @@ class Tile extends Component {
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<center><img src={this.props.imglink} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
-            <p><b>{flowerInfo[this.props.tiletypename]}</b></p>
-            <p>{flowerSunInfo[this.props.tiletypename]}</p>
-            <p>{flowerMoistureInfo[this.props.tiletypename]}</p>
-            <p>{flowerPHInfo[this.props.tiletypename]}</p>
+            <p><b>{this.state.davesgardenplant}</b></p>
+            <p><i>{this.state.davesgardensci}</i></p>
+            <p>pH Requirements: {this.state.davesgardenph}</p>
+            <p>Watering frequency: {this.state.davesgardenwater}</p>
+            <p>Sunlight needs: {this.state.davesgardensun}</p>
+            <p>Bloom time: {this.state.davesgardenbloom}</p>
             <p>Last watered: {this.props.lastwatered}</p>
           </ReactTooltip>
           </center>
@@ -464,10 +489,6 @@ class Tile extends Component {
                     <option value="Grass">Grass</option>
                     <option value="House">House</option>
                     <option value="Path">Path</option>
-                    <option value="Sunflower">Sunflower</option>
-                    <option value="Daisy">Daisy</option>
-                    <option value="Rose">Rose</option>
-                    <option value="Violet">Violet</option>
                   </select>
                   <input
                     type='submit'
