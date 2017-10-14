@@ -246,6 +246,7 @@ class Tile extends Component {
 
     //and we need to change the tiletype of the tile to "other plant"
     this.props.onTileTypeUpdate(tileId, "Other plant");
+    this.setState({davesgardenplant: ''});
 
   }
   findPlantFromId(dgId){
@@ -274,6 +275,9 @@ class Tile extends Component {
     }
     if (this.props.davesgardenid == -1) {
       //custom plant
+      if (!(this.state.davesgardenplant === this.props.tiletypename)) {
+              this.setState({davesgardenplant: this.props.tiletypename});
+      }
     } else {
       if (this.state.davesgardenplant === '') {
         this.findPlantFromId(this.props.davesgardenid);
@@ -361,7 +365,7 @@ class Tile extends Component {
 //{this.props.gridorder} 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
-        <center><b>&nbsp;{tileName}&nbsp;&nbsp;</b>
+        <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button
             style={style.emptybutton}
