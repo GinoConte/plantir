@@ -158,6 +158,7 @@ router.route('/garden')
 	        			sunlight: "Moderate",
 	        			moisture: "Moderate"
 	        		},
+              davesgardenid: -1,
 	        		gridorder: i,
 	        		lastwatered: new Date("13 Mar 2010") //fake date to test watering function
 	        	});
@@ -253,6 +254,7 @@ router.route('/tile/:tile_id')
 	        	(req.body.soiltype) ? tile.tileprops.soiltype = req.body.soiltype : null;
 	        	(req.body.tiletype) ? tile.tiletype = req.body.tiletype : null;
 	        	(req.body.lastwatered) ? tile.lastwatered = req.body.lastwatered : null;
+            (req.body.davesgardenid) ? tile.davesgardenid = req.body.davesgardenid : null;
 	        	(req.body.x) ? tile.x = req.body.x : null;
 	        	(req.body.y) ? tile.y = req.body.y : null;
 	        	(req.body.height) ? tile.height = req.body.height : null;
@@ -326,7 +328,6 @@ router.route('/tiletype')
     		isplant: req.body.isplant,
     		info: "Default",
     		tilecolour: req.body.tilecolour,
-    		davesgardenid: -1,
     		//location: req.body.location;
     	});
     	tiletype.save(function(err) {

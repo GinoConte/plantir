@@ -61,11 +61,12 @@ class ResultIcon extends Component{
 	      }
 	    }//onClick="tempFunc(' +  j['id']  +  ')"
 	    this.state.tempString = retString;
-    	this.resClick = this.resClick.bind(this);
+    	this.handleResultClick = this.handleResultClick.bind(this);
 	}
 
-	resClick(e){ //ideally this will call props.updatetiletype etc with the id of the plant that it has chosen
+	handleResultClick(e){ //ideally this will call props.updatetiletype etc with the id of the plant that it has chosen
 		e.preventDefault();
+		this.props.onResultClicked(e.target.value);
 		console.log(e.target.value + "IT WORKED");
 	}
 
@@ -89,7 +90,7 @@ class ResultIcon extends Component{
 
 			<div style={{width:450, height: 300, overflow:'scroll', fontSize:'2rem'}}>			
 				<form>
-				  <button style={{display: 'none'}} id="sneakyButton" value="submit_value" onClick={this.resClick}/>
+				  <button style={{display: 'none'}} id="sneakyButton" value="submit_value" onClick={this.handleResultClick}/>
 				</form>
 				<section className="col-xs-12 col-sm-6 col-md-12" dangerouslySetInnerHTML={{ __html: this.state.tempString }}/>
 

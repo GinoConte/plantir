@@ -26,6 +26,7 @@ class Tile extends Component {
       retString:'',
       tempVal:'',
       isResult:false,
+      davesgardenplant: '',
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -43,16 +44,22 @@ class Tile extends Component {
     this.handleTileTypeUpdate = this.handleTileTypeUpdate.bind(this);
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
+    this.handleResultClicked = this.handleResultClicked.bind(this);
 
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleParseSearch = this.handleParseSearch.bind(this);
+    this.findPlantFromId = this.findPlantFromId.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
 
     this.appendTileNum = this.appendTileNum.bind(this);
+
+
+
+
   }
   updateTile(e) {
     e.preventDefault();
@@ -225,12 +232,49 @@ class Tile extends Component {
     this.setState({isResult: true});
 
   }
+  handleResultClicked(dgId){
+    //e.preventDefault();
+    //this.setState({isResult:false});\
+
+    //we need to change the davesgardenid of the tile
+    let tileId = this.props.uniqueID;
+    let tempTile = {
+      davesgardenid: dgId
+    }
+    this.props.onPlotUpdate(tileId, tempTile);
+
+    //and we need to change the tiletype of the tile to "other plant"
+    this.props.onTileTypeUpdate(tileId, "Other plant");
+
+  }
+  findPlantFromId(dgId){
+    axios.get('http://localhost:3001/api/search/'+dgId)
+      .then(res =>{
+        this.setState({ davesgardenplant: res.data });
+          let p = this.state.davesgardenplant;
+          console.log(p);
+          //this.handleParseSearch();
+    })
+  }
 
 
 
 
   render() {
-    //check if tile is plant or not
+
+    //check if tiletype is davesgarden plant or default tiletype
+    var tileName = this.props.tiletypename;
+    if (this.props.davesgardenid == -1) {
+      //custom plant
+    } else {
+      if (this.state.davesgardenplant === '') {
+        this.findPlantFromId(this.props.davesgardenid);
+        //this.setState({davesgardenplant: 'nope'})
+        //console.log(this.props.tiletypename);
+        console.log("hfigohdfihjdfsh");
+      }
+    }
+
 
     var contents = "Change Tile";
     // if( this.state.retString == ''){
@@ -241,32 +285,32 @@ class Tile extends Component {
     }
 
     var flowerImages = {};
-    flowerImages["Violet"] = "https://pbs.twimg.com/profile_images/3126414057/556f01d63b0e2bb607bed06ff359ce84.jpeg";
+    flowerImages["Other plant"] = "https://p.memecdn.com/avatars/s_15452_506ee39357ccf.jpg";
     flowerImages["Sunflower"] = "https://pbs.twimg.com/profile_images/639501065210105860/BntxzORs.jpg";
     flowerImages["Daisy"] = "https://68.media.tumblr.com/avatar_d6bca09754c0_128.png";
     flowerImages["Rose"] = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Rose_Ingrid_Bergmann.jpg/256px-Rose_Ingrid_Bergmann.jpg";
     flowerImages["nothing"] = "https://p.memecdn.com/avatars/s_15452_506ee39357ccf.jpg"
 
     var flowerInfo = {};
-    flowerInfo["Violet"] = "Violet Information";
+    flowerInfo["Other plant"] = "Violet Information";
     flowerInfo["Sunflower"] = "Sunflower Information";
     flowerInfo["Daisy"] = "Daisy Information"; 
     flowerInfo["Rose"] = "Rose Information";
 
     var flowerSunInfo = {};
-    flowerSunInfo["Violet"] = "Required Sun Exposure: Full Sun";
+    flowerSunInfo["Other plant"] = "Required Sun Exposure: Full Sun";
     flowerSunInfo["Sunflower"] = "Required Sun Exposure: Full Sun";
     flowerSunInfo["Daisy"] = "Required Sun Exposure: Sun to Partial Shade";  
     flowerSunInfo["Rose"] = "Required Sun Exposure: Full Sun";
 
     var flowerMoistureInfo = {};
-    flowerMoistureInfo["Violet"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
+    flowerMoistureInfo["Other plant"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
     flowerMoistureInfo["Sunflower"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
     flowerMoistureInfo["Daisy"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";  
     flowerMoistureInfo["Rose"] = "Water Requirements: Average Water Needs; Water regularly; do not overwater";
 
     var flowerPHInfo = {};
-    flowerPHInfo["Violet"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
+    flowerPHInfo["Other plant"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
     flowerPHInfo["Sunflower"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
     flowerPHInfo["Daisy"] = "Soil pH requirements: 6.6 to 7.5 (neutral)";
     flowerPHInfo["Rose"] = "Soil pH requirements: 6.1 to 6.5 (mildly acidic)";
@@ -308,7 +352,7 @@ class Tile extends Component {
 //{this.props.gridorder} 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
-        <center><b>&nbsp;{this.props.tiletypename}&nbsp;&nbsp;</b>
+        <center><b>&nbsp;{tileName}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button
             style={style.emptybutton}
@@ -356,7 +400,7 @@ class Tile extends Component {
                 <li>Sunlight: {this.props.tileprops.sunlight}</li>
                 <li>pH balance: {this.props.tileprops.ph}</li>
                 <li>Last watered: {this.props.lastwatered.toString()}</li>
-                
+                <li>Ds G ID: {this.props.davesgardenid}</li>
               </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
@@ -466,7 +510,8 @@ class Tile extends Component {
 
           { (this.state.isResult)
             ? <ResultIcon
-            results={this.state.searchRet}>
+            results={this.state.searchRet}
+            onResultClicked={this.handleResultClicked}>
           </ResultIcon>:null}
         </Modal>
         </center>
