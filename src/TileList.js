@@ -1,10 +1,58 @@
 import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
+import Checkbox from './Checkbox';
 
 //import { Container, Row, Col } from 'reactstrap';
 
+    //not sure how to set the whole tileNodes into items as label for checkbox dynamically 
+    //eg according to its length
+
+    const items = ['0','1','2','3','4','5',
+                  '6','7','8','9','10','11',
+                  '12','13','14','15','16','17',
+                  '18','19','20','21','22','23',
+                  '24',];
+
+
 class TileList extends Component {
+    //-----------checkbox stuff here------//
+
+    componentWillMount = () => {
+      this.selectedCheckboxes = new Set();
+    }
+
+    toggleCheckbox = label => {
+      if (this.selectedCheckboxes.has(label)) {
+        this.selectedCheckboxes.delete(label);
+      } else {
+        this.selectedCheckboxes.add(label);
+      }
+    }
+
+    handleFormSubmit = formSubmitEvent => {
+      formSubmitEvent.preventDefault();
+
+      for (const checkbox of this.selectedCheckboxes) {
+        console.log(checkbox, 'is selected.');
+      }
+    }
+
+    createCheckbox = label => (
+      <Checkbox 
+              label={label}
+              handleCheckboxChange={this.toggleCheckbox}
+              key={label} />
+    )
+
+    createCheckboxes = () => (
+      items.map(this.createCheckbox)
+    )
+
+    //------------------------------
+
+
+
   render() {
     var test="nope";
     if(this.props.tiletypes.length > 0) {
@@ -65,6 +113,8 @@ class TileList extends Component {
       )
     })
 
+
+    
     // let myPaddingStyle = {
     //   paddingTop: 0,
     //   paddingBottom: 0,
@@ -75,7 +125,13 @@ class TileList extends Component {
 
     return (
       <div style={ style.commentList }>
+        <form onSubmit={this.handleFormSubmit}>
+          {this.createCheckboxes()}
+
+          <button className="btn btn-default" type="submit">Multiple Orders</button>
+        </form>
         {tileNodes}
+        
       </div>  
     )
   }
