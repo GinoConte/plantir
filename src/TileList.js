@@ -45,15 +45,17 @@ class TileList extends Component {
     console.log('bye');
     this.setState({layout});
     this.props.onLayoutChange(layout); // updates status display
+    this.props.onLayoutAltered(layout);
   }
 
   generateLayout(){
-    var tiles = this.props.data.slice();
+    /*var tiles = this.props.data.slice();
     let layout = tiles.map(tile => {
       return(
           {i:tile['_id'],x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}
       );
-    });
+    });*/
+    let layout = this.props.layout;
     return layout;
   }
 
@@ -72,6 +74,7 @@ class TileList extends Component {
   }
 
   render() {
+    console.log("rendering tilelist");
     var test="nope";
     if(this.props.tiletypes.length > 0) {
       test = "ho";
@@ -133,6 +136,7 @@ class TileList extends Component {
       this.updateLayout();
       this.setState({loaded: true});
     }
+    console.log("Returning from TileList");
     return (
       <div>
       <button onClick={this.handleCreateTile}>Create Tile</button>

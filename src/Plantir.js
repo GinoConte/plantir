@@ -5,6 +5,7 @@ import TileList from './TileList';
 import WelcomeHeader from './WelcomeHeader';
 import style from './style';
 
+
 class Plantir extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ class Plantir extends Component {
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
+    this.handleLayoutChanged = this.handleLayoutChanged.bind(this);
   }
   loadTilesFromServer() {
     //if garden id has been submitted
@@ -213,20 +215,30 @@ class Plantir extends Component {
   }
   handleCreateTileClicked(e){
     console.log(this.state);
-    axios.post('http://localhost:3001/api/tile/', {
+    let body = {
       parentgarden: this.state.garden._id,
-      tiletype: "59cf36be829c56459f23ea37",
-        tileprops: {
-          soiltype: "Peaty",
-          ph: 5,
-          sunlight: "None",
-          moisture: "Drenched"
-        },
-    }).then(res => {
+      tiletype: this.state.tiletypes[0],
+      soiltype: "Peaty",
+      ph: 5,
+      sunlight: "None",
+      moisture: "Drenched",
+      gridorder: 0,
+      lastwatered: new Date("13 Mar 2010"),
+    };
+    axios.post('http://localhost:3001/api/tile/', body).then(res => {
+      console.log(res);
+    })
+  }
+  handleLayoutChanged(layouts){
+    axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
+      location: this.state.garden.location,
+      layout: layouts
+    }).then(res =>{
       console.log(res);
     })
   }
   render() {
+    console.log("YOP");
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
     //   .then(res => {
@@ -269,9 +281,11 @@ class Plantir extends Component {
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
         onCreateTile={this.handleCreateTileClicked}
+        onLayoutAltered = {this.handleLayoutChanged}
         data={ this.state.data }
         filterState = {this.state.filter} 
-        tiletypes={this.state.tiletypes} />
+        tiletypes={this.state.tiletypes} 
+        layout = {this.state.garden.layout}/>
       
       <br></br>
       <center>

@@ -132,7 +132,7 @@ router.route('/garden')
 
 
         	//loop to add 25 tiles to create default demo house
-        	for (var i=0; i<4; i++) {
+        	/*for (var i=0; i<4; i++) {
         		//change to brick for demo purposes
         		//grass
         		var tiletypeobject = mongoose.Types.ObjectId("59cb40fa9b7ea709e92b151a")
@@ -164,14 +164,14 @@ router.route('/garden')
               /*x: i,
               y: i,
               width: 2,
-              height: 4,*/
+              height: 4,
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 
 	        		res.send(err);
 
 	        	})
-	        }
+	        }*/
 
       		res.json({ message: 'Garden created!',
       			       gardenid: garden._id });
@@ -222,10 +222,11 @@ router.route('/garden/:garden_id/findtiles')
 //POST -- CREATE A NEW TOKEN WITH PARENT GARDEN
 router.route('/tile')
 	.post(function(req, res) {
+      console.log(req);
     	var tile = new Tile({
     		_id: new mongoose.Types.ObjectId(),
-    		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
-    		tiletype: Schema.Types.ObjectId(req.body.tiletype),
+    		parentgarden: req.body.parentgarden,
+    		tiletype: req.body.tiletype,
     		tileprops: {
     			soiltype: req.body.soiltype,
     			ph: req.body.ph,
@@ -237,6 +238,8 @@ router.route('/tile')
     		height: req.body.height,
     		width: req.body.width,*/
     		//location: req.body.location;
+        gridorder: req.body.gridorder,
+        lastwatered: req.body.lastwatered,
     	});
     	tile.save(function(err) {
       		if (err)
