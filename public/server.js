@@ -193,10 +193,13 @@ router.route('/garden/:garden_id')
         	(req.body.location) ? garden.location = req.body.location : null;
           (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
-            	if (err)
-            	res.send(err);
-            	res.json({ message: 'Garden location has been updated' });
-        	});
+            	if (err){
+            	 res.send(err);
+              }
+              else{
+            	 res.json({ message: 'Garden information has been updated', layout: garden.layout});
+        	    } 
+          });
     	});
  	})
  	//delete method for removing a comment from our database

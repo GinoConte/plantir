@@ -154,6 +154,8 @@ class Plantir extends Component {
     axios.get('http://localhost:3001/api/garden/'+token)
       .then(res => {
         this.setState({ garden: res.data });
+        console.log("Garden Data");
+        console.log(res.data);
         //this.loadTileTypesFromServer();
 
     })
@@ -227,9 +229,18 @@ class Plantir extends Component {
     };
     axios.post('http://localhost:3001/api/tile/', body).then(res => {
       console.log(res);
-    })
+      console.log("Created tile information");
+      var oldLayout = this.state.garden.layout;
+      console.log(oldLayout);
+      oldLayout.push("{x:3, y:3, width:2, height:4, minW:2, minH:4, i:\"" + res.data.tileid + "\"}");
+      console.log(oldLayout);
+      this.handleLayoutChanged(oldLayout);
+    });
+
   }
   handleLayoutChanged(layouts){
+    console.log("handleLayoutChanged");
+    console.log(layouts);
     axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
       location: this.state.garden.location,
       layout: layouts
@@ -239,6 +250,7 @@ class Plantir extends Component {
   }
   render() {
     console.log("YOP");
+    console.log(this.state.garden.layout);
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
     //   .then(res => {
@@ -248,7 +260,7 @@ class Plantir extends Component {
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
       <center><p>Create a new garden or enter an existing token. Try: <b>59d60d3f1a6391924a745a40</b></p></center>
-      <center> mendel's testing garden: 59dc2a8bd718870fb7478b82 </center>
+      <center> mendel's testing garden: 59e1de87ee8a7c0bf0e2183d </center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />

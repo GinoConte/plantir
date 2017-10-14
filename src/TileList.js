@@ -20,7 +20,7 @@ class TileList extends Component {
     className: "layout",
     items: 1,
     rowHeight: 30,
-    onLayoutChange: function() {},
+    //onLayoutChange: function() {},
     cols: 12,
     compactType: null,
   };
@@ -39,15 +39,23 @@ class TileList extends Component {
     this.handleCreateTile = this.handleCreateTile.bind(this);
   }
 
-  onLayoutChange(layout) {
+  /*onLayoutChange(layout, layouts) {
+    alert("HI");
     console.log('hi');
-    console.log(layout);
+    console.log(layouts);
     console.log('bye');
+    this.setState({layouts});
+    //this.props.onLayoutChange(layouts); // updates status display
+    this.props.onLayoutAltered(layouts);
+  }*/
+  onLayoutChange(layout, layouts) {
+    //saveToLS('layouts', layouts);
+    //alert("HI");
+    console.log(layout);
+    console.log(layouts);
     this.setState({layout});
-    this.props.onLayoutChange(layout); // updates status display
     this.props.onLayoutAltered(layout);
   }
-
   generateLayout(){
     /*var tiles = this.props.data.slice();
     let layout = tiles.map(tile => {
@@ -140,7 +148,7 @@ class TileList extends Component {
     return (
       <div>
       <button onClick={this.handleCreateTile}>Create Tile</button>
-      <ReactGridLayout layout={this.state.layout} onLayoutChange={this.onLayoutChange}
+      <ReactGridLayout layout={this.props.layout} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout,layouts)}
           {...this.props}>
         {tileNodes}
       </ReactGridLayout>
