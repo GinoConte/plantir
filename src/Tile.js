@@ -26,6 +26,7 @@ class Tile extends Component {
       retString:'',
       tempVal:'',
       isResult:false,
+      davesgardenplant: '',
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -48,12 +49,17 @@ class Tile extends Component {
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleParseSearch = this.handleParseSearch.bind(this);
+    this.findPlantFromId = this.findPlantFromId.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
 
     this.appendTileNum = this.appendTileNum.bind(this);
+
+
+
+
   }
   updateTile(e) {
     e.preventDefault();
@@ -241,12 +247,34 @@ class Tile extends Component {
     this.props.onTileTypeUpdate(tileId, "Other plant");
 
   }
+  findPlantFromId(dgId){
+    axios.get('http://localhost:3001/api/search/'+dgId)
+      .then(res =>{
+        this.setState({ davesgardenplant: res.data });
+          let p = this.state.davesgardenplant;
+          console.log(p);
+          //this.handleParseSearch();
+    })
+  }
 
 
 
 
   render() {
-    //check if tile is plant or not
+
+    //check if tiletype is davesgarden plant or default tiletype
+    var tileName = this.props.tiletypename;
+    if (this.props.davesgardenid == -1) {
+      //custom plant
+    } else {
+      if (this.state.davesgardenplant === '') {
+        this.findPlantFromId(this.props.davesgardenid);
+        //this.setState({davesgardenplant: 'nope'})
+        //console.log(this.props.tiletypename);
+        console.log("hfigohdfihjdfsh");
+      }
+    }
+
 
     var contents = "Change Tile";
     // if( this.state.retString == ''){
@@ -324,7 +352,7 @@ class Tile extends Component {
 //{this.props.gridorder} 
     return (
       <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
-        <center><b>&nbsp;{this.props.tiletypename}&nbsp;&nbsp;</b>
+        <center><b>&nbsp;{tileName}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button
             style={style.emptybutton}
@@ -372,7 +400,7 @@ class Tile extends Component {
                 <li>Sunlight: {this.props.tileprops.sunlight}</li>
                 <li>pH balance: {this.props.tileprops.ph}</li>
                 <li>Last watered: {this.props.lastwatered.toString()}</li>
-                <li>D's G ID: {this.props.davesgardenid}</li>
+                <li>Ds G ID: {this.props.davesgardenid}</li>
               </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
               <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
