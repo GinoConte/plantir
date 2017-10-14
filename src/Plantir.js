@@ -232,7 +232,7 @@ class Plantir extends Component {
       console.log("Created tile information");
       var oldLayout = this.state.garden.layout;
       console.log(oldLayout);
-      oldLayout.push("{x:3, y:3, width:2, height:4, minW:2, minH:4, i:\"" + res.data.tileid + "\"}");
+      oldLayout.push({x:3, y:3, width:2, height:4, minW:2, minH:4, i: res.data.tileid});
       console.log(oldLayout);
       this.handleLayoutChanged(oldLayout);
     });
@@ -249,7 +249,7 @@ class Plantir extends Component {
     })
   }
   render() {
-    console.log("YOP");
+    console.log("Plantir.js garden.layout");
     console.log(this.state.garden.layout);
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')

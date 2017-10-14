@@ -82,7 +82,6 @@ class TileList extends Component {
   }
 
   render() {
-    console.log("rendering tilelist");
     var test="nope";
     if(this.props.tiletypes.length > 0) {
       test = "ho";
@@ -140,11 +139,10 @@ class TileList extends Component {
         </div>
       )
     })
-    if(this.state.loaded == false && tileNodes.length != 0){
+    /*if(this.state.loaded == false && tileNodes.length != 0){
       this.updateLayout();
       this.setState({loaded: true});
-    }
-    console.log("Returning from TileList");
+    }*/
     return (
       <div>
       <button onClick={this.handleCreateTile}>Create Tile</button>
