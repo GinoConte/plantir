@@ -76,6 +76,13 @@ else:
 	dumbCheck = soup.find(text = 'Not found')
 	if dumbCheck == None:
 		d={}
+		row = soup.h1
+		d['name'] = row.contents[0]
+		row = soup.h2
+		d['scientific'] = row.contents[0]
+
+
+
 		row = soup.h4
 
 		# print(temp)
