@@ -69,7 +69,7 @@ class WeatherWidget extends Component{
 		<div className="row row-no-gutter"  style={{ 'height' : '200px',}}>
 			<div className="col-md-4" style={{ 'background-color' : '#AAAAAA', 'height': '100%',}}>
 			<img src={this.state.finWea[0]['icon']} style={{'max-width':'50%','min-height': '100%', 'float': 'right','clear': 'right',}}/>
-			<div style={{ 'position' : 'relative', 'top': '50%', 'transform': 'translateY(-50%)',}}>
+			<div style={{ 'position' : 'relative', 'top': '50%', 'transform': 'perspective(1px) translateY(-50%)',}}>
 				<h2 style={{'margin-top':'0px','margin-bottom':'20px',}}>{this.state.finWea[0]['day']}</h2>
 				<h3 style={{}}>{this.state.finWea[0]['dateStr']}</h3>
 				<h4 style={{}}>{this.state.finWea[0]['temp']}°C</h4>
