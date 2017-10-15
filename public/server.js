@@ -120,7 +120,8 @@ router.route('/garden')
 	.post(function(req, res) {
     	var garden = new Garden({
     		_id: new mongoose.Types.ObjectId(),
-    		location: 'Sydney'
+    		location: 'Sydney',
+        layout: []
     		//location: req.body.location;
     	});
     	//garden.location = req.body.location;
@@ -166,7 +167,7 @@ router.route('/garden')
 	        	emptytile.save(function (err) {
 	        		if (err) 
 	        		res.send(err);
-
+              
 	        	})
 	        }
 
@@ -188,10 +189,11 @@ router.route('/garden/:garden_id')
     		if (err)
     		res.send(err);
         	(req.body.location) ? garden.location = req.body.location : null;
+          (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
             	if (err)
             	res.send(err);
-            	res.json({ message: 'Garden location has been updated' });
+            	res.json({ message: 'Garden location has been updated',layout: garden.layout });
         	});
     	});
  	})

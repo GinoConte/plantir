@@ -47,6 +47,7 @@ class Plantir extends Component {
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.getWeather = this.getWeather.bind(this);
+    this.handleLayoutChange = this.handleLayoutChange.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -264,6 +265,12 @@ class Plantir extends Component {
   handleMoistureFilter(e) {
     this.setState({filter: e.target.value});
   }
+  handleLayoutChange(layouts){
+    axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
+      location: this.state.garden.location,
+      layout: layouts
+    });
+  }
   render() {
 
     return ( 
@@ -298,6 +305,7 @@ class Plantir extends Component {
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
+        onLayoutChange={this.handleLayoutChange}
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
@@ -306,7 +314,8 @@ class Plantir extends Component {
         data={ this.state.data }
         filterState = {this.state.filter}
         searchRet = {this.state.searchRet} 
-        tiletypes={this.state.tiletypes} />
+        tiletypes={this.state.tiletypes}
+        layout = {this.state.garden.layout} />
       
       <br></br>
 

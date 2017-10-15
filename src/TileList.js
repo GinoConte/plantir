@@ -2,10 +2,32 @@ import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
 
+import RGL, { WidthProvider } from 'react-grid-layout';
+import PropTypes from 'prop-types';
+
+import '../node_modules/react-grid-layout/css/styles.css';
+import '../node_modules/react-resizable/css/styles.css';
+
 //import { Container, Row, Col } from 'reactstrap';
 
+const ReactGridLayout = WidthProvider(RGL);
+
 class TileList extends Component {
+  constructor(props){
+    super(props);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
+  }
+  onLayoutChange(layout){
+    console.log("On Layout Change");
+    if(typeof layout[0] !== "undefined"){
+      if(!(layout[0].w == 1 && layout[0].h == 1 && layout[0].x == 0)){
+        console.log(layout);
+        this.props.onLayoutChange(layout);
+      }
+    }
+  }
   render() {
+    console.log(this.props.layout);
     var test="nope";
     if(this.props.tiletypes.length > 0) {
       test = "ho";
@@ -33,11 +55,30 @@ class TileList extends Component {
           tiles[i].tiletypeinfo = tiletypes[j].info;
         }
       }
-    }
+    }//style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
+      let bgColor = tile['tiletypecolour'];
+      let key = tile['_id'].toString();
+      var x = 0;
+      var y = 0;
+      var w = 2;
+      var h = 4;
+      let minW = 2;
+      let minH = 4;
+      let vals = this.props.layout.filter(function (obj){
+        if(obj.i == tile['_id']){
+          x = obj.x;
+          y = obj.y;
+          w = obj.w;
+          h = obj.h;
+        }
+        return obj.i == tile['_id'];
+      });
       return (
+          <div key={key} data-grid={{w: w, h:h, x:x, y:y, minW: minW, minH: minH}}
+          style={Object.assign(style.tile, {backgroundColor: bgColor})} > 
         <Tile
           uniqueID={tile['_id']} 
           key={tile['_id']} 
@@ -62,6 +103,7 @@ class TileList extends Component {
           tiletypeinfo = {tile['tiletypeinfo']}  
           tiletypeisplant={tile['tiletypeisplant']}>
         </Tile>
+        </div>
       )
     })
 
@@ -70,13 +112,11 @@ class TileList extends Component {
     //   paddingBottom: 0,
     //   paddingLeft:0,
     //   paddingRight:0,
-    // }
-
-
+    // } layout={layout}
     return (
-      <div style={ style.commentList }>
+      <ReactGridLayout cols={12} rowHeight={30} onLayoutChange={this.onLayoutChange} compactType='vertical'>
         {tileNodes}
-      </div>  
+      </ReactGridLayout>  
     )
   }
 }
