@@ -48,6 +48,8 @@ class Plantir extends Component {
         .then(res => {
           this.setState({ data: res.data },
             function() {
+              console.log("loadTilesFromServer");
+              console.log(res.data);
               this.loadTileTypesFromServer();
             })
         })
@@ -217,6 +219,10 @@ class Plantir extends Component {
   }
   handleCreateTileClicked(e){
     console.log(this.state);
+    var tempGridorder = 0;
+    if(this.state.data.length != 0){
+      tempGridorder = this.state.data[this.state.data.length-1].gridorder + 1
+    }
     let body = {
       parentgarden: this.state.garden._id,
       tiletype: this.state.tiletypes[0],
@@ -224,23 +230,19 @@ class Plantir extends Component {
       ph: 5,
       sunlight: "None",
       moisture: "Drenched",
-      gridorder: 0,
+      gridorder: tempGridorder,
       lastwatered: new Date("13 Mar 2010"),
     };
     axios.post('http://localhost:3001/api/tile/', body).then(res => {
-      console.log(res);
       console.log("Created tile information");
+      console.log(res);
       var oldLayout = this.state.garden.layout;
-      console.log(oldLayout);
-      oldLayout.push({x:3, y:3, width:2, height:4, minW:2, minH:4, i: res.data.tileid});
-      console.log(oldLayout);
+      oldLayout.push({i: res.data.gridorder.toString(), x:3, y:3, w:2, h:4, minW:2, minH:4, static: true});
       this.handleLayoutChanged(oldLayout);
     });
 
   }
   handleLayoutChanged(layouts){
-    console.log("handleLayoutChanged");
-    console.log(layouts);
     axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
       location: this.state.garden.location,
       layout: layouts
@@ -249,18 +251,18 @@ class Plantir extends Component {
     })
   }
   render() {
-    console.log("Plantir.js garden.layout");
-    console.log(this.state.garden.layout);
     //weather api
     // axios.get('api.openweathermap.org/data/2.5/weather?q=Sydney&APPID=6a99ef09a79de9a2a3fa190f2d84a2df')
     //   .then(res => {
     //     this.setState({ temp: res.data.main.temp });
     // })
+    console.log("Plantir's garden layout");
+    console.log(this.state.garden.layout);
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
       <center><p>Create a new garden or enter an existing token. Try: <b>59d60d3f1a6391924a745a40</b></p></center>
-      <center> mendel's testing garden: 59e1de87ee8a7c0bf0e2183d </center>
+      <center> mendel's testing garden: 59e3502bde6806206cb13021 </center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
@@ -293,7 +295,7 @@ class Plantir extends Component {
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
         onCreateTile={this.handleCreateTileClicked}
-        onLayoutAltered = {this.handleLayoutChanged}
+        onLayoutChange = {this.handleLayoutChanged}
         data={ this.state.data }
         filterState = {this.state.filter} 
         tiletypes={this.state.tiletypes} 

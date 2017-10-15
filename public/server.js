@@ -132,7 +132,7 @@ router.route('/garden')
 
 
         	//loop to add 25 tiles to create default demo house
-        	/*for (var i=0; i<4; i++) {
+        	for (var i=0; i<4; i++) {
         		//change to brick for demo purposes
         		//grass
         		var tiletypeobject = mongoose.Types.ObjectId("59cb40fa9b7ea709e92b151a")
@@ -164,14 +164,14 @@ router.route('/garden')
               /*x: i,
               y: i,
               width: 2,
-              height: 4,
+              height: 4,*/
 	        	});
 	        	emptytile.save(function (err) {
 	        		if (err) 
 	        		res.send(err);
 
 	        	})
-	        }*/
+	        }
 
       		res.json({ message: 'Garden created!',
       			       gardenid: garden._id });
@@ -249,7 +249,7 @@ router.route('/tile')
         	res.send(err);
 
       		res.json({ message: 'Tile created!',
-      			       tileid: tile._id , parent: tile.parentgarden
+      			       tileid: tile._id , parent: tile.parentgarden, gridorder: tile.gridorder
                   });
     	});
 });

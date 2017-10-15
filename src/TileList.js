@@ -12,9 +12,9 @@ const ReactGridLayout = WidthProvider(RGL);
 
 class TileList extends Component {
   
-  static propTypes = {
+  /*static propTypes = {
     onLayoutChange: PropTypes.func.isRequired
-  };
+  };*/
 
   static defaultProps = {
     className: "layout",
@@ -27,42 +27,38 @@ class TileList extends Component {
 
   state = {
     layouts: [],
-    loaded: false,
   }
 
   constructor(props) {
     super(props);
-    const layout = this.generateLayout();
+    const layout = this.props.layout;
+    console.log("constructor tilelist layout");
     console.log(layout);
-    this.setState({ layouts: layout });
+    console.log("/constructor");
+    this.state ={
+      layouts: layout
+    }
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.handleCreateTile = this.handleCreateTile.bind(this);
   }
-
-  /*onLayoutChange(layout, layouts) {
-    alert("HI");
-    console.log('hi');
-    console.log(layouts);
-    console.log('bye');
-    this.setState({layouts});
-    //this.props.onLayoutChange(layouts); // updates status display
-    this.props.onLayoutAltered(layouts);
-  }*/
-  onLayoutChange(layout, layouts) {
-    //saveToLS('layouts', layouts);
-    //alert("HI");
-    console.log(layout);
-    console.log(layouts);
-    this.setState({layout});
-    this.props.onLayoutAltered(layout);
+  onLayoutChange(newLayout, layout) {
+    if(typeof newLayout[0] !== "undefined"){
+      if(!(newLayout[0].w == 1 && newLayout[0].h == 1 && newLayout[0].x == 0)){
+        console.log("On layout CHange");
+        console.log(layout);
+        console.log(newLayout);
+        this.setState({layouts : newLayout});
+        this.props.onLayoutChange(newLayout);
+      }
+    }
   }
-  generateLayout(){
+  /*generateLayout(){
     /*var tiles = this.props.data.slice();
     let layout = tiles.map(tile => {
       return(
           {i:tile['_id'],x:tile['x'], y:tile['y'],w:tile['width'],h:tile['height'], minW:2, minH:4}
       );
-    });*/
+    });
     let layout = this.props.layout;
     return layout;
   }
@@ -75,12 +71,11 @@ class TileList extends Component {
   appendTileNum(str, num){
     return str + num.toString();
   }
-
+*/
   handleCreateTile(e) {
     e.preventDefault();
     this.props.onCreateTile();
   }
-
   render() {
     var test="nope";
     if(this.props.tiletypes.length > 0) {
@@ -113,13 +108,26 @@ class TileList extends Component {
 
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
+      let key = tile['gridorder'].toString();
+      console.log(tile['gridorder'].toString());
+      let vals = this.props.layout.filter(function (obj){
+        console.log("Obj gridorder");
+        console.log(obj.i);
+        console.log("Tile gridorder");
+        console.log(tile['gridorder']);
+        if(obj.i == tile['gridorder'].toString()){
+          console.log("FOUND");
+        }
+        return obj.i == tile['gridorder'].toString();
+      });
+      console.log("vals");
+      console.log(vals);
       return (
-        <div key={tile['_id']} 
+        <div key={key} data-grid={{x: vals.x, y: vals.y, w: vals.w, h: vals.h}} 
           style={Object.assign(style.tile, {backgroundColor: tile['tiletypecolour']})} > 
-          {tile['_id']}
+          {tile['_id']} {vals.x} {vals.y} {vals.h} {vals.w}
           <Tile
             uniqueID={tile['_id']} 
-            key={tile['_id']} 
             onTileDelete={this.props.onTileDelete} 
             onPlotUpdate={this.props.onPlotUpdate} 
             onTileUpdate={this.props.onTileUpdate}  
@@ -139,16 +147,29 @@ class TileList extends Component {
         </div>
       )
     })
-    /*if(this.state.loaded == false && tileNodes.length != 0){
-      this.updateLayout();
-      this.setState({loaded: true});
-    }*/
+    console.log("Prop Layout");
+    console.log(this.props.layout);
+    console.log("State layout");
+    console.log(this.state.layouts);
+    var layoutasdfg = [
+      {i: 'a', x: 0, y: 0, w: 1, h: 2, static: true},
+      {i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
+      {i: 'c', x: 4, y: 0, w: 1, h: 2}
+    ];
+    /*console.log(typeof(this.state.layouts[0].i));
+    console.log(this.state.layouts[0].i);
+    /*let myLayout = [
+      {i: '59e2c53b9d88c20cc813a365', x: 2, y: 2, w: 2, h: 2, static: true},
+      {i: '59e2c5459d88c20cc813a366', x: 5, y: 0, w: 1, h: 4}
+    ];layout={this.state.layouts}
+    console.log("My layout");   {...this.props}  layout={this.props.layout}                  
+    console.log(myLayout);*/ 
     return (
       <div>
       <button onClick={this.handleCreateTile}>Create Tile</button>
-      <ReactGridLayout layout={this.props.layout} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout,layouts)}
-          {...this.props}>
-        {tileNodes}
+      <ReactGridLayout className="layout"  onLayoutChange={(layout, layouts) => this.onLayoutChange(layout,layouts)}
+          rowHeight={30} cols={12} compactType='null'>
+          {tileNodes}
       </ReactGridLayout>
       </div>
     )
@@ -156,7 +177,9 @@ class TileList extends Component {
 }
 
 export default TileList;
-
+/*        <div key="a">a</div>
+        <div key="b">b</div>
+        <div key="c">c</div> */
       // <Container>
       //   <div style = {myPaddingStyle} className = "col-md-2 ">
       //     {tileNodes.slice(0,2)}
