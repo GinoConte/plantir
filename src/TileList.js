@@ -61,9 +61,9 @@ class TileList extends Component {
       //Default sizes for new elements in the layout
       var x = 0;
       var y = 0;
-      var w = 2;
+      var w = 3;
       var h = 4;
-      let minW = 2;
+      let minW = 3;
       let minH = 4;
       let vals = this.props.layout.filter(function (obj){
         if(obj.i == tile['_id']){
