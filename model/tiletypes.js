@@ -11,7 +11,6 @@ var TileTypeSchema = new Schema({
 	isplant: Boolean, 
 	info: String,
 	tilecolour: String,
-	davesgardenid: Number,
 });
 
 //export our modules to use in server.js

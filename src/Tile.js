@@ -32,6 +32,8 @@ class Tile extends Component {
       davesgardenwater: '',
       davesgardenbloom: '',
       davesgardensci: '',
+      needswater: false,
+      daysnotwatered: 0,
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -61,6 +63,8 @@ class Tile extends Component {
     this.closeModal = this.closeModal.bind(this);
 
     this.appendTileNum = this.appendTileNum.bind(this);
+    this.setDaysNotWatered = this.setDaysNotWatered.bind(this);
+    this.setTileName = this.setTileName.bind(this);
 
 
 
@@ -109,16 +113,27 @@ class Tile extends Component {
       newtiletypename: '',
     })
 
+    //also update plot to have d's garden id of -1
+    let tempTile = {
+      davesgardenid: -1,
+    }
+    this.props.onPlotUpdate(tileId, tempTile);
+    this.setTileName();
+
   }
   handleBiologyClicked(e) {
     e.preventDefault();
     //let tileid = this.props.uniqueID;
     let name = this.props.tiletypename;
-    this.props.onBiologyClicked(name);
+    //this.props.onBiologyClicked(name);
   }
   handleWaterClicked(e) {
     e.preventDefault();
     this.props.onWaterClicked(this.props.uniqueID);
+    //reset needswater
+    this.setState({needswater: false,
+                   daysnotwatered: 0 });
+
   }
   deleteTile(e) {
     e.preventDefault();
@@ -251,6 +266,7 @@ class Tile extends Component {
 
     //and we need to change the tiletype of the tile to "other plant"
     this.props.onTileTypeUpdate(tileId, "Other plant");
+    this.setTileName();
     this.setState({davesgardenplant: ''});
 
   }
@@ -261,7 +277,11 @@ class Tile extends Component {
         let plantname = res.data.name;
         let regex = /^([A-Za-z0-9\s]+),.*/g;
         let match = regex.exec(plantname);
-        this.setState({ davesgardenplant: match[1] });
+        if (match) {
+          this.setState({ davesgardenplant: match[1] });
+        } else {
+          this.setState({ davesgardenplant: plantname.substring(0,12) }); //character limit to stay on one line
+        }
         let p = this.state.davesgardenplant;
         console.log(p);
 
@@ -284,33 +304,56 @@ class Tile extends Component {
           //this.handleParseSearch();
     })
   }
+  setDaysNotWatered() {
+    //check if lastwatered is >7 days i.e it needs water
+    var oneDay = 24*60*60*1000;
+    var firstDate = new Date(this.props.lastwatered);
+    var secondDate = new Date();
+    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 
-
-
-
-  render() {
-
-    //check if tiletype is davesgarden plant or default tiletype
-    if (this.state.davesgardenplant === '') {
-          var tileName = this.props.tiletypename;
-    } else {
-      var tileName = this.state.davesgardenplant;
+    //set needswater
+    if ((diffDays > 7) && !this.state.needswater && (this.state.davesgardenid != -1)) { //7 is a placeholder
+      this.setState({ needswater: true });
     }
-    if (this.props.davesgardenid == -1) {
-      //custom plant
-      if (!(this.state.davesgardenplant === this.props.tiletypename)) {
-              this.setState({davesgardenplant: this.props.tiletypename});
-      }
+
+    //set daysnotwatered
+    if (this.state.daysnotwatered != diffDays) {
+      this.setState({ daysnotwatered: diffDays })
+    }
+  }
+  setTileName() {
+    //check if tiletype is davesgarden plant or default tiletype
+    if (this.props.davesgardenid == -1 && this.state.davesgardenplant === '') {
+      //default tiletype
+      //console.log(this.props);
+      this.setState({davesgardenplant: this.props.tiletypename});
     } else {
       if (this.state.davesgardenplant === '') {
         this.findPlantFromId(this.props.davesgardenid);
-        //this.setState({davesgardenplant: 'nope'})
         //console.log(this.props.tiletypename);
-        tileName = this.state.davesgardenplant;
-        console.log(tileName);
       }
     }
 
+    if ((this.props.davesgardenid == -1) && !(this.state.davesgardenplant === this.props.tiletypename)) {
+      this.setState({davesgardenplant: this.props.tiletypename});
+    }
+
+    var defaults = ["Grass", "Path", "House"];
+    if (this.props.davesgardenid !== -1 && defaults.indexOf(this.state.davesgardenplant)>-1) { //check if needs to be updated i.e still holding default text
+      this.findPlantFromId(this.props.davesgardenid);
+    }
+
+  }
+  componentDidMount() {
+    this.setDaysNotWatered();
+    //console.log(this.props.tiletypename)
+    //this.setState({davesgardenplant: 'hi'})
+
+    //this.setTileName();
+    setInterval(this.setTileName, 3000);
+  }
+
+  render() {
 
     var contents = "Change Tile";
     // if( this.state.retString == ''){
@@ -397,17 +440,20 @@ class Tile extends Component {
           <img src="https://i.imgur.com/9KRykNG.png" width="25"></img>
           </button>) : null
           }
+          { (this.state.needswater && this.props.tiletypeisplant) ?
+          (<b>&nbsp;!</b>) : null
+          }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<center><img src={this.props.imglink} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
-            <p>pH Requirements: {this.state.davesgardenph}</p>
-            <p>Watering frequency: {this.state.davesgardenwater}</p>
-            <p>Sunlight needs: {this.state.davesgardensun}</p>
-            <p>Bloom time: {this.state.davesgardenbloom}</p>
-            <p>Last watered: {this.props.lastwatered}</p>
+            {(this.state.davesgardenph) ? (<p>pH Requirements: {this.state.davesgardenph}</p>) : null}
+            {(this.state.davesgardenwater) ? (<p>Watering frequency: {this.state.davesgardenwater}</p>) : null}
+            {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
+            {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
+            <p>Last watered: {this.state.daysnotwatered} days ago</p>
           </ReactTooltip>
           </center>
         ) : 

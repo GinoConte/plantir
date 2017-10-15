@@ -276,7 +276,7 @@ class Plantir extends Component {
       { (this.state.garden._id) ?
       <div><p><b>Accepted token:</b> {this.state.garden._id}</p>
       <p><b>Location:</b> {this.state.garden.location} </p>
-      <p><b>Filters:</b> <input type="radio" 
+      <p><b>Soil filters:</b> <input type="radio" 
                                 name="filter"  
                                 value="None" 
                                 checked={this.state.filter === "None"}
