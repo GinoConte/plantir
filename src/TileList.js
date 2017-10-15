@@ -18,16 +18,13 @@ class TileList extends Component {
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
   onLayoutChange(layout){
-    console.log("On Layout Change");
     if(typeof layout[0] !== "undefined"){
       if(!(layout[0].w == 1 && layout[0].h == 1 && layout[0].x == 0)){
-        console.log(layout);
         this.props.onLayoutChange(layout);
       }
     }
   }
   render() {
-    console.log(this.props.layout);
     var test="nope";
     if(this.props.tiletypes.length > 0) {
       test = "ho";
@@ -61,6 +58,7 @@ class TileList extends Component {
     let tileNodes = tiles.map(tile => {
       let bgColor = tile['tiletypecolour'];
       let key = tile['_id'].toString();
+      //Default sizes for new elements in the layout
       var x = 0;
       var y = 0;
       var w = 2;
@@ -76,33 +74,34 @@ class TileList extends Component {
         }
         return obj.i == tile['_id'];
       });
+      let styles = Object.assign(style.tile,{backgroundColor: tile['tiletypecolour']});//style={styles}
       return (
-          <div key={key} data-grid={{w: w, h:h, x:x, y:y, minW: minW, minH: minH}}
-          style={Object.assign(style.tile, {backgroundColor: bgColor})} > 
-        <Tile
-          uniqueID={tile['_id']} 
-          key={tile['_id']} 
-          onTileDelete={this.props.onTileDelete} 
-          onPlotUpdate={this.props.onPlotUpdate} 
-          onTileUpdate={this.props.onTileUpdate}  
-          onBiologyClicked={this.props.onBiologyClicked} 
-          onTileTypeUpdate={this.props.onTileTypeUpdate} 
-          onSearchReq={this.props.onSearchReq}
-          onSearchChange={this.props.onSearchChange}
-          onWaterClicked={this.props.onWaterClicked}
-          searchRet={this.props.searchRet} 
-          filterState={this.props.filterState}  
-          parentgarden={tile.parentgarden} 
-          tileprops={tile.tileprops}
-          gridorder={tile.gridorder} 
-          lastwatered={tile.lastwatered} 
-          davesgardenid={tile.davesgardenid}
-          imglink={tile.imglink} 
-          tiletypename={tile['tiletypename']}
-          tiletypecolour={tile['tiletypecolour']}
-          tiletypeinfo = {tile['tiletypeinfo']}  
-          tiletypeisplant={tile['tiletypeisplant']}>
-        </Tile>
+        <div key={key} data-grid={{w: w, h:h, x:x, y:y, minW: minW, minH: minH}}
+           > 
+          <Tile
+            uniqueID={tile['_id']} 
+            key={tile['_id']} 
+            onTileDelete={this.props.onTileDelete} 
+            onPlotUpdate={this.props.onPlotUpdate} 
+            onTileUpdate={this.props.onTileUpdate}  
+            onBiologyClicked={this.props.onBiologyClicked} 
+            onTileTypeUpdate={this.props.onTileTypeUpdate} 
+            onSearchReq={this.props.onSearchReq}
+            onSearchChange={this.props.onSearchChange}
+            onWaterClicked={this.props.onWaterClicked}
+            searchRet={this.props.searchRet} 
+            filterState={this.props.filterState}  
+            parentgarden={tile.parentgarden} 
+            tileprops={tile.tileprops}
+            gridorder={tile.gridorder} 
+            lastwatered={tile.lastwatered} 
+            davesgardenid={tile.davesgardenid}
+            imglink={tile.imglink} 
+            tiletypename={tile['tiletypename']}
+            tiletypecolour={tile['tiletypecolour']}
+            tiletypeinfo = {tile['tiletypeinfo']}  
+            tiletypeisplant={tile['tiletypeisplant']}>
+          </Tile>
         </div>
       )
     })
