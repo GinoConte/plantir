@@ -577,7 +577,7 @@ class Tile extends Component {
                   </form>)
                 : null}
                 <div>
-                      { (this.state.toChangeTile && this.props.tiletypeisplant)
+                      { (this.state.toChangeTile )
            ? (<form onSubmit={ this.handleTileTypeUpdate }>
                   <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
                     <option value="Select" selected>Tile</option>
