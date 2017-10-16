@@ -48,6 +48,7 @@ class Plantir extends Component {
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.getWeather = this.getWeather.bind(this);
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
+    this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -131,9 +132,9 @@ class Plantir extends Component {
       });
   }
   handleTileDelete(id) {
-    axios.delete(`${this.props.url}/${id}`)
+    axios.delete('http://localhost:3001/api/tile/' + id, {tileId : id})
       .then(res => {
-        console.log('Comment deleted');
+        console.log('Tile deleted');
       })
       .catch(err => {
         console.error(err);
@@ -271,8 +272,28 @@ class Plantir extends Component {
       layout: layouts
     });
   }
+  handleCreateTileClicked(e){
+    var tempGridorder = 0;
+    if(this.state.data.length != 0){
+      tempGridorder = this.state.data[this.state.data.length-1].gridorder + 1
+    }
+    let body = {
+      parentgarden: this.state.garden._id,
+      tiletype: this.state.tiletypes[0],
+      soiltype: "Peaty",
+      ph: 5,
+      sunlight: "None",
+      moisture: "Drenched",
+      gridorder: tempGridorder,
+      lastwatered: new Date("13 Mar 2010"),
+    };
+    axios.post('http://localhost:3001/api/tile/', body).then(res => {
+      console.log(res);
+      this.loadTilesFromServer();
+    });;
+  }
   render() {
-
+    console.log(this.state.data);
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
@@ -306,6 +327,7 @@ class Plantir extends Component {
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
         onLayoutChange={this.handleLayoutChange}
+        onCreateTile={this.handleCreateTileClicked}
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}

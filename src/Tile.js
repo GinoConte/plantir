@@ -488,8 +488,8 @@ class Tile extends Component {
                 <li>Ds G ID: {this.props.davesgardenid}</li>
               </ul>
               <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
-              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
               <a style={ style.updateLink } href='#' onClick={ this.changeTileType }>Type</a>
+              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
               { (this.state.toBeUpdated)
                 ? (<form onSubmit={ this.handlePlotUpdate }>
                     <select name="soiltype" onChange={this.handleSoilTypeChange}>

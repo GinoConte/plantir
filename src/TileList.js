@@ -16,6 +16,7 @@ class TileList extends Component {
   constructor(props){
     super(props);
     this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.handleCreateTile = this.handleCreateTile.bind(this);
   }
   onLayoutChange(layout){
     if(typeof layout[0] !== "undefined"){
@@ -23,6 +24,10 @@ class TileList extends Component {
         this.props.onLayoutChange(layout);
       }
     }
+  }
+  handleCreateTile(e) {
+    e.preventDefault();
+    this.props.onCreateTile();
   }
   render() {
     var test="nope";
@@ -61,9 +66,9 @@ class TileList extends Component {
       //Default sizes for new elements in the layout
       var x = 0;
       var y = 0;
-      var w = 3;
+      var w = 2;
       var h = 4;
-      let minW = 3;
+      let minW = 2;
       let minH = 4;
       let vals = this.props.layout.filter(function (obj){
         if(obj.i == tile['_id']){
@@ -113,9 +118,12 @@ class TileList extends Component {
     //   paddingRight:0,
     // } layout={layout}
     return (
+      <div>
+      <button onClick={this.handleCreateTile}>Create Tile</button>
       <ReactGridLayout cols={12} rowHeight={30} onLayoutChange={this.onLayoutChange} compactType='vertical'>
         {tileNodes}
       </ReactGridLayout>  
+      </div>
     )
   }
 }
