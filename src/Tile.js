@@ -73,12 +73,22 @@ class Tile extends Component {
   updateTile(e) {
     e.preventDefault();
     //set update flag in the state
-    this.setState({ toBeUpdated: !this.state.toBeUpdated });
+    if(this.state.toChangeTile){
+      this.setState({ toBeUpdated: !this.state.toBeUpdated, toChangeTile: !this.state.toChangeTile})  
+    }
+    else{
+      this.setState({ toBeUpdated: !this.state.toBeUpdated });
+    }
   }
   changeTileType(e) {
   //changeTileType(){
     e.preventDefault();
-    this.setState({ toChangeTile: !this.state.toChangeTile });
+    if(this.state.toBeUpdated){
+      this.setState({ toBeUpdated: !this.state.toBeUpdated, toChangeTile: !this.state.toChangeTile})  
+    }
+    else{
+      this.setState({ toChangeTile: !this.state.toChangeTile });
+    }
   }
   handlePlotUpdate(e) {
     e.preventDefault();
