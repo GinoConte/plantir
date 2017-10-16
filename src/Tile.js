@@ -200,13 +200,13 @@ class Tile extends Component {
 
     evt.preventDefault();
       this.setState({ searchRet: 's' });
-            console.log(this.state.searchRet);
+            //console.log(this.state.searchRet);
       axios.get('http://localhost:3001/api/search/'+this.state.tempVal)
       //axios.get('http://localhost:3001/api/search')
         .then(res =>{
           this.setState({ searchRet: res.data });
             let p = this.state.searchRet;
-            console.log(p);
+            //console.log(p);
             this.handleParseSearch();
             // var retString = '';
             // if (Object.keys(p).length == 0){
@@ -236,20 +236,20 @@ class Tile extends Component {
   }
   handleParseSearch(){
     var p = this.state.searchRet;
-    console.log(Object.keys(p).length);
+    //console.log(Object.keys(p).length);
     var retString = '';
     if (Object.keys(p).length == 0){
-      console.log("empty response!");
+      //console.log("empty response!");
       retString = "<p>No results found!</p>";
     } else {
 
       for (var key in p){
         if(p.hasOwnProperty(key)){
-          console.log(key + "------>");
+          //console.log(key + "------>");
           let j = p[key];
           for(var key2 in j){
             if (j.hasOwnProperty(key2)){
-                console.log(key2 + "->" + j[key2])
+                //console.log(key2 + "->" + j[key2])
 
                 retString = retString + "<p>" + key2 + ': '+ j[key2]  +  "</p>"
 

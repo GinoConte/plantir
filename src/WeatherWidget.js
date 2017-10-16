@@ -32,7 +32,7 @@ class WeatherWidget extends Component{
 					   9 : 'Oct',
 					   10: 'Nov',
 					   11: 'Dec',}
-		console.log(this.props.check);
+		//console.log(this.props.check);
 		//console.log(this.props.weatherMess);
 		if(this.props.weatherMess){
 			let j = this.props.weatherMess;
@@ -40,7 +40,7 @@ class WeatherWidget extends Component{
 			let k = 0;
 			let tempDate = '';
 	        for (var i = 0; i < jLen ;i=i+8){
-	          console.log(this.props.weatherMess[i]);
+	          //console.log(this.props.weatherMess[i]);
 	          // this.state.finWea[k] = {}
 	          // this.state.finWea[k]['icon'] = this.state.defImg + this.props.weatherMess[i]['weather']['0']['icon'] + this.state.defImgend;
 	          tempDate = new Date(this.props.weatherMess[i]['dt']*1000); //dt is measured in seconds but date wants milliseconds
@@ -56,7 +56,7 @@ class WeatherWidget extends Component{
 	          };
 	          k++;
 	        }
-	        console.log(this.state.finWea);
+	        //console.log(this.state.finWea);
 	    }
 
 

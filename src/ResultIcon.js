@@ -21,18 +21,18 @@ class ResultIcon extends Component{
 
 
 		var p = this.state.bigDict;
-	    console.log(Object.keys(p).length);
+	    //console.log(Object.keys(p).length);
 	    var retString = ''; //our html formatted string
 	    let defImg = 'https://i.pinimg.com/236x/c4/ee/45/c4ee45976bd00727d6c8f90fb03c6eb3--icon-png-pixel-art.jpg'; //this is a default image for when no image is provided by Dave
 	    if (Object.keys(p).length === 0){
-	      console.log("empty response!");
+	      //console.log("empty response!");
 	      retString = "<p>No results found!</p>";
 	    } else {
 	      var foundimglinks = [];	
 	      for (var key in p){
 
 	        if(p.hasOwnProperty(key)){
-	          console.log(key + "------>");
+	          //console.log(key + "------>");
 	          let j = p[key];
 	          let normalCut = j['normal'].split(',');
 			  let nameStr = normalCut[0];
