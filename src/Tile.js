@@ -32,6 +32,7 @@ class Tile extends Component {
       davesgardenwater: '',
       davesgardenbloom: '',
       davesgardensci: '',
+      davesgardencolour: '',
       needswater: false,
       daysnotwatered: 0,
     };
@@ -121,6 +122,7 @@ class Tile extends Component {
     this.setState({
       toChangeTile: false,
       newtiletypename: '',
+      davesgardencolour: '',
     })
 
     //also update plot to have d's garden id of -1
@@ -276,8 +278,10 @@ class Tile extends Component {
 
     //and we need to change the tiletype of the tile to "other plant"
     this.props.onTileTypeUpdate(tileId, "Other plant");
-    this.setTileName();
-    this.setState({davesgardenplant: ''});
+    // this.setState({davesgardenplant: '',
+    //                davesgardencolour: ''});
+    this.setTileName(true, dgId);
+
 
   }
   findPlantFromId(dgId){
@@ -293,7 +297,7 @@ class Tile extends Component {
           this.setState({ davesgardenplant: plantname.substring(0,12) }); //character limit to stay on one line
         }
         let p = this.state.davesgardenplant;
-        console.log(p);
+        //console.log(p);
 
         //set ph
         let ph = res.data['Soil pH requirements'];
@@ -310,6 +314,10 @@ class Tile extends Component {
         //set watering
         let water = res.data['Water Requirements'];
         this.setState({ davesgardenwater: water });
+
+        //set colour text
+        let colour = res.data['Bloom Color'];
+        this.setState({ davesgardencolour: colour });
 
           //this.handleParseSearch();
     })
@@ -331,13 +339,13 @@ class Tile extends Component {
       this.setState({ daysnotwatered: diffDays })
     }
   }
-  setTileName() {
+  setTileName(resultClicked, newid) {
     //check if tiletype is davesgarden plant or default tiletype
     if (this.props.davesgardenid == -1 && this.state.davesgardenplant === '') {
       //default tiletype
       //console.log(this.props);
       this.setState({davesgardenplant: this.props.tiletypename});
-    } else {
+    } else if (this.props.davesgardenid !== -1) {
       if (this.state.davesgardenplant === '') {
         this.findPlantFromId(this.props.davesgardenid);
         //console.log(this.props.tiletypename);
@@ -353,6 +361,11 @@ class Tile extends Component {
       this.findPlantFromId(this.props.davesgardenid);
     }
 
+    if (resultClicked && newid && this.state.davesgardenplant) { //changing from custom tile to a different custom tile
+            console.log("last??");
+            this.findPlantFromId(newid);
+    }
+
   }
   componentDidMount() {
     this.setDaysNotWatered();
@@ -360,7 +373,7 @@ class Tile extends Component {
     //this.setState({davesgardenplant: 'hi'})
 
     //this.setTileName();
-    setInterval(this.setTileName, 3000);
+    setInterval(this.setTileName, 5000);
   }
 
   render() {
@@ -438,6 +451,31 @@ class Tile extends Component {
         tileColour = '#003b56';
       }
     }
+
+    //extract colour of flower based on scraped data
+    if (this.state.davesgardencolour) {
+      //basic pattern matching
+      if (this.state.davesgardencolour.includes('Pink') || this.state.davesgardencolour.includes('pink')) {
+        tileColour = '#ffc9e9';
+      } else if (this.state.davesgardencolour.includes('Yellow') || this.state.davesgardencolour.includes('yellow')) {
+          tileColour = '#f2bc4f';
+      } else if (this.state.davesgardencolour.includes('Gold') || this.state.davesgardencolour.includes('gold')) {
+          tileColour = '#f9f6d4';
+      } else if (this.state.davesgardencolour.includes('Blue') || this.state.davesgardencolour.includes('blue')) {
+          tileColour = '#60c9f2';
+      } else if (this.state.davesgardencolour.includes('Violet') || this.state.davesgardencolour.includes('violet')) {
+          tileColour = '#f780f3';
+      } else if (this.state.davesgardencolour.includes('Red') || this.state.davesgardencolour.includes('red')) {
+          tileColour = '#ff5b87';        
+      } else if (this.state.davesgardencolour.includes('Orange')) {
+          tileColour = '#ff7632';        
+      }
+
+
+      //console.log("Colour: " + this.state.davesgardencolour);
+    }
+
+
 //{this.props.gridorder} 
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
     return (
@@ -456,7 +494,7 @@ class Tile extends Component {
           }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={this.props.imglink} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
@@ -468,7 +506,7 @@ class Tile extends Component {
           </ReactTooltip>
           </center>
         ) : 
-        (<center><img src={flowerImages["nothing"]} style={ style.invisibleImage } /></center>) }
+        null }
         
         <center><button 
                   style={ style.tilebutton } 
@@ -546,25 +584,6 @@ class Tile extends Component {
                     <option value="Grass">Grass</option>
                     <option value="House">House</option>
                     <option value="Path">Path</option>
-                  </select>
-                  <input
-                    type='submit'
-                    style={ style.commentFormPost }
-                    value='Change' 
-                  />
-                </form>): null}
-
-          { (this.state.toChangeTile && !this.props.tiletypeisplant)
-           ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                  <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
-                    <option value="Select" selected>Tile</option>
-                    <option value="Grass">Grass</option>
-                    <option value="House">House</option>
-                    <option value="Path">Path</option>
-                    <option value="Sunflower">Sunflower</option>
-                    <option value="Daisy">Daisy</option>
-                    <option value="Rose">Rose</option>
-                    <option value="Violet">Violet</option>
                   </select>
                   <input
                     type='submit'
