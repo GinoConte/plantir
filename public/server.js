@@ -192,7 +192,7 @@ router.route('/garden/:garden_id')
           (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
             	if (err)
-            	res.send(err);
+            	 return res.send(err);
             	res.json({ message: 'Garden location has been updated',layout: garden.layout });
         	});
     	});
@@ -202,7 +202,7 @@ router.route('/garden/:garden_id')
     	//selects the comment by its ID, then removes it.
    		Garden.remove({ _id: req.params.garden_id }, function(err, garden) {
      		if (err)
-       		res.send(err);
+       		return res.send(err);
      		res.json({ message: 'Garden has been deleted' })
   		})
 });
