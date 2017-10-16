@@ -47,6 +47,8 @@ class Plantir extends Component {
     this.handleMoistureFilter = this.handleMoistureFilter.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.getWeather = this.getWeather.bind(this);
+    this.handleLayoutChange = this.handleLayoutChange.bind(this);
+    this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -130,9 +132,9 @@ class Plantir extends Component {
       });
   }
   handleTileDelete(id) {
-    axios.delete(`${this.props.url}/${id}`)
+    axios.delete('http://localhost:3001/api/tile/' + id, {tileId : id})
       .then(res => {
-        console.log('Comment deleted');
+        console.log('Tile deleted');
       })
       .catch(err => {
         console.error(err);
@@ -264,12 +266,42 @@ class Plantir extends Component {
   handleMoistureFilter(e) {
     this.setState({filter: e.target.value});
   }
+  handleLayoutChange(layouts){
+    axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
+      location: this.state.garden.location,
+      layout: layouts
+    });
+  }
+  handleCreateTileClicked(e){
+    var tiletype = this.state.tiletypes[0];
+    while(tiletype === undefined){
+      tiletype = this.state.tiletypes[0];
+    }
+    var tempGridorder = 0;
+    if(this.state.data.length != 0){
+      tempGridorder = this.state.data[this.state.data.length-1].gridorder + 1
+    }
+    let body = {
+      parentgarden: this.state.garden._id,
+      tiletype: tiletype,
+      soiltype: "Peaty",
+      ph: 5,
+      sunlight: "None",
+      moisture: "Drenched",
+      gridorder: tempGridorder,
+      lastwatered: new Date("13 Mar 2010"),
+    };
+    axios.post('http://localhost:3001/api/tile/', body).then(res => {
+      console.log(res);
+      this.loadTilesFromServer();
+    });;
+  }
   render() {
-
+    console.log(this.state.data);
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
-      <center><p>Create a new garden or enter an existing token. Try: <b>59e1d08098987fc2c06dee24</b></p></center>
+      <center><p>Create a new garden or enter an existing token. Try: <b>59e41a62387a641f4c38bf3a</b></p></center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
@@ -298,6 +330,8 @@ class Plantir extends Component {
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
+        onLayoutChange={this.handleLayoutChange}
+        onCreateTile={this.handleCreateTileClicked}
         onTileTypeUpdate={this.handleTileTypeUpdate} 
         onBiologyClicked={this.handleBiologyClicked} 
         onWaterClicked={this.handleWaterClicked}
@@ -306,7 +340,8 @@ class Plantir extends Component {
         data={ this.state.data }
         filterState = {this.state.filter}
         searchRet = {this.state.searchRet} 
-        tiletypes={this.state.tiletypes} />
+        tiletypes={this.state.tiletypes}
+        layout = {this.state.garden.layout} />
       
       <br></br>
 

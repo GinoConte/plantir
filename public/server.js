@@ -120,7 +120,8 @@ router.route('/garden')
 	.post(function(req, res) {
     	var garden = new Garden({
     		_id: new mongoose.Types.ObjectId(),
-    		location: 'Sydney'
+    		location: 'Sydney',
+        layout: []
     		//location: req.body.location;
     	});
     	//garden.location = req.body.location;
@@ -128,7 +129,7 @@ router.route('/garden')
     	garden.save(function(err) {
       		if (err)
         	res.send(err);
-
+/*
 
         	//loop to add 25 tiles to create default demo house
         	for (var i=0; i<25; i++) {
@@ -166,10 +167,10 @@ router.route('/garden')
 	        	emptytile.save(function (err) {
 	        		if (err) 
 	        		res.send(err);
-
+              
 	        	})
 	        }
-
+*/
       		res.json({ message: 'Garden created!',
       			       gardenid: garden._id });
     	});
@@ -188,10 +189,11 @@ router.route('/garden/:garden_id')
     		if (err)
     		res.send(err);
         	(req.body.location) ? garden.location = req.body.location : null;
+          (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
             	if (err)
             	res.send(err);
-            	res.json({ message: 'Garden location has been updated' });
+            	res.json({ message: 'Garden location has been updated',layout: garden.layout });
         	});
     	});
  	})
@@ -218,20 +220,25 @@ router.route('/garden/:garden_id/findtiles')
 //POST -- CREATE A NEW TOKEN WITH PARENT GARDEN
 router.route('/tile')
 	.post(function(req, res) {
+    console.log(req.body.parentgarden);
     	var tile = new Tile({
     		_id: new mongoose.Types.ObjectId(),
-    		parentgarden: Schema.Types.ObjectId(req.body.parentgarden),
-    		tiletype: Schema.Types.ObjectId(req.body.tiletype),
+    		parentgarden: req.body.parentgarden,
+    		tiletype: req.body.tiletype,
     		tileprops: {
     			soiltype: req.body.soiltype,
     			ph: req.body.ph,
     			sunlight: req.body.sunlight,
     			moisture: req.body.moisture
     		},
-    		x: req.body.x,
+        davesgardenid: -1,
+        imglink: 'https://i.pinimg.com/236x/c4/ee/45/c4ee45976bd00727d6c8f90fb03c6eb3--icon-png-pixel-art.jpg',
+        gridorder: req.body.gridorder,
+        lastwatered: new Date("13 Mar 2010") //fake date to test watering function
+    		/*x: req.body.x,
     		y: req.body.y,
     		height: req.body.height,
-    		width: req.body.width,
+    		width: req.body.width,*/
     		//location: req.body.location;
     	});
     	tile.save(function(err) {
@@ -239,7 +246,7 @@ router.route('/tile')
         	res.send(err);
 
       		res.json({ message: 'Tile created!',
-      			       tileid: tile._id });
+      			       tileid: tile._id, parentgarden: req.body.parentgarden});
     	});
 });
 
@@ -270,6 +277,14 @@ router.route('/tile/:tile_id')
 
 	        	});
     	});
+  })
+  .delete(function(req, res) {
+   //Delete a tile by the ID in req
+   Tile.remove({ _id: req.params.tile_id }, function(err, tile) {
+     if (err)
+       res.send(err);
+     res.json({ message: 'Tile has been deleted' });
+   });
 });
 
 router.route('/search/:search_str')
