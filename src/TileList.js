@@ -1,58 +1,35 @@
 import React, { Component } from 'react';
 import Tile from './Tile';
 import style from './style';
-import Checkbox from './Checkbox';
+
+import RGL, { WidthProvider } from 'react-grid-layout';
+import PropTypes from 'prop-types';
+
+import '../node_modules/react-grid-layout/css/styles.css';
+import '../node_modules/react-resizable/css/styles.css';
 
 //import { Container, Row, Col } from 'reactstrap';
 
-    //not sure how to set the whole tileNodes into items as label for checkbox dynamically 
-    //eg according to its length
-
-    const items = ['0','1','2','3','4','5',
-                  '6','7','8','9','10','11',
-                  '12','13','14','15','16','17',
-                  '18','19','20','21','22','23',
-                  '24',];
-
+const ReactGridLayout = WidthProvider(RGL);
 
 class TileList extends Component {
-    //-----------checkbox stuff here------//
-
-    componentWillMount = () => {
-      this.selectedCheckboxes = new Set();
-    }
-
-    toggleCheckbox = label => {
-      if (this.selectedCheckboxes.has(label)) {
-        this.selectedCheckboxes.delete(label);
-      } else {
-        this.selectedCheckboxes.add(label);
+  constructor(props){
+    super(props);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.handleCreateTile = this.handleCreateTile.bind(this);
+  }
+  onLayoutChange(layout){
+    if(typeof layout[0] !== "undefined"){
+      if(!(layout[0].w == 1 && layout[0].h == 1 && layout[0].x == 0)){
+        this.props.onLayoutChange(layout);
       }
     }
-
-    handleFormSubmit = formSubmitEvent => {
-      formSubmitEvent.preventDefault();
-
-      for (const checkbox of this.selectedCheckboxes) {
-        console.log(checkbox, 'is selected.');
-      }
-    }
-
-    createCheckbox = label => (
-      <Checkbox 
-              label={label}
-              handleCheckboxChange={this.toggleCheckbox}
-              key={label} />
-    )
-
-    createCheckboxes = () => (
-      items.map(this.createCheckbox)
-    )
-
-    //------------------------------
-
-
-
+  }
+  handleCreateTile(e) {
+    e.preventDefault();
+    this.props.onCreateTile();
+  }
+  
   render() {
     var test="nope";
     if(this.props.tiletypes.length > 0) {
@@ -81,58 +58,73 @@ class TileList extends Component {
           tiles[i].tiletypeinfo = tiletypes[j].info;
         }
       }
-    }
+    }//style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     //let tileNodes = this.props.data.map(tile => {
     let tileNodes = tiles.map(tile => {
+      let bgColor = tile['tiletypecolour'];
+      let key = tile['_id'].toString();
+      //Default sizes for new elements in the layout
+      var x = 0;
+      var y = 0;
+      var w = 2;
+      var h = 4;
+      let minW = 2;
+      let minH = 4;
+      let vals = this.props.layout.filter(function (obj){
+        if(obj.i == tile['_id']){
+          x = obj.x;
+          y = obj.y;
+          w = obj.w;
+          h = obj.h;
+        }
+        return obj.i == tile['_id'];
+      });
+      let styles = Object.assign(style.tile,{backgroundColor: tile['tiletypecolour']});//style={styles}
       return (
-        <Tile
-          uniqueID={tile['_id']} 
-          key={tile['_id']} 
-          onTileDelete={this.props.onTileDelete} 
-          onPlotUpdate={this.props.onPlotUpdate} 
-          onTileUpdate={this.props.onTileUpdate}  
-          onBiologyClicked={this.props.onBiologyClicked} 
-          onTileTypeUpdate={this.props.onTileTypeUpdate} 
-          onSearchReq={this.props.onSearchReq}
-          onSearchChange={this.props.onSearchChange}
-          onWaterClicked={this.props.onWaterClicked}
-          searchRet={this.props.searchRet} 
-          filterState={this.props.filterState}  
-          parentgarden={tile.parentgarden} 
-          tileprops={tile.tileprops}
-          gridorder={tile.gridorder} 
-          lastwatered={tile.lastwatered} 
-          davesgardenid={tile.davesgardenid}
-          imglink={tile.imglink} 
-          tiletypename={tile['tiletypename']}
-          tiletypecolour={tile['tiletypecolour']}
-          tiletypeinfo = {tile['tiletypeinfo']}  
-          tiletypeisplant={tile['tiletypeisplant']}>
-        </Tile>
+        <div key={key} data-grid={{w: w, h:h, x:x, y:y, minW: minW, minH: minH}}
+           > 
+          <Tile
+            uniqueID={tile['_id']} 
+            key={tile['_id']} 
+            onTileDelete={this.props.onTileDelete} 
+            onPlotUpdate={this.props.onPlotUpdate} 
+            onTileUpdate={this.props.onTileUpdate}  
+            onBiologyClicked={this.props.onBiologyClicked} 
+            onTileTypeUpdate={this.props.onTileTypeUpdate} 
+            onSearchReq={this.props.onSearchReq}
+            onSearchChange={this.props.onSearchChange}
+            onWaterClicked={this.props.onWaterClicked}
+            searchRet={this.props.searchRet} 
+            filterState={this.props.filterState}  
+            parentgarden={tile.parentgarden} 
+            tileprops={tile.tileprops}
+            gridorder={tile.gridorder} 
+            lastwatered={tile.lastwatered} 
+            davesgardenid={tile.davesgardenid}
+            imglink={tile.imglink} 
+            tiletypename={tile['tiletypename']}
+            tiletypecolour={tile['tiletypecolour']}
+            tiletypeinfo = {tile['tiletypeinfo']}  
+            tiletypeisplant={tile['tiletypeisplant']}>
+          </Tile>
+        </div>
       )
     })
 
-
-    
     // let myPaddingStyle = {
     //   paddingTop: 0,
     //   paddingBottom: 0,
     //   paddingLeft:0,
     //   paddingRight:0,
-    // }
-
-
+    // } layout={layout}
     return (
-      <div style={ style.commentList }>
-        <form onSubmit={this.handleFormSubmit}>
-          {this.createCheckboxes()}
-
-          <button className="btn btn-default" type="submit">Multiple Orders</button>
-        </form>
+      <div>
+      <button onClick={this.handleCreateTile}>Create Tile</button>
+      <ReactGridLayout cols={12} rowHeight={30} onLayoutChange={this.onLayoutChange} compactType='vertical'>
         {tileNodes}
-        
-      </div>  
+      </ReactGridLayout>  
+      </div>
     )
   }
 }
