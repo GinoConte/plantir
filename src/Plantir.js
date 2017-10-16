@@ -273,13 +273,17 @@ class Plantir extends Component {
     });
   }
   handleCreateTileClicked(e){
+    var tiletype = this.state.tiletypes[0];
+    while(tiletype === undefined){
+      tiletype = this.state.tiletypes[0];
+    }
     var tempGridorder = 0;
     if(this.state.data.length != 0){
       tempGridorder = this.state.data[this.state.data.length-1].gridorder + 1
     }
     let body = {
       parentgarden: this.state.garden._id,
-      tiletype: this.state.tiletypes[0],
+      tiletype: tiletype,
       soiltype: "Peaty",
       ph: 5,
       sunlight: "None",
@@ -297,7 +301,7 @@ class Plantir extends Component {
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
-      <center><p>Create a new garden or enter an existing token. Try: <b>59e3843a43474b0ba8731baf</b></p></center>
+      <center><p>Create a new garden or enter an existing token. Try: <b>59e41a62387a641f4c38bf3a</b></p></center>
       <WelcomeHeader 
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
