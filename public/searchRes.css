@@ -27,4 +27,4 @@ hgroup h2.lead {  color: #2a3644; margin: 0; padding-bottom: 10px; }
 .react-grid-item.cssTransforms {z-index: 0;}
 .react-grid-item.cssTransforms:hover {z-index: 1 !important;}
 .__react_component_tooltip.place-top.type-dark {z-index:3; position:absolute; overflow:visible; width: 400px;}
-
+.ReactModal__Overlay {z-index: 4} 

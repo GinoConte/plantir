@@ -192,7 +192,7 @@ router.route('/garden/:garden_id')
           (req.body.layout) ? garden.layout = req.body.layout : null;
         	garden.save(function(err) {
             	if (err)
-            	res.send(err);
+            	 return res.send(err);
             	res.json({ message: 'Garden location has been updated',layout: garden.layout });
         	});
     	});
@@ -202,7 +202,7 @@ router.route('/garden/:garden_id')
     	//selects the comment by its ID, then removes it.
    		Garden.remove({ _id: req.params.garden_id }, function(err, garden) {
      		if (err)
-       		res.send(err);
+       		return res.send(err);
      		res.json({ message: 'Garden has been deleted' })
   		})
 });
@@ -301,16 +301,16 @@ router.route('/search/:search_str')
 	// 		console.log($(stdout));
 	// }
 
-		const prog = spawn('python', ['scraper/scraper.py', req.params.search_str]);
+		const prog = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
 		prog.stderr.on('data', (data) =>{
-      const prog3 = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
+      /*const prog3 = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
       prog3.stdout.on('data', (data) =>{
         console.log(`output: ${data}`);
        res.send(data);
       });
       prog3.on('close', (code) => {
         //console.log(`child process exited with code ${code}`);
-      });
+      });*/
 			console.log(`error: ${data}`);
 		});
 		prog.stdout.on('data', (data) =>{
