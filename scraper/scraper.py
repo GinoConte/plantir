@@ -61,13 +61,15 @@ if isSearch:
 
 
 			# print(row.find_all('img'))
-			if len(row.find_all('a')) > 1:
-				# print("img info")
-				# print(row.img['src'])
-				# print(row.img['alt'])
+			# if len(row.find_all('a')) > 1:
+			# 	# print("img info")
+			# 	# print(row.img['src'])
+			# 	# print(row.img['alt'])
+			# 	d['imgLink'] = row.img['src']
+			# 	d['imgAlt'] = row.img['alt']
+			if d['normal'] != '<br/>' and len(row.find_all('a')) > 1:
 				d['imgLink'] = row.img['src']
 				d['imgAlt'] = row.img['alt']
-			if d['normal'] != '<br/>':
 				# allDicts.append(d)
 				allDicts[d['id']] = d
 			row = row.findNextSibling('tr')

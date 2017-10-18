@@ -297,7 +297,7 @@ class Plantir extends Component {
     });;
   }
   render() {
-    console.log(this.state.data);
+    //console.log(this.state.data);
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
