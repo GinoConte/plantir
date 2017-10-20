@@ -15,7 +15,9 @@ const style = {
     position: 'relative',
     display: 'block',
   },
+//grass tile color
   grasstile: {
+   
     backgroundColor: "#9fd64d",
   },
   tilebutton: {
@@ -32,16 +34,17 @@ const style = {
     background: "none",
     margin: "none",
   },
+// w h were 8vmin before
   images: {
-    width: "8vmin",
-    height: "8vmin",
+    width: "22vmin",
+    height: "12vmin",
     paddingTop: "4",
     paddingBottom: "5",
 
   },
   invisibleImage: {
     opacity: 0,    
-    width: "8vmin",
+    width: "vmin",
     height: "8vmin",
     paddingTop: "4",
     paddingBottom: "5",

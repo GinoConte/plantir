@@ -42,13 +42,19 @@ class ResultIcon extends Component{
          //    if ('imgLink' in j){//if an image is provided for thumbnail
          //    	retString = retString + '<a href="' + j['link'] +'"><img src="'+  j['imgLink'] +'" width="82" height="86" title="'+ j['imgAlt'] +'" alt="'+ j['imgAlt'] +'"></a>';
          //    } else {//otherwise just use the default image
-         //    	retString = retString + '<a href="' + j['link'] +'"><img src="'+  defImg +'" width="82" height="86" title="default icon" alt="default flower icon"></a>';
+
+             	//retString = retString + '<a href="' + j['link'] +'"><img src="'+  defImg +'" width="82" height="86" title="default icon" alt="default flower icon"></a>';
          //    }
         	// retString = retString + '<a href="#" onClick="tempFunc(' +  j['id']  +  ')">'+ nameStr +'</a>' //ugly code alert
          //    retString = retString + '<p><i>' +  j['scientific']  +  '</i></p>'
 	        // }
 
-	        retString = retString + '<article class="search-result row"><div class="col-xs-12 col-sm-12 col-md-3"><a href="https://davesgarden.com'+j['link'] +'" target="_blank" title="Lorem ipsum" class="thumbnail">';
+
+
+	     
+
+
+	   retString = retString + '<article class="search-result row"><div class="col-xs-12 col-sm-12 col-md-3"><a href="https://davesgarden.com'+j['link'] +'" target="_blank" title="Lorem ipsum" class="thumbnail">';
 
 
 
