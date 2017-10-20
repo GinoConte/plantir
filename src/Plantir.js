@@ -30,6 +30,8 @@ class Plantir extends Component {
       haveWeather: false,
       weatherMess: '',
       searchHtml: 'tt',
+      hoverBloomString: '',
+      hoverFlowerName: '',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -49,6 +51,7 @@ class Plantir extends Component {
     this.getWeather = this.getWeather.bind(this);
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
     this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
+    this.handleTileHover = this.handleTileHover.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -145,6 +148,42 @@ class Plantir extends Component {
       .catch(err => {
         console.log(err);
       })
+  }
+  handleTileHover(name, bloom) { //update timeline with bloom duration
+    console.log("name: " + name);
+    console.log("bloom: " + bloom);
+
+    let bloomString = bloom;
+    let time = '';
+    let season = '';
+
+    let regexTime   = /(mid|early|late)/i;
+    let regexSeason = /(summer|winter|fall|autumn|spring)/i;
+    let matchTime   = regexTime.exec(bloomString);
+    let matchSeason = regexSeason.exec(bloomString);
+    
+    if (matchTime) {
+      time = matchTime[0];
+      console.log("Time: " + time);
+    }
+
+    if (matchSeason) {
+      season = matchSeason[0];
+      console.log("Season: " + season);
+    }
+
+    let combined = time + " " + season;
+    console.log("Bloom edited: " + combined.toLowerCase());
+
+    this.setState({hoverFlowerName: name, hoverBloomString: combined.toLowerCase()});
+    // let summerRegex = /[Ss]ummer/g;
+    // let winterRegex = /[Ww]inter/g;
+    // let   fallRegex = /[Ff]all/g;
+    // let autumnRegex = /[Aa]utumn/g;
+    // let springRegex = /[Ss]pring/g;
+
+
+
   }
   handlePlotUpdate(id, plot) {
     if (plot.ph === "Select") {
@@ -337,6 +376,7 @@ class Plantir extends Component {
         onWaterClicked={this.handleWaterClicked}
         onSearchReq={this.handleSearchReq}
         onSearchChange={this.handleSearchChange}
+        onTileHover={this.handleTileHover}
         data={ this.state.data }
         filterState = {this.state.filter}
         searchRet = {this.state.searchRet} 
@@ -349,6 +389,9 @@ class Plantir extends Component {
 
 
       </div> :null }
+      <Timeline 
+        hoverName={this.state.hoverFlowerName}
+        hoverBloom={this.state.hoverBloomString} />
       {  (this.state.haveWeather) ?
         <div>
           <WeatherWidget

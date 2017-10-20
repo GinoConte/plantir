@@ -53,7 +53,7 @@ class Tile extends Component {
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.handleResultClicked = this.handleResultClicked.bind(this);
-
+    this.handleTileHover = this.handleTileHover.bind(this);
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleParseSearch = this.handleParseSearch.bind(this);
@@ -145,6 +145,16 @@ class Tile extends Component {
     //reset needswater
     this.setState({needswater: false,
                    daysnotwatered: 0 });
+
+  }
+  handleTileHover(e) {
+    e.preventDefault();
+    //to update the timeline
+    let name = this.state.davesgardenplant;
+    if (this.state.davesgardenbloom) {
+      let bloom = this.state.davesgardenbloom;
+      this.props.onTileHover(name, bloom);
+    }
 
   }
   deleteTile(e) {
@@ -498,7 +508,7 @@ class Tile extends Component {
           }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
