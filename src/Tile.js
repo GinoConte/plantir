@@ -37,6 +37,8 @@ class Tile extends Component {
       needswater: false,
       daysnotwatered: 0,
       davesgardenbigimg: '',
+      tileSelected :false,
+
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -69,7 +71,8 @@ class Tile extends Component {
     this.setDaysNotWatered = this.setDaysNotWatered.bind(this);
     this.setTileName = this.setTileName.bind(this);
 
-
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    //this.afterSelect = this.afterSelect.bind(this)
 
 
   }
@@ -296,6 +299,21 @@ class Tile extends Component {
 
 
   }
+  
+  //tile select check
+  handleSelectChange=()=>{
+      console.log("ori checked state is below");
+      console.log(this.state.tileSelected);
+    this.setState(({ tileSelected }) => (
+      {
+        //everytime when clicking the button, tileSelected state changes
+        tileSelected : !tileSelected,
+        
+      }
+    ));
+
+  }
+  
   findPlantFromId(dgId){
     axios.get('http://localhost:3001/api/search/'+dgId)
       .then(res =>{
@@ -489,8 +507,13 @@ class Tile extends Component {
           tileColour = '#ff7632';        
       }
 
-
+  
       //console.log("Colour: " + this.state.davesgardencolour);
+    }
+    //transparent change when selected tiles
+    if (this.state.tileSelected == true){
+      //when tile got selected, opacity decrese a bit
+      thisOpacity = 0.7;
     }
 
     //determine if big img is available
@@ -656,7 +679,14 @@ class Tile extends Component {
           </ResultIcon>:null}
         </Modal>
         </center>
-
+        <Center>
+          <button
+          style={style.tilebutton}
+          value = 'select me'
+          onClick={this.handleSelectChange}>
+          select
+          </button>
+        </Center>
 
       </div>
     )
