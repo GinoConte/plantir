@@ -247,7 +247,7 @@ class Timeline extends Component {
     };
 
     return (
-      <div className="Timeline">
+      <div className="Timeline" style={{ 'width': '60%', 'display': 'inline-block'}}>
         <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );
