@@ -30,6 +30,8 @@ class Plantir extends Component {
       haveWeather: false,
       weatherMess: '',
       searchHtml: 'tt',
+      hoverBloomString: '',
+      hoverFlowerName: '',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -49,6 +51,8 @@ class Plantir extends Component {
     this.getWeather = this.getWeather.bind(this);
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
     this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
+    this.handleTileHover = this.handleTileHover.bind(this);
+    this.handleGlobalEdit = this.handleGlobalEdit.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -112,7 +116,9 @@ class Plantir extends Component {
     // }
     axios.get('http://localhost:3001/api/tiletype/')
       .then(res => {
+        //console.log("doing");
         //console.log(res.data);
+        //console.log("done");
         this.setState({tiletypes: res.data})
     })
 
@@ -146,6 +152,42 @@ class Plantir extends Component {
         console.log(err);
       })
   }
+  handleTileHover(name, bloom) { //update timeline with bloom duration
+    console.log("name: " + name);
+    console.log("bloom: " + bloom);
+
+    let bloomString = bloom;
+    let time = '';
+    let season = '';
+
+    let regexTime   = /(mid|early|late)/i;
+    let regexSeason = /(summer|winter|fall|autumn|spring)/i;
+    let matchTime   = regexTime.exec(bloomString);
+    let matchSeason = regexSeason.exec(bloomString);
+    
+    if (matchTime) {
+      time = matchTime[0];
+      console.log("Time: " + time);
+    }
+
+    if (matchSeason) {
+      season = matchSeason[0];
+      console.log("Season: " + season);
+    }
+
+    let combined = time + " " + season;
+    console.log("Bloom edited: " + combined.toLowerCase());
+
+    this.setState({hoverFlowerName: name, hoverBloomString: combined.toLowerCase()});
+    // let summerRegex = /[Ss]ummer/g;
+    // let winterRegex = /[Ww]inter/g;
+    // let   fallRegex = /[Ff]all/g;
+    // let autumnRegex = /[Aa]utumn/g;
+    // let springRegex = /[Ss]pring/g;
+
+
+
+  }
   handlePlotUpdate(id, plot) {
     if (plot.ph === "Select") {
       plot.ph = '';
@@ -165,9 +207,6 @@ class Plantir extends Component {
     })
   }
   handleTileTypeUpdate(tileid, tiletypename) {
-    console.log("data below");
-    console.log(this.state.data);
-    console.log("data above");
     axios.get('http://localhost:3001/api/tiletype/name/'+tiletypename)
       .then(res => {
         var tiletypeid = res.data._id;
@@ -295,42 +334,26 @@ class Plantir extends Component {
       lastwatered: new Date("13 Mar 2010"),
     };
     axios.post('http://localhost:3001/api/tile/', body).then(res => {
-      console.log(res+"createTile");
+      console.log(res);
       this.loadTilesFromServer();
     });;
   }
-  /*-----------------checkboxes stuff here----------
-  componentWillMount = () => {
-    this.selectedCheckboxes = new Set();
-  }
 
-  toggleCheckbox = label => {
-    if (this.selectedCheckboxes.has(label)) {
-      this.selectedCheckboxes.delete(label);
-    } else {
-      this.selectedCheckboxes.add(label);
-    }
-  }  
 
-  handleFormSubmit = formSubmitEvent => {
-    formSubmitEvent.preventDefault();
-
-    for (const checkbox of this.selectedCheckboxes) {
-      console.log(checkbox, 'is selected.');
-    }
-  }
-  */
-  //------------------------------------------------
-
-  
   //--------globalEdit----------
   handleGlobalEdit(){
     //let a = this.state.data;
-    console.log("doing");
+    //console.log("doing");
+    //console.log(this.data);
+    //console.log("done");
     //somehow can not access
-    //for(var i = 0;i <this.state.data.length;i++){
-      //console.log(data);
-    //}
+    for(var i = 0;i <this.state.data.length;i++){
+      console.log(this.state.data[i]);
+      console.log("finally");
+    }
+
+    
+    
   }
 
 
@@ -338,10 +361,10 @@ class Plantir extends Component {
 
   
 
+
+
   render() {
-    console.log("state.data below");
-    console.log(this.state.data);
-    console.log("state.data above");
+    //console.log(this.state.data);
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
@@ -386,6 +409,7 @@ class Plantir extends Component {
         onWaterClicked={this.handleWaterClicked}
         onSearchReq={this.handleSearchReq}
         onSearchChange={this.handleSearchChange}
+        onTileHover={this.handleTileHover}
         data={ this.state.data }
         filterState = {this.state.filter}
         searchRet = {this.state.searchRet} 
@@ -398,6 +422,13 @@ class Plantir extends Component {
 
 
       </div> :null }
+      { (this.state.garden._id) ? 
+        (<Timeline 
+        hoverName={this.state.hoverFlowerName}
+        hoverBloom={this.state.hoverBloomString} />)
+        : null
+      }
+
       {  (this.state.haveWeather) ?
         <div>
           <WeatherWidget

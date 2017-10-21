@@ -7,7 +7,6 @@ import marked from 'marked';
 import ReactTooltip from 'react-tooltip'
 
 import axios from 'axios';
-//var Checkbox = React.createFactory(require('react-checkbox'));
 
 class Tile extends Component {
   constructor(props) {
@@ -33,9 +32,11 @@ class Tile extends Component {
       davesgardenwater: '',
       davesgardenbloom: '',
       davesgardensci: '',
+      davesgardencolour: '',
       needswater: false,
       daysnotwatered: 0,
       tileSelected :false,
+
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -54,7 +55,7 @@ class Tile extends Component {
     this.handleBiologyClicked = this.handleBiologyClicked.bind(this);
     this.handleWaterClicked = this.handleWaterClicked.bind(this);
     this.handleResultClicked = this.handleResultClicked.bind(this);
-
+    this.handleTileHover = this.handleTileHover.bind(this);
     this.handleSearchReq = this.handleSearchReq.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleParseSearch = this.handleParseSearch.bind(this);
@@ -68,19 +69,31 @@ class Tile extends Component {
     this.setDaysNotWatered = this.setDaysNotWatered.bind(this);
     this.setTileName = this.setTileName.bind(this);
 
-
-
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    //this.afterSelect = this.afterSelect.bind(this);
 
   }
   updateTile(e) {
+        console.log("finallyaaaaaaaaaa");
+    console.log(this.state.tileSelected);
     e.preventDefault();
     //set update flag in the state
-    this.setState({ toBeUpdated: !this.state.toBeUpdated });
+    if(this.state.toChangeTile){
+      this.setState({ toBeUpdated: !this.state.toBeUpdated, toChangeTile: !this.state.toChangeTile})  
+    }
+    else{
+      this.setState({ toBeUpdated: !this.state.toBeUpdated });
+    }
   }
   changeTileType(e) {
   //changeTileType(){
     e.preventDefault();
-    this.setState({ toChangeTile: !this.state.toChangeTile });
+    if(this.state.toBeUpdated){
+      this.setState({ toBeUpdated: !this.state.toBeUpdated, toChangeTile: !this.state.toChangeTile})  
+    }
+    else{
+      this.setState({ toChangeTile: !this.state.toChangeTile });
+    }
   }
   handlePlotUpdate(e) {
     e.preventDefault();
@@ -113,6 +126,7 @@ class Tile extends Component {
     this.setState({
       toChangeTile: false,
       newtiletypename: '',
+      davesgardencolour: '',
     })
 
     //also update plot to have d's garden id of -1
@@ -135,6 +149,16 @@ class Tile extends Component {
     //reset needswater
     this.setState({needswater: false,
                    daysnotwatered: 0 });
+
+  }
+  handleTileHover(e) {
+    e.preventDefault();
+    //to update the timeline
+    let name = this.state.davesgardenplant;
+    if (this.state.davesgardenbloom) {
+      let bloom = this.state.davesgardenbloom;
+      this.props.onTileHover(name, bloom);
+    }
 
   }
   deleteTile(e) {
@@ -183,24 +207,7 @@ class Tile extends Component {
     e.preventDefault();
     this.setState({tempVal: e.target.value});
   }
-  //tile select check
-  handleCheckboxChange=()=>{
-      console.log("ori checked state is below");
-      console.log(this.state.checked);
-    this.setState(({ tileSelected }) => (
-      {
-        //everytime when clicking the button, tileSelected state changes
-        tileSelected : !tileSelected,
-        
-      }
-    ));
-
-  }
-
-
   handleSearchReq(evt){
-      console.log("after clicked, checked state is below");
-      console.log(this.state.checked);
     //e.preventDefault();
     this.setState({isResult:false});
     // this.props.onSearchReq(e,this.props.uniqueID);
@@ -209,13 +216,13 @@ class Tile extends Component {
 
     evt.preventDefault();
       this.setState({ searchRet: 's' });
-            console.log(this.state.searchRet);
+            //console.log(this.state.searchRet);
       axios.get('http://localhost:3001/api/search/'+this.state.tempVal)
       //axios.get('http://localhost:3001/api/search')
         .then(res =>{
           this.setState({ searchRet: res.data });
             let p = this.state.searchRet;
-            console.log(p+"whatSearch");
+            //console.log(p);
             this.handleParseSearch();
             // var retString = '';
             // if (Object.keys(p).length == 0){
@@ -245,20 +252,20 @@ class Tile extends Component {
   }
   handleParseSearch(){
     var p = this.state.searchRet;
-    console.log(Object.keys(p).length);
+    //console.log(Object.keys(p).length);
     var retString = '';
     if (Object.keys(p).length == 0){
-      console.log("empty response!");
+      //console.log("empty response!");
       retString = "<p>No results found!</p>";
     } else {
 
       for (var key in p){
         if(p.hasOwnProperty(key)){
-          console.log(key + "------>");
+          //console.log(key + "------>");
           let j = p[key];
           for(var key2 in j){
             if (j.hasOwnProperty(key2)){
-                console.log(key2 + "->" + j[key2])
+                //console.log(key2 + "->" + j[key2])
 
                 retString = retString + "<p>" + key2 + ': '+ j[key2]  +  "</p>"
 
@@ -285,10 +292,29 @@ class Tile extends Component {
 
     //and we need to change the tiletype of the tile to "other plant"
     this.props.onTileTypeUpdate(tileId, "Other plant");
-    this.setTileName();
-    this.setState({davesgardenplant: ''});
+    // this.setState({davesgardenplant: '',
+    //                davesgardencolour: ''});
+    this.setTileName(true, dgId);
+
 
   }
+  //--------------------------------
+    //tile select check
+  handleSelectChange=()=>{
+      console.log("ori checked state is below");
+      console.log(this.state.tileSelected);
+    this.setState(({ tileSelected }) => (
+      {
+        //everytime when clicking the button, tileSelected state changes
+        tileSelected : !tileSelected,
+        
+      }
+    ));
+
+  }
+
+
+  //-----------------------
   findPlantFromId(dgId){
     axios.get('http://localhost:3001/api/search/'+dgId)
       .then(res =>{
@@ -302,7 +328,7 @@ class Tile extends Component {
           this.setState({ davesgardenplant: plantname.substring(0,12) }); //character limit to stay on one line
         }
         let p = this.state.davesgardenplant;
-        console.log(p+"whichPlant");
+        //console.log(p);
 
         //set ph
         let ph = res.data['Soil pH requirements'];
@@ -319,6 +345,10 @@ class Tile extends Component {
         //set watering
         let water = res.data['Water Requirements'];
         this.setState({ davesgardenwater: water });
+
+        //set colour text
+        let colour = res.data['Bloom Color'];
+        this.setState({ davesgardencolour: colour });
 
           //this.handleParseSearch();
     })
@@ -340,13 +370,13 @@ class Tile extends Component {
       this.setState({ daysnotwatered: diffDays })
     }
   }
-  setTileName() {
+  setTileName(resultClicked, newid) {
     //check if tiletype is davesgarden plant or default tiletype
     if (this.props.davesgardenid == -1 && this.state.davesgardenplant === '') {
       //default tiletype
       //console.log(this.props);
       this.setState({davesgardenplant: this.props.tiletypename});
-    } else {
+    } else if (this.props.davesgardenid !== -1) {
       if (this.state.davesgardenplant === '') {
         this.findPlantFromId(this.props.davesgardenid);
         //console.log(this.props.tiletypename);
@@ -362,6 +392,11 @@ class Tile extends Component {
       this.findPlantFromId(this.props.davesgardenid);
     }
 
+    if (resultClicked && newid && this.state.davesgardenplant) { //changing from custom tile to a different custom tile
+            console.log("last??");
+            this.findPlantFromId(newid);
+    }
+
   }
   componentDidMount() {
     this.setDaysNotWatered();
@@ -369,30 +404,12 @@ class Tile extends Component {
     //this.setState({davesgardenplant: 'hi'})
 
     //this.setTileName();
-    setInterval(this.setTileName, 3000);
+    setInterval(this.setTileName, 5000);
   }
-
-  //checkboxes stuff start here--------------------------
-
-  /*
-  toggleCheckboxChange = () => {
-    handleCheckboxChange = this.props.
-    label = this.props.uniqueID;
-    this.setState(({ checked }) => (
-      {
-        checked: !checked,
-      }
-    ));
-    handleCheckboxChange(label);
-  }
-  */
-
-  //checkboxes stuff ends here----------------------------
 
   render() {
-    console.log("this.props below");
-    console.log(this.props);
-    console.log("this.props above");
+
+
     var contents = "Change Tile";
     // if( this.state.retString == ''){
     //   this.handleParseSearch();
@@ -434,6 +451,8 @@ class Tile extends Component {
 
 
     var tileColour = this.props.tiletypecolour;
+    var thisOpacity = null;
+    
     //get filter colours
     if (this.props.filterState === "Sunlight") {
       if (this.props.tileprops.sunlight === "Moderate") {
@@ -466,11 +485,43 @@ class Tile extends Component {
         tileColour = '#003b56';
       }
     }
+
+    //extract colour of flower based on scraped data
+    if (this.state.davesgardencolour && this.props.filterState === "None") {
+      //basic pattern matching
+      if (this.state.davesgardencolour.includes('Pink') || this.state.davesgardencolour.includes('pink')) {
+          tileColour = '#ffc9e9';
+          
+     
+      } else if (this.state.davesgardencolour.includes('Yellow') || this.state.davesgardencolour.includes('yellow')) {
+          tileColour = '#f2bc4f';
+      } else if (this.state.davesgardencolour.includes('Gold') || this.state.davesgardencolour.includes('gold')) {
+          tileColour = '#f9f6d4';
+      } else if (this.state.davesgardencolour.includes('Blue') || this.state.davesgardencolour.includes('blue')) {
+          tileColour = '#60c9f2';
+      } else if (this.state.davesgardencolour.includes('Violet') || this.state.davesgardencolour.includes('violet')) {
+          tileColour = '#f780f3';
+      } else if (this.state.davesgardencolour.includes('Red') || this.state.davesgardencolour.includes('red')) {
+          tileColour = '#ff5b87';        
+      } else if (this.state.davesgardencolour.includes('Orange')) {
+          tileColour = '#ff7632';        
+      }
+
+      //console.log("Colour: " + this.state.davesgardencolour);
+    }
+
+    if (this.state.tileSelected == true){
+      //when tile got selected, opacity decrese a bit
+      thisOpacity = 0.7;
+    }
+
+
 //{this.props.gridorder} 
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
-    return (
-      <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
 
+    return (
+
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity})}>
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button
@@ -485,7 +536,7 @@ class Tile extends Component {
           }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={this.props.imglink} width="800" style={ style.images }  onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
@@ -497,7 +548,7 @@ class Tile extends Component {
           </ReactTooltip>
           </center>
         ) : 
-        (<center><img src={flowerImages["nothing"]} style={ style.invisibleImage } /></center>) }
+        null }
         
         <center><button 
                   style={ style.tilebutton } 
@@ -505,7 +556,6 @@ class Tile extends Component {
                   value='Plot'>
                   Edit
                 </button>
-
 
 
         <Modal
@@ -570,32 +620,13 @@ class Tile extends Component {
                   </form>)
                 : null}
                 <div>
-                      { (this.state.toChangeTile && this.props.tiletypeisplant)
+                      { (this.state.toChangeTile )
            ? (<form onSubmit={ this.handleTileTypeUpdate }>
                   <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
                     <option value="Select" selected>Tile</option>
                     <option value="Grass">Grass</option>
                     <option value="House">House</option>
                     <option value="Path">Path</option>
-                  </select>
-                  <input
-                    type='submit'
-                    style={ style.commentFormPost }
-                    value='Change' 
-                  />
-                </form>): null}
-
-          { (this.state.toChangeTile && !this.props.tiletypeisplant)
-           ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                  <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
-                    <option value="Select" selected>Tile</option>
-                    <option value="Grass">Grass</option>
-                    <option value="House">House</option>
-                    <option value="Path">Path</option>
-                    <option value="Sunflower">Sunflower</option>
-                    <option value="Daisy">Daisy</option>
-                    <option value="Rose">Rose</option>
-                    <option value="Violet">Violet</option>
                   </select>
                   <input
                     type='submit'
@@ -641,10 +672,11 @@ class Tile extends Component {
           <button
           style={style.tilebutton}
           value = 'select me'
-          onClick={this.handleCheckboxChange}>
+          onClick={this.handleSelectChange}>
           click me
           </button>
         </Center>
+       
 
       </div>
     )
