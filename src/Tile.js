@@ -527,7 +527,7 @@ class Tile extends Component {
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     return (
-        <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity})}>
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
