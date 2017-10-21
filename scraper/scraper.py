@@ -4,7 +4,9 @@ import sys
 import json
 import re 
 
+
 base_site = 'http://davesgarden.com/guides/pf/'
+baser_site = 'https://davesgarden.com'
 isSearch = False
 if sys.argv[1].isdigit():
 	# print("plant scrape")
@@ -107,6 +109,9 @@ else:
 		else:
 			d['Water Requirements'] = 3
 
+		imgCrop = soup.find(src=re.compile("widht")) #yes that is how it is spelt on the site dont shoot the messenger ok
+
+		d['imgCrop'] = baser_site + imgCrop['src']
 		allDicts = d
 
 
