@@ -37,6 +37,9 @@ class Plantir extends Component {
       globalSunlight: '',
       globalMoisture: '',
       globalPh: '',
+
+      globalNewTileTypeName: '',
+      //globalNewDavesGardenColor: '',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -62,6 +65,7 @@ class Plantir extends Component {
     this.handleGlobalSunlightChange = this.handleGlobalSunlightChange.bind(this);
     this.handleGlobalMoistureChange = this.handleGlobalMoistureChange.bind(this);
     this.handleGlobalPhChange = this.handleGlobalPhChange.bind(this);
+    this.handleGlobalTileTypeDropdownChange = this.handleGlobalTileTypeDropdownChange.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -86,8 +90,8 @@ class Plantir extends Component {
       var gardentoken = this.state.garden._id;
       axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
         .then(res => {
-          //console.log("here");
-          //console.log(res);
+          console.log("here");
+          console.log(res);
           //console.log("there");
           this.setState({ data: res.data },
             function() {
@@ -308,6 +312,10 @@ class Plantir extends Component {
             return this.state.searchRet;
         })
   }
+  handleGlobalTileTypeDropdownChange(e) {
+    this.setState({globalNewTileTypeName: e.target.value});
+  }
+
   handleGlobalSoilTypeChange(e) {
     this.setState({globalSoiltype: e.target.value});
     console.log(e.target.value);
@@ -336,6 +344,9 @@ class Plantir extends Component {
   handleMoistureFilter(e) {
     this.setState({filter: e.target.value});
   }
+
+
+
   handleLayoutChange(layouts){
     axios.put('http://localhost:3001/api/garden/' + this.state.garden._id, {
       location: this.state.garden.location,
@@ -376,14 +387,9 @@ class Plantir extends Component {
       console.log("finally");
     }
     
-    let body = {
-      
-    };
+    
 
-    axios.post('http://localhost:3001/api/tile/:').then(res => {
-      console.log(res);
-      //this.loadTilesFromServer();
-    });;
+
     
     
   }
@@ -396,9 +402,14 @@ class Plantir extends Component {
   }
 
 
+  handleGlobalDeleteTiles(){
+    //do nothing now
+  }
+
+
 
   render() {
-    console.log("doing this");
+    console.log("states of plantir are");
     console.log(this.state);
     //console.log(this.state.data);
     return ( 
@@ -465,6 +476,21 @@ class Plantir extends Component {
                             <option value="6">6</option>
                             <option value="7">7</option>
                           </select>
+
+                          <select name="selectedtype" onChange={this.handleGlobalTileTypeDropdownChange}>
+                            <option value="Select" selected>Tile Type</option>
+                            <option value="Grass">Grass</option>
+                            <option value="House">House</option>
+                            <option value="Path">Path</option>
+                          </select>
+
+                          <button 
+                            value = "globalDelete"
+                            onClick={this.handleGlobalDeleteTiles}>
+                            Delete Tiles
+                          </button>
+
+
 
       <TileList
         onTileDelete={this.handleTileDelete} 
