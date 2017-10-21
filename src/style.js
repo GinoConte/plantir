@@ -12,6 +12,7 @@ const style = {
   tile:{
     width: '100%',
     height: '100%',
+    paddingTop: "3px",
     position: 'relative',
     display: 'block',
   },
@@ -27,6 +28,7 @@ const style = {
     marginBottom: "5px",
     marginRight: "2px",
     marginLeft: "2px",
+    marginTop: "5px",
   },
   emptybutton: {
     padding: "0",
@@ -37,22 +39,26 @@ const style = {
   },
 // w h were 8vmin before
   images: {
-    width: "8vmin",
-    height: "8vmin",
-    paddingTop: "4",
-    paddingBottom: "5",
+    width: "10vmin",
+    height: "100%",
+    paddingTop: "5",
+    paddingBottom: "6",
+    border: "2px solid",
+    borderColor: "#000000",
+    backgroundColor: "#000000",
 
   },
   invisibleImage: {
     opacity: 0,    
-    width: "8min",
-    height: "8vmin",
+    width: "10vmin",
+    height: "10vmin",
     paddingTop: "4",
     paddingBottom: "5",
 
   },
   wateringRow: {
     display: "inline-block",
+    paddingBottom: "15",
   },
   biologybutton: {
     border: "2px solid ",
