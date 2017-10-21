@@ -525,24 +525,27 @@ class Tile extends Component {
         {(this.props.tiletypeisplant) ? 
         (
         <div className="wateringRow"><center>
-        <WaterMeter
-          daysnotwatered={this.state.daysnotwatered}
-          wateringfrequency={this.state.davesgardenwater}
-          rainThisWeek={this.props.rainThisWeek}
-          avgTempThisWeek={this.props.avgTempThisWeek} />
+        <button 
+          style={ style.tilebutton } 
+          onClick={this.openModal}
+          value='Plot'>
+          Edit
+        </button>
+
          <button
             style={style.emptybutton}
             onClick={this.handleWaterClicked}
             value='Water'>
           <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
+        <WaterMeter
+          daysnotwatered={this.state.daysnotwatered}
+          wateringfrequency={this.state.davesgardenwater}
+          rainThisWeek={this.props.rainThisWeek}
+          avgTempThisWeek={this.props.avgTempThisWeek} />
+
         </center></div>
         ) : null }
-        <center><button 
-                  style={ style.tilebutton } 
-                  onClick={this.openModal}
-                  value='Plot'>
-                  Edit
-                </button>
+        <center>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
