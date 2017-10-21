@@ -194,8 +194,8 @@ class Plantir extends Component {
     // let summerRegex = /[Ss]ummer/g;
     // let winterRegex = /[Ww]inter/g;
     // let   fallRegex = /[Ff]all/g;
-    // let autumnRegex = /[Aa]utumn/g;
-    // let springRegex = /[Ss]pring/g;
+    // let autumnRegex = /Aa]utumn/g;
+    //let springRegex = /[Ss]p[ring/g;
 
 
 
@@ -490,6 +490,7 @@ class Plantir extends Component {
 
 
       </div> :null }
+        <div>
       { (this.state.garden._id) ? 
         (<Timeline 
         hoverName={this.state.hoverFlowerName}
@@ -502,8 +503,8 @@ class Plantir extends Component {
           <WeatherWidget
             weatherMess={this.state.weatherMess}
             check="alalal"
-          />
-        </div> :null }
+          />:null }
+        </div>
       </div>
 
       )
