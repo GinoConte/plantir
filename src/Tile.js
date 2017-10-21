@@ -429,6 +429,7 @@ class Tile extends Component {
 
 
     var tileColour = this.props.tiletypecolour;
+    
     //get filter colours
     if (this.props.filterState === "Sunlight") {
       if (this.props.tileprops.sunlight === "Moderate") {
@@ -466,7 +467,9 @@ class Tile extends Component {
     if (this.state.davesgardencolour && this.props.filterState === "None") {
       //basic pattern matching
       if (this.state.davesgardencolour.includes('Pink') || this.state.davesgardencolour.includes('pink')) {
-        tileColour = '#ffc9e9';
+          tileColour = '#ffc9e9';
+          
+     
       } else if (this.state.davesgardencolour.includes('Yellow') || this.state.davesgardencolour.includes('yellow')) {
           tileColour = '#f2bc4f';
       } else if (this.state.davesgardencolour.includes('Gold') || this.state.davesgardencolour.includes('gold')) {
@@ -488,8 +491,9 @@ class Tile extends Component {
 
 //{this.props.gridorder} 
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
+
     return (
-      <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
           { (this.props.tiletypeisplant) ?
           (<button
