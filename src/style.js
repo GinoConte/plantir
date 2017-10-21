@@ -63,7 +63,9 @@ const style = {
   commentBox: {
     width:'80vw',
     margin:'0 auto',
-    fontFamily:'Helvetica, sans-serif'
+    fontFamily:'Helvetica, sans-serif',
+    backgroundColor: '#e1edb4',
+    //backgroundImage: "url('https://i.imgur.com/Ywcvr7u.jpg')",
   },
   title: {
     textAlign:'center',

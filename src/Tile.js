@@ -463,7 +463,7 @@ class Tile extends Component {
     }
 
     //extract colour of flower based on scraped data
-    if (this.state.davesgardencolour) {
+    if (this.state.davesgardencolour && this.props.filterState === "None") {
       //basic pattern matching
       if (this.state.davesgardencolour.includes('Pink') || this.state.davesgardencolour.includes('pink')) {
         tileColour = '#ffc9e9';

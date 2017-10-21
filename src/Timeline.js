@@ -29,9 +29,11 @@ class Timeline extends Component {
 
     this.state = {
       dataProvider: this.updateData(),
-      timer: null
+      timer: null,
+      dateSeason: '',
     };
     this.updateData = this.updateData.bind(this);
+    this.setupCurrentDate = this.setupCurrentDate.bind(this);
   }
   updateData() {
     let name = this.props.hoverName;
@@ -42,37 +44,137 @@ class Timeline extends Component {
     let winterval = 0;
     let autumnval = 0;
 
+    let lsval = 0;
+    let laval = 0;
+    let lwval = 0;
+    let lspval = 0;
+
+    let wideval = 0.4;
+
     if (bloom.includes("summer")) {
-      summerval = 1;
+      if (bloom.includes("late")) {
+        summerval = wideval;
+        lsval = 1;
+        autumnval = wideval;
+      } else if (bloom.includes("early")) {
+        springval = wideval;
+        lspval = 1;
+        summerval = wideval;
+      } else {
+        lspval = wideval;
+        summerval = 1;
+        lsval = wideval;
+      }
     }
     if (bloom.includes("spring")) {
-      springval = 1;
+      if (bloom.includes("late")) {
+        summerval = wideval;
+        lspval = 1;
+        springval = wideval;
+      } else if (bloom.includes("early")) {
+        winterval = wideval;
+        lwval = 1;
+        springval = wideval;
+      } else {
+        lwval = wideval;
+        springval = 1;
+        lspval = wideval;
+      }
     }
     if (bloom.includes("winter")) {
-      winterval = 1;
+      if (bloom.includes("late")) {
+        winterval = wideval;
+        lwval = 1;
+        springval = wideval;
+      } else if (bloom.includes("early")) {
+        winterval = wideval;
+        laval = 1;
+        autumnval = wideval;
+      } else {
+        laval = wideval;
+        winterval = 1;
+        lwval = wideval;
+      }
     }
     if (bloom.includes("autumn") || (bloom.includes("fall"))) {
-      autumnval = 1;
+      if (bloom.includes("late")) {
+        winterval = wideval;
+        laval = 1;
+        winterval = wideval;
+      } else if (bloom.includes("early")) {
+        summerval = wideval;
+        lsval = 1;
+        autumnval = wideval;
+      } else {
+        lsval = wideval;
+        autumnval = 1;
+        laval = wideval;
+      }
     }
 
 
       var data = [{
-          "season": "Summer",
-          "value": summerval
-          }, {
-          "season": "Autumn",
-          "value": autumnval
-          }, {
-          "season": "Winter",
-          "value": winterval
-          }, {
-          "season": "Spring",
-          "value": springval
+        "season": "Summer",
+        "value": summerval,
+        }, {
+        "season": "",//late summer or early autumn
+        "value": lsval,
+        }, {
+        "season": "Autumn",
+        "value": autumnval,
+        }, {
+        "season": "", //late autumn or early winter
+        "value": laval,
+        }, {
+        "season": "Winter",
+        "value": winterval,
+        }, {
+        "season": "",//late winter or early spring
+        "value": lwval,
+        }, {
+        "season": "Spring",
+        "value": springval,
+        }, {
+        "season": "",
+        "value": lspval,
+        }, {
+        "season": "Summer",
+        "value": summerval,
        }];
+       for (var i = 0; i<data.length ; i++) {
+        let datapoint = data[i];
+        if (datapoint.value == 1) {
+          datapoint.name = "Expected bloom time";
+        }
+       }
+
        this.setState({dataProvider: data});
   }
+  setupCurrentDate() {
+    let date = new Date();
+    let month = date.getMonth();
 
+    if (month == 0) {
+      this.setState({dateSeason: "Summer"});
+    } else if (month == 1 || month == 2) {
+      this.setState({dateSeason: "Late Summer"});
+    } else if (month == 3) {
+      this.setState({dateSeason: "Autumn"});
+    } else if (month == 4 || month == 5) {
+      this.setState({dateSeason: "Late Autumn"});
+    } else if (month == 6) {
+      this.setState({dateSeason: "Winter"});
+    } else if (month == 7 || month == 8) {
+      this.setState({dateSeason: "Late Winter"});
+    } else if (month == 9) {
+      this.setState({dateSeason: "Spring"});
+    } else if (month == 10 || month == 11) {
+      this.setState({dateSeason: "Late Spring"});
+    }
+  }
   componentDidMount() {
+    this.setupCurrentDate();
+
     this.setState({
       // Update the chart dataProvider every 3 seconds
       timer: setInterval(() => {this.updateData()}, 1000)
@@ -95,7 +197,8 @@ class Timeline extends Component {
         "id": "v1",
         "axisAlpha": 0,
         "position": "left",
-        "ignoreAxisWidth": true
+        "ignoreAxisWidth": true,
+        "labelsEnabled": false,
       }],
       "balloon": {
         "borderThickness": 1,
@@ -103,25 +206,38 @@ class Timeline extends Component {
       },
       "graphs": [{
         "id":"g1",
-        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-        "bullet": "round",
+        //"balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+        //"bullet": "round",
         "bulletSize": 8,
         "lineColor": "#d1655d",
         "lineThickness": 2,
         "negativeLineColor": "#637bb6",
         "type": "smoothedLine",
+        "labelText": "[[name]]",
         "valueField": "value"
       }],
-      "chartCursor": {
-        "pan": true,
-        "valueLineEnabled": true,
-        "valueLineBalloonEnabled": true,
-        "cursorAlpha":1,
-        "cursorColor":"#258cbb",
-        "limitToGraph":"g1",
-        "valueLineAlpha":0.2,
-        "valueZoomable": true
-      },
+      "guides": [{
+        category: this.state.dateSeason,
+        lineColor: "#9fd64d",
+        lineAlpha: 0.3,
+        dashLength: 0,
+        inside: true,
+        labelRotation: 0,
+        label: "Current season",
+        fontSize: 14,
+        position: "bottom",
+        lineThickness: 3,
+      }],
+      // "chartCursor": {
+      //   "pan": true,
+      //   "valueLineEnabled": true,
+      //   "valueLineBalloonEnabled": true,
+      //   "cursorAlpha":1,
+      //   "cursorColor":"#258cbb",
+      //   "limitToGraph":"g1",
+      //   "valueLineAlpha":0.2,
+      //   "valueZoomable": true
+      // },
       "categoryField": "season",
       "categoryAxis": {
         "dashLength": 1,
@@ -132,8 +248,7 @@ class Timeline extends Component {
 
     return (
       <div className="Timeline">
-        <p>Bloom time for: {this.props.hoverName}</p>
-        <AmCharts.React style={{ width: "100%", height: "200px" }} options={config} />
+        <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );
 
@@ -142,3 +257,7 @@ class Timeline extends Component {
 
 
 export default Timeline;
+
+        // <p>Bloom time for: {this.props.hoverName}</p>
+        // <p>String: {this.props.hoverBloom}</p>
+        // <p>Current Month: {this.state.dateSeason}</p>

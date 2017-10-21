@@ -389,9 +389,13 @@ class Plantir extends Component {
 
 
       </div> :null }
-      <Timeline 
+      { (this.state.garden._id) ? 
+        (<Timeline 
         hoverName={this.state.hoverFlowerName}
-        hoverBloom={this.state.hoverBloomString} />
+        hoverBloom={this.state.hoverBloomString} />)
+        : null
+      }
+
       {  (this.state.haveWeather) ?
         <div>
           <WeatherWidget
