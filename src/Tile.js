@@ -36,6 +36,7 @@ class Tile extends Component {
       davesgardencolour: '',
       needswater: false,
       daysnotwatered: 0,
+      davesgardenbigimg: '',
     };
     //bind functions to this class
     this.deleteTile = this.deleteTile.bind(this);
@@ -330,6 +331,9 @@ class Tile extends Component {
         let colour = res.data['Bloom Color'];
         this.setState({ davesgardencolour: colour });
 
+        //set large image link
+        let bigimg = res.data['imgCrop'];
+        this.setState({ davesgardenbigimg: bigimg });
           //this.handleParseSearch();
     })
   }
@@ -489,6 +493,12 @@ class Tile extends Component {
       //console.log("Colour: " + this.state.davesgardencolour);
     }
 
+    //determine if big img is available
+    var tileimg = this.props.imglink;
+    if (this.state.davesgardenbigimg) {
+      tileimg = this.state.davesgardenbigimg;
+    }
+
 
 //{this.props.gridorder} 
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
@@ -498,7 +508,7 @@ class Tile extends Component {
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<center><img src={tileimg} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
@@ -524,7 +534,7 @@ class Tile extends Component {
             style={style.emptybutton}
             onClick={this.handleWaterClicked}
             value='Water'>
-          <img src='https://i.imgur.com/9KRykNG.png' width='25' float='left' ></img></button>
+          <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
         </center></div>
         ) : null }
         <center><button 
@@ -533,7 +543,6 @@ class Tile extends Component {
                   value='Plot'>
                   Edit
                 </button>
-
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
