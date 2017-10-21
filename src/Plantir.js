@@ -32,6 +32,11 @@ class Plantir extends Component {
       searchHtml: 'tt',
       hoverBloomString: '',
       hoverFlowerName: '',
+
+      globalSoilType: '',
+      globalSunlight: '',
+      globalMoisture: '',
+      globalPh: '',
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -53,7 +58,10 @@ class Plantir extends Component {
     this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
     this.handleTileHover = this.handleTileHover.bind(this);
     this.handleGlobalEdit = this.handleGlobalEdit.bind(this);
-
+    this.handleGlobalSoilTypeChange = this.handleGlobalSoilTypeChange.bind(this);
+    this.handleGlobalSunlightChange = this.handleGlobalSunlightChange.bind(this);
+    this.handleGlobalMoistureChange = this.handleGlobalMoistureChange.bind(this);
+    this.handleGlobalPhChange = this.handleGlobalPhChange.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -78,15 +86,18 @@ class Plantir extends Component {
       var gardentoken = this.state.garden._id;
       axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
         .then(res => {
+          //console.log("here");
+          //console.log(res);
+          //console.log("there");
           this.setState({ data: res.data },
             function() {
               this.loadTileTypesFromServer();
             })
         })
+
       }
     //var gardenURL = 'http://localhost:3001/api/garden/59c3a401c6038385985dfd59/findtiles';
     //axios.get(this.props.url)
-
   }
   //*** not sure if this is the best way to do it,
   //    but it works by loading all needed tiletypes
@@ -117,7 +128,9 @@ class Plantir extends Component {
     // }
     axios.get('http://localhost:3001/api/tiletype/')
       .then(res => {
+        //console.log("doing");
         //console.log(res.data);
+        //console.log("done");
         this.setState({tiletypes: res.data})
     })
 
@@ -181,8 +194,8 @@ class Plantir extends Component {
     // let summerRegex = /[Ss]ummer/g;
     // let winterRegex = /[Ww]inter/g;
     // let   fallRegex = /[Ff]all/g;
-    // let autumnRegex = /Aa]utumn/g;
-    // let springRegex = /[Ss]p[ring/g;
+    // let autumnRegex = /[Aa]utumn/g;
+    // let springRegex = /[Ss]pring/g;
 
 
 
@@ -295,6 +308,22 @@ class Plantir extends Component {
             return this.state.searchRet;
         })
   }
+  handleGlobalSoilTypeChange(e) {
+    this.setState({globalSoiltype: e.target.value});
+    console.log(e.target.value);
+    console.log("hererherer");
+  }
+  handleGlobalSunlightChange(e) {
+    this.setState({globalSunlight: e.target.value});
+  }
+  handleGlobalMoistureChange(e) {
+    this.setState({globalMoisture: e.target.value});
+  }
+
+  handleGlobalPhChange(e) {
+    this.setState({globalPh: e.target.value});
+  }
+
   handleSearchChange(evt){
     this.setState({tempVal: evt.target.value});
   }
@@ -337,25 +366,40 @@ class Plantir extends Component {
       this.loadTilesFromServer();
     });;
   }
+
+
   //--------globalEdit----------
   handleGlobalEdit(e){
     for(var i = 0;i <this.state.data.length;i++){
+
       console.log(this.state.data[i]);
       console.log("finally");
     }
-    /*
+    
     let body = {
       
     };
-    axios.post('http://localhost:3001/api/tile/', body).then(res => {
+
+    axios.post('http://localhost:3001/api/tile/:').then(res => {
       console.log(res);
       //this.loadTilesFromServer();
     });;
-    */
+    
     
   }
 
+
+  //----------------------------
+
+  handleGlobalPlotUpdate(){
+    //nothing for now
+  }
+
+
+
   render() {
+    console.log("doing this");
+    console.log(this.state);
     //console.log(this.state.data);
     return ( 
       <div style={ style.commentBox }>
@@ -379,17 +423,49 @@ class Plantir extends Component {
                                   checked={this.state.filter === "Sunlight"}
                                   onChange={this.handleSunlightFilter}
                           ></input> Sun Exposure&nbsp;&nbsp;
-	  		  <button
-                            value="globalEdit"
-                            onClick={this.handleGlobalEdit}>
-                            edit globally
-                          </button>
                           <input  type="radio" 
                                   name="filter" 
                                   value="Moisture" 
                                   checked={this.state.filter === "Moisture"}
                                   onChange={this.handleMoistureFilter}
                           ></input> Water Content&nbsp;&nbsp;</p>
+                          <button
+                            value="globalEdit"
+                            onClick={this.handleGlobalEdit}>
+                            edit globally
+                          </button>
+
+                          <select name="globalSoiltype" onChange={this.handleGlobalSoilTypeChange} >
+                            <option value="Select" selected>Soil Type</option>
+                            <option value="Loam">Loam</option>
+                            <option value="Sandy">Sandy</option>
+                            <option value="Clay">Clay</option>
+                            <option value="Silty">Silty</option>
+                            <option value="Peaty">Peaty</option>
+                          </select>
+                          <select name="globalSunlight" onChange={this.handleGlobalSunlightChange}>
+                            <option value="Select" selected>Sunlight</option>
+                            <option value="None">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="High">High</option>
+                          </select>
+                          <select name="globalMoisture" onChange={this.handleGlobalMoistureChange}>
+                            <option value="Select" selected>Moisture</option>
+                            <option value="None">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="High">High</option>
+                            <option value="Drenched">Drenched</option>
+                          </select>
+                          <select name="globalPh" onChange={this.handleGlobalPhChange}>
+                            <option value="Select" selected>pH</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                          </select>
+
       <TileList
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
@@ -414,20 +490,20 @@ class Plantir extends Component {
 
 
       </div> :null }
-	    <div>
-	      { (this.state.garden._id) ? 
-	        (<Timeline 
-	        hoverName={this.state.hoverFlowerName}
-	        hoverBloom={this.state.hoverBloomString} />)
-	        : null
-	      }
+      { (this.state.garden._id) ? 
+        (<Timeline 
+        hoverName={this.state.hoverFlowerName}
+        hoverBloom={this.state.hoverBloomString} />)
+        : null
+      }
 
-	      {  (this.state.haveWeather) ?
-	          <WeatherWidget
-	            weatherMess={this.state.weatherMess}
-	            check="alalal"
-	          /> :null }
-	    </div>
+      {  (this.state.haveWeather) ?
+        <div>
+          <WeatherWidget
+            weatherMess={this.state.weatherMess}
+            check="alalal"
+          />
+        </div> :null }
       </div>
 
       )
