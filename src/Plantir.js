@@ -52,6 +52,8 @@ class Plantir extends Component {
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
     this.handleCreateTileClicked = this.handleCreateTileClicked.bind(this);
     this.handleTileHover = this.handleTileHover.bind(this);
+    this.handleGlobalEdit = this.handleGlobalEdit.bind(this);
+
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -335,6 +337,24 @@ class Plantir extends Component {
       this.loadTilesFromServer();
     });;
   }
+  //--------globalEdit----------
+  handleGlobalEdit(e){
+    for(var i = 0;i <this.state.data.length;i++){
+      console.log(this.state.data[i]);
+      console.log("finally");
+    }
+    /*
+    let body = {
+      
+    };
+    axios.post('http://localhost:3001/api/tile/', body).then(res => {
+      console.log(res);
+      //this.loadTilesFromServer();
+    });;
+    */
+    
+  }
+
   render() {
     //console.log(this.state.data);
     return ( 
@@ -359,6 +379,11 @@ class Plantir extends Component {
                                   checked={this.state.filter === "Sunlight"}
                                   onChange={this.handleSunlightFilter}
                           ></input> Sun Exposure&nbsp;&nbsp;
+	  		  <button
+                            value="globalEdit"
+                            onClick={this.handleGlobalEdit}>
+                            edit globally
+                          </button>
                           <input  type="radio" 
                                   name="filter" 
                                   value="Moisture" 
