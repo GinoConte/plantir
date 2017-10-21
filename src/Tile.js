@@ -452,7 +452,8 @@ class Tile extends Component {
 
 
     var tileColour = this.props.tiletypecolour;
-    
+    var thisOpacity = null;
+
     //get filter colours
     if (this.props.filterState === "Sunlight") {
       if (this.props.tileprops.sunlight === "Moderate") {

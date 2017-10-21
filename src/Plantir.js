@@ -499,7 +499,7 @@ class Plantir extends Component {
       }
 
       {  (this.state.haveWeather) ?
-        <div>
+        
           <WeatherWidget
             weatherMess={this.state.weatherMess}
             check="alalal"
