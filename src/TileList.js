@@ -96,7 +96,9 @@ class TileList extends Component {
             onTileHover={this.props.onTileHover}
             onWaterClicked={this.props.onWaterClicked}
             searchRet={this.props.searchRet} 
-            filterState={this.props.filterState}  
+            filterState={this.props.filterState} 
+            rainThisWeek={this.props.rainThisWeek}
+            avgTempThisWeek={this.props.avgTempThisWeek} 
             parentgarden={tile.parentgarden} 
             tileprops={tile.tileprops}
             gridorder={tile.gridorder} 

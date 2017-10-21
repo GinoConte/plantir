@@ -30,25 +30,29 @@ const style = {
   },
   emptybutton: {
     padding: "0",
+    paddingLeft: "5px",
     border: "none",
     background: "none",
     margin: "none",
   },
 // w h were 8vmin before
   images: {
-    width: "22vmin",
-    height: "12vmin",
+    width: "8vmin",
+    height: "8vmin",
     paddingTop: "4",
     paddingBottom: "5",
 
   },
   invisibleImage: {
     opacity: 0,    
-    width: "vmin",
+    width: "8min",
     height: "8vmin",
     paddingTop: "4",
     paddingBottom: "5",
 
+  },
+  wateringRow: {
+    display: "inline-block",
   },
   biologybutton: {
     border: "2px solid ",

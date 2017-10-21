@@ -3,6 +3,7 @@ import Center from 'react-center';
 import Modal from 'react-modal';
 import style from './style';
 import ResultIcon from './ResultIcon';
+import WaterMeter from './WaterMeter';
 import marked from 'marked';
 import ReactTooltip from 'react-tooltip'
 
@@ -495,17 +496,6 @@ class Tile extends Component {
     return (
         <div style={Object.assign(style.tile, {backgroundColor: tileColour})}>
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
-          { (this.props.tiletypeisplant) ?
-          (<button
-            style={style.emptybutton}
-            onClick={this.handleWaterClicked}
-            value='Water'>
-          <img src="https://i.imgur.com/9KRykNG.png" width="25"></img>
-          </button>) : null
-          }
-          { (this.state.needswater && this.props.tiletypeisplant) ?
-          (<b>&nbsp;!</b>) : null
-          }
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<center><img src={this.props.imglink} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
@@ -522,6 +512,21 @@ class Tile extends Component {
         ) : 
         null }
         
+        {(this.props.tiletypeisplant) ? 
+        (
+        <div className="wateringRow"><center>
+        <WaterMeter
+          daysnotwatered={this.state.daysnotwatered}
+          wateringfrequency={this.state.davesgardenwater}
+          rainThisWeek={this.props.rainThisWeek}
+          avgTempThisWeek={this.props.avgTempThisWeek} />
+         <button
+            style={style.emptybutton}
+            onClick={this.handleWaterClicked}
+            value='Water'>
+          <img src='https://i.imgur.com/9KRykNG.png' width='25' float='left' ></img></button>
+        </center></div>
+        ) : null }
         <center><button 
                   style={ style.tilebutton } 
                   onClick={this.openModal}
