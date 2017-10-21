@@ -39,10 +39,12 @@ const style = {
   },
 // w h were 8vmin before
   images: {
-    width: "10vmin",
-    height: "100%",
+    maxWidth: "30vmin",
+    maxHeight: "20vmin",
     paddingTop: "5",
     paddingBottom: "6",
+    paddingLeft: "5",
+    paddingRight: "5",
     border: "2px solid",
     borderColor: "#000000",
     backgroundColor: "#000000",
