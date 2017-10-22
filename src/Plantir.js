@@ -457,48 +457,7 @@ class Plantir extends Component {
       { (this.state.garden._id) ?
       <div>
     
-                          <button
-                            value="globalEdit"
-                            onClick={this.handleGlobalEdit}>
-                            edit globally
-                          </button>
-
-                          <select name="globalSoiltype" onChange={this.handleGlobalSoilTypeChange} >
-                            <option value="Select" selected>Soil Type</option>
-                            <option value="Loam">Loam</option>
-                            <option value="Sandy">Sandy</option>
-                            <option value="Clay">Clay</option>
-                            <option value="Silty">Silty</option>
-                            <option value="Peaty">Peaty</option>
-                          </select>
-                          <select name="globalSunlight" onChange={this.handleGlobalSunlightChange}>
-                            <option value="Select" selected>Sunlight</option>
-                            <option value="None">None</option>
-                            <option value="Low">Low</option>
-                            <option value="Moderate">Moderate</option>
-                            <option value="High">High</option>
-                          </select>
-                          <select name="globalMoisture" onChange={this.handleGlobalMoistureChange}>
-                            <option value="Select" selected>Moisture</option>
-                            <option value="None">None</option>
-                            <option value="Low">Low</option>
-                            <option value="Moderate">Moderate</option>
-                            <option value="High">High</option>
-                            <option value="Drenched">Drenched</option>
-                          </select>
-                          <select name="globalPh" onChange={this.handleGlobalPhChange}>
-                            <option value="Select" selected>pH</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                          </select>
-
-                          <button 
-                            value = "globalDelete"
-                            onClick={this.handleGlobalDeleteTiles}>
-                            Delete Tiles
-                          </button>
+                          
 
 
 
@@ -533,6 +492,7 @@ class Plantir extends Component {
 
       { (this.state.garden._id) ? (
               <div style={style.filterRow}><center>
+              <button style={style.commentFormPost} onClick={this.handleCreateTileClicked}>add tile!</button>&nbsp;&nbsp;&#124;&nbsp;&nbsp;
               <b>Soil filters:</b> <input type="radio" 
                                 name="filter"  
                                 value="None" 
@@ -550,7 +510,54 @@ class Plantir extends Component {
                                   value="Moisture" 
                                   checked={this.state.filter === "Moisture"}
                                   onChange={this.handleMoistureFilter}
-                          ></input> Water Content&nbsp;&nbsp;</center></div>) : null }
+                          ></input> Water Content&nbsp;&nbsp;&#124;&nbsp;&nbsp;<b>Group update:&nbsp;&nbsp;</b>
+
+
+
+                          <select name="globalSoiltype" onChange={this.handleGlobalSoilTypeChange} >
+                            <option value="Select" selected>Soil Type</option>
+                            <option value="Loam">Loam</option>
+                            <option value="Sandy">Sandy</option>
+                            <option value="Clay">Clay</option>
+                            <option value="Silty">Silty</option>
+                            <option value="Peaty">Peaty</option>
+                          </select>&nbsp;
+                          <select name="globalSunlight" onChange={this.handleGlobalSunlightChange}>
+                            <option value="Select" selected>Sunlight</option>
+                            <option value="None">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="High">High</option>
+                          </select>&nbsp;
+                          <select name="globalMoisture" onChange={this.handleGlobalMoistureChange}>
+                            <option value="Select" selected>Moisture</option>
+                            <option value="None">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="High">High</option>
+                            <option value="Drenched">Drenched</option>
+                          </select>&nbsp;
+
+                          <button
+                            value="globalEdit"
+                            onClick={this.handleGlobalEdit}>
+                            Batch Edit
+                          </button>&nbsp;
+
+                          <button 
+                            value = "globalDelete"
+                            onClick={this.handleGlobalDeleteTiles}>
+                            Batch Delete
+                          </button>
+
+
+
+
+
+
+
+
+                          </center></div>) : null }
 
 
         <div>

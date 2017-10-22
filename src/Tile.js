@@ -576,6 +576,8 @@ class Tile extends Component {
     if (this.state.davesgardenbigimg) {
       tileimg = this.state.davesgardenbigimg;
     }
+
+    if (this.props.filterState === "None") {
     var backgroundStr = '';
     var buttonStr='';
     if(tileColour != undefined){
@@ -597,6 +599,7 @@ class Tile extends Component {
       buttonStr = 'linear-gradient(rgba(175,175,175,.6), rgba('+ cut[1] +','+cut[2]+','+cut[3]+',.5),rgba(100,100,100,.6))';
        //backgroundStr = 'url(\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\')';
       var hideUnderStr = "hideUnder("+ this.appendTileNum("tooltip") + ")";
+    }
     }
     //console.log(backgroundStr);
 //{this.props.gridorder} 
