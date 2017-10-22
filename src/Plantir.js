@@ -33,6 +33,9 @@ class Plantir extends Component {
       hoverBloomString: '',
       hoverFlowerName: '',
 
+      avgTempThisWeek: 0,
+      rainThisWeek: false,
+
       globalSoilType: '',
       globalSunlight: '',
       globalMoisture: '',
@@ -409,9 +412,30 @@ class Plantir extends Component {
 
 
   render() {
-    console.log("states of plantir are");
-    console.log(this.state);
+    // console.log("states of plantir are");
+    // console.log(this.state);
     //console.log(this.state.data);
+
+    if (this.state.haveWeather && this.state.avgTempThisWeek == 0) {
+      //get rainThisWeek and avgTempThisWeek
+      var weatherData = this.state.weatherMess;
+
+      var rainFound = false;
+      var avgTemp = 0;
+      var tempSum = 0;
+      for (var i = 0; i<weatherData.length; i++) {
+        var weatherDay = weatherData[i];
+        if (weatherDay['weather']['0']['description'].includes("rain")) {
+          rainFound = true;
+        }
+        tempSum = tempSum + weatherDay['main']['temp'];
+      }
+      avgTemp = tempSum / weatherData.length;
+
+      this.setState({avgTempThisWeek: avgTemp, rainThisWeek: rainFound});
+    }
+
+
     return ( 
       <div style={ style.commentBox }>
       <center><img src="https://i.imgur.com/0LifPKw.png" width="300"></img></center>
@@ -420,26 +444,8 @@ class Plantir extends Component {
         onTokenSubmit={this.handleTokenSubmit}
         onCreateClicked={this.handleCreateClicked} />
       { (this.state.garden._id) ?
-      <div><p><b>Accepted token:</b> {this.state.garden._id}</p>
-      <p><b>Location:</b> {this.state.garden.location} </p>
-      <p><b>Soil filters:</b> <input type="radio" 
-                                name="filter"  
-                                value="None" 
-                                checked={this.state.filter === "None"}
-                                onChange={this.handleNoneFilter}
-                          ></input> None&nbsp;&nbsp;
-                          <input  type="radio" 
-                                  name="filter" 
-                                  value="Sunlight" 
-                                  checked={this.state.filter === "Sunlight"}
-                                  onChange={this.handleSunlightFilter}
-                          ></input> Sun Exposure&nbsp;&nbsp;
-                          <input  type="radio" 
-                                  name="filter" 
-                                  value="Moisture" 
-                                  checked={this.state.filter === "Moisture"}
-                                  onChange={this.handleMoistureFilter}
-                          ></input> Water Content&nbsp;&nbsp;</p>
+      <div>
+    
                           <button
                             value="globalEdit"
                             onClick={this.handleGlobalEdit}>
@@ -504,6 +510,8 @@ class Plantir extends Component {
         onSearchReq={this.handleSearchReq}
         onSearchChange={this.handleSearchChange}
         onTileHover={this.handleTileHover}
+        rainThisWeek={this.state.rainThisWeek}
+        avgTempThisWeek={this.state.avgTempThisWeek}
         data={ this.state.data }
         filterState = {this.state.filter}
         searchRet = {this.state.searchRet} 
@@ -516,9 +524,35 @@ class Plantir extends Component {
 
 
       </div> :null }
+
+              <div style={style.filterRow}><center>
+              <b>Soil filters:</b> <input type="radio" 
+                                name="filter"  
+                                value="None" 
+                                checked={this.state.filter === "None"}
+                                onChange={this.handleNoneFilter}
+                          ></input> None&nbsp;&nbsp;
+                          <input  type="radio" 
+                                  name="filter" 
+                                  value="Sunlight" 
+                                  checked={this.state.filter === "Sunlight"}
+                                  onChange={this.handleSunlightFilter}
+                          ></input> Sun Exposure&nbsp;&nbsp;
+                          <input  type="radio" 
+                                  name="filter" 
+                                  value="Moisture" 
+                                  checked={this.state.filter === "Moisture"}
+                                  onChange={this.handleMoistureFilter}
+                          ></input> Water Content&nbsp;&nbsp;</center></div>
+
+
         <div>
+            
+
       { (this.state.garden._id) ? 
-        (<Timeline 
+        (
+
+        <Timeline 
         hoverName={this.state.hoverFlowerName}
         hoverBloom={this.state.hoverBloomString} />)
         : null
