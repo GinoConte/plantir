@@ -601,7 +601,7 @@ class Tile extends Component {
         ) : 
         null }
         
-        {(this.props.tiletypeisplant) ? 
+        {(this.props.tiletypeisplant && this.props.filterState==="None") ? 
         (
         <center><div style={style.wateringRow} data-tip data-for={this.appendTileNum("tooltip2")}>
 
