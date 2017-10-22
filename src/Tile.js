@@ -306,16 +306,18 @@ class Tile extends Component {
   
   //tile select check
   handleSelectChange=()=>{
-      console.log("ori checked state is below");
-      console.log(this.state.tileSelected);
-    this.setState(({ tileSelected }) => (
-      {
-        //everytime when clicking the button, tileSelected state changes
-        tileSelected : !tileSelected,
-        
-      }
-    ));
-
+    if(this.state.tileSelected == true){
+      this.setState({tileSelected:false});
+      //delete id from id List
+      let id = this.props.uniqueID;
+      this.props.onDeleteSelectFromList(id);
+    }
+    else if(this.state.tileSelected == false){
+      this.setState({tileSelected:true});
+      //add id into id list
+      let id = this.props.uniqueID;
+      this.props.onAddSelectIntoList(id);
+    }
   }
   
   findPlantFromId(dgId){
