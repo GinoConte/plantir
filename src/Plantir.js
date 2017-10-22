@@ -106,8 +106,8 @@ class Plantir extends Component {
       var gardentoken = this.state.garden._id;
       axios.get('http://localhost:3001/api/garden/'+gardentoken+'/findtiles')
         .then(res => {
-          console.log("here");
-          console.log(res);
+          //console.log("here");
+          //console.log(res);
           //console.log("there");
           this.setState({ data: res.data },
             function() {
@@ -185,8 +185,8 @@ class Plantir extends Component {
       })
   }
   handleTileHover(name, bloom) { //update timeline with bloom duration
-    console.log("name: " + name);
-    console.log("bloom: " + bloom);
+    // console.log("name: " + name);
+    // console.log("bloom: " + bloom);
 
     let bloomString = bloom;
     let time = '';
@@ -199,16 +199,16 @@ class Plantir extends Component {
     
     if (matchTime) {
       time = matchTime[0];
-      console.log("Time: " + time);
+      // console.log("Time: " + time);
     }
 
     if (matchSeason) {
       season = matchSeason[0];
-      console.log("Season: " + season);
+      // console.log("Season: " + season);
     }
 
     let combined = time + " " + season;
-    console.log("Bloom edited: " + combined.toLowerCase());
+    // console.log("Bloom edited: " + combined.toLowerCase());
 
     this.setState({hoverFlowerName: name, hoverBloomString: combined.toLowerCase()});
     // let summerRegex = /[Ss]ummer/g;

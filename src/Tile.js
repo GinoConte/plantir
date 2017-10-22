@@ -26,6 +26,8 @@ class Tile extends Component {
       searchRet: '',
       retString:'',
       tempVal:'',
+      oldDisplayState:'',
+      waterCanHovered:false,
       isResult:false,
       davesgardenplant: '',
       davesgardenplantLong:'',
@@ -76,6 +78,8 @@ class Tile extends Component {
 
 
     this.hexToRgbA = this.hexToRgbA.bind(this);
+    this.hideToolTip = this.hideToolTip.bind(this);
+    this.showToolTip = this.showToolTip.bind(this);
     //this.afterSelect = this.afterSelect.bind(this)
 
 
@@ -440,6 +444,27 @@ class Tile extends Component {
     }
     throw new Error('Bad Hex' + hex);
   }
+  hideToolTip(str){
+    //str.preventDefault();
+    if(document.getElementById(str) != null){
+      this.setState({oldDisplayState:document.getElementById(str).style.display});
+      document.getElementById(str).style.display = 'none';
+      // console.log("hiddeee");
+      // console.log(str);
+      // console.log(this.props.gridorder.toString());
+      this.setState({waterCanHovered:true});
+    }
+  }
+  showToolTip(str){
+    //str.preventDefault();
+    if(document.getElementById(str) != null){
+      document.getElementById(str).style.display = this.state.oldDisplayState;
+      // console.log("showwww");
+      // console.log(str);
+      // console.log(this.props.gridorder.toString());
+      this.setState({waterCanHovered:false});
+    }
+  }
 
   render() {
 
@@ -571,7 +596,7 @@ class Tile extends Component {
       backgroundStr = 'linear-gradient(rgba('+ cut[1] +','+cut[2]+','+cut[3]+',1),rgba('+ cut[1] +','+cut[2]+','+cut[3]+',0.2)), url('+ imgStr +')';
       buttonStr = 'linear-gradient(rgba(175,175,175,.6), rgba('+ cut[1] +','+cut[2]+','+cut[3]+',.5),rgba(100,100,100,.6))';
        //backgroundStr = 'url(\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\')';
-
+      var hideUnderStr = "hideUnder("+ this.appendTileNum("tooltip") + ")";
     }
     //console.log(backgroundStr);
 //{this.props.gridorder} 
@@ -584,7 +609,8 @@ class Tile extends Component {
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (
           <div style={ style.imgcontWrapper }>
-            <center>
+
+            <center id={this.appendTileNum('bigT')}>
               <ReactTooltip id={this.appendTileNum("tooltip")}>
                 <p><b>{this.state.davesgardenplant}</b></p>
                 <p><i>{this.state.davesgardensci}</i></p>
@@ -594,6 +620,15 @@ class Tile extends Component {
                 {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
                 {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
               </ReactTooltip>
+            </center>
+            <center id={this.appendTileNum('smallT')}>
+                  <ReactTooltip id={this.appendTileNum("tooltip2")}>
+                    <h4>Watering Urgency</h4>
+                    <p><i>Click the watering can to water your plant!</i></p>
+                    <p>Average temperature this week: {this.props.avgTempThisWeek.toFixed(2)}</p>
+                    <p>Forecast: {(this.props.rainThisWeek) ? ("expecting rain") : ("sunny")}</p>
+                    <p>Last watered: {this.state.daysnotwatered} days ago</p>
+                  </ReactTooltip>
             </center>
 
           </div>
@@ -607,15 +642,6 @@ class Tile extends Component {
         (
         <center><div style={style.wateringRow} data-tip data-for={this.appendTileNum("tooltip2")}>
 
-        <center>
-              <ReactTooltip id={this.appendTileNum("tooltip2")}>
-                <h4>Watering Urgency</h4>
-                <p><i>Click the watering can to water your plant!</i></p>
-                <p>Average temperature this week: {this.props.avgTempThisWeek.toFixed(2)}</p>
-                <p>Forecast: {(this.props.rainThisWeek) ? ("expecting rain") : ("sunny")}</p>
-                <p>Last watered: {this.state.daysnotwatered} days ago</p>
-              </ReactTooltip>
-            </center>
 
         <WaterMeter
           daysnotwatered={this.state.daysnotwatered}
@@ -625,6 +651,8 @@ class Tile extends Component {
 
          <button
             style={style.emptybutton}
+            onMouseOver={()=>{this.hideToolTip(this.appendTileNum('bigT'))}}
+            onMouseOut={()=>{this.showToolTip(this.appendTileNum('bigT'))}}
             onClick={this.handleWaterClicked}
             value='Water'>
           <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
