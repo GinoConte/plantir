@@ -156,7 +156,7 @@ class Timeline extends Component {
        for (var i = 0; i<data.length ; i++) {
         let datapoint = data[i];
         if (datapoint.value == 1) {
-          datapoint.name = "Optimal bloom time";
+          datapoint.name = "Peak expected bloom";
         }
        }
 
@@ -292,6 +292,10 @@ class Timeline extends Component {
 
     return (
       <div className="Timeline" style={{ 'width': '60%', 'display': 'inline-block'}}>
+        <div style={style.chartTitle}>
+        {(this.props.location) ? (<center><h4>{this.props.location} Seasonal Timeline</h4></center>) : null}
+        {(this.props.hoverName) ? (<center><p>Bloom time for <b>{this.props.hoverName}</b></p></center>) : (<p>&nbsp;</p>)}</div>
+        {this.props.hoverBloom}
         <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );

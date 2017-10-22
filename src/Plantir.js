@@ -525,6 +525,7 @@ class Plantir extends Component {
 
       </div> :null }
 
+      { (this.state.garden._id) ? (
               <div style={style.filterRow}><center>
               <b>Soil filters:</b> <input type="radio" 
                                 name="filter"  
@@ -543,7 +544,7 @@ class Plantir extends Component {
                                   value="Moisture" 
                                   checked={this.state.filter === "Moisture"}
                                   onChange={this.handleMoistureFilter}
-                          ></input> Water Content&nbsp;&nbsp;</center></div>
+                          ></input> Water Content&nbsp;&nbsp;</center></div>) : null }
 
 
         <div>
@@ -554,7 +555,8 @@ class Plantir extends Component {
 
         <Timeline 
         hoverName={this.state.hoverFlowerName}
-        hoverBloom={this.state.hoverBloomString} />)
+        hoverBloom={this.state.hoverBloomString}
+        location={this.state.garden.location} />)
         : null
       }
 
