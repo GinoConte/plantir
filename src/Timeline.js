@@ -23,6 +23,18 @@ function generateData(name, bloomString) {
   return dataProvider;
 }
 
+function formatLabel(season, formattedValue, valueAxis) {
+  if (season == "Summer2") {
+    return "Summer";
+  }
+  if (season.includes('Early') || season.includes('Late')) {
+    return "";
+  } else {
+    return season;
+  }
+
+}
+
 class Timeline extends Component {
   constructor(props) {
     super(props);
@@ -117,34 +129,34 @@ class Timeline extends Component {
         "season": "Summer",
         "value": summerval,
         }, {
-        "season": "",//late summer or early autumn
+        "season": "Late Summer",//late summer or early autumn
         "value": lsval,
         }, {
         "season": "Autumn",
         "value": autumnval,
         }, {
-        "season": "", //late autumn or early winter
+        "season": "Late Autumn", //late autumn or early winter
         "value": laval,
         }, {
         "season": "Winter",
         "value": winterval,
         }, {
-        "season": "",//late winter or early spring
+        "season": "Late Winter",//late winter or early spring
         "value": lwval,
         }, {
         "season": "Spring",
         "value": springval,
         }, {
-        "season": "",
+        "season": "Late Spring",
         "value": lspval,
         }, {
-        "season": "Summer",
+        "season": "Summer2",
         "value": summerval,
        }];
        for (var i = 0; i<data.length ; i++) {
         let datapoint = data[i];
         if (datapoint.value == 1) {
-          datapoint.name = "Expected bloom time";
+          datapoint.name = "Optimal bloom time";
         }
        }
 
@@ -227,7 +239,38 @@ class Timeline extends Component {
         fontSize: 14,
         position: "bottom",
         lineThickness: 3,
-      }],
+      },{
+            "fillAlpha": 0.3,
+            "fillColor": "#96d8ff",
+            "lineAlpha": 0,
+            "toCategory": "Late Autumn",
+            "category": "Late Winter",
+        }, {
+            "fillAlpha": 0.3,
+            "fillColor": "#ff8484",
+            "lineAlpha": 0,
+            "toCategory": "Late Spring",
+            "category": "Summer2",
+        }, {
+            "fillAlpha": 0.3,
+            "fillColor": "#ffd06d",
+            "lineAlpha": 0,
+            "toCategory": "Late Summer",
+            "category": "Late Autumn",
+        }, {
+            "fillAlpha": 0.3,
+            "fillColor": "#cbff83",
+            "lineAlpha": 0,
+            "toCategory": "Late Winter",
+            "category": "Late Spring",
+        }, {
+            "fillAlpha": 0.3,
+            "fillColor": "#ff8484",
+            "lineAlpha": 0,
+            "toCategory": "Summer",
+            "category": "Late Summer",
+        }
+      ],
       // "chartCursor": {
       //   "pan": true,
       //   "valueLineEnabled": true,
@@ -241,13 +284,15 @@ class Timeline extends Component {
       "categoryField": "season",
       "categoryAxis": {
         "dashLength": 1,
-        "minorGridEnabled": true
+        "minorGridEnabled": true,
+        "labelFunction": formatLabel,
       },
       "dataProvider": this.state.dataProvider,
     };
 
     return (
       <div className="Timeline" style={{ 'width': '60%', 'display': 'inline-block'}}>
+        {(this.props.hoverName) ? (<p>Bloom time for <b>{this.props.hoverName}</b></p>) : null}
         <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );

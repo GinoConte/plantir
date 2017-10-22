@@ -324,7 +324,7 @@ class Tile extends Component {
         if (match) {
           this.setState({ davesgardenplant: match[1] });
         } else {
-          this.setState({ davesgardenplant: plantname.substring(0,12) }); //character limit to stay on one line
+          this.setState({ davesgardenplant: plantname.substring(0,16) }); //character limit to stay on one line
         }
         let p = this.state.davesgardenplant;
         //console.log(p);
@@ -492,14 +492,12 @@ class Tile extends Component {
       //basic pattern matching
       if (this.state.davesgardencolour.includes('Pink') || this.state.davesgardencolour.includes('pink')) {
           tileColour = '#ffc9e9';
-          
-     
       } else if (this.state.davesgardencolour.includes('Yellow') || this.state.davesgardencolour.includes('yellow')) {
           tileColour = '#f2bc4f';
       } else if (this.state.davesgardencolour.includes('Gold') || this.state.davesgardencolour.includes('gold')) {
           tileColour = '#f9f6d4';
       } else if (this.state.davesgardencolour.includes('Blue') || this.state.davesgardencolour.includes('blue')) {
-          tileColour = '#60c9f2';
+          tileColour = '#92defc';
       } else if (this.state.davesgardencolour.includes('Violet') || this.state.davesgardencolour.includes('violet')) {
           tileColour = '#f780f3';
       } else if (this.state.davesgardencolour.includes('Red') || this.state.davesgardencolour.includes('red')) {
@@ -507,7 +505,6 @@ class Tile extends Component {
       } else if (this.state.davesgardencolour.includes('Orange')) {
           tileColour = '#ff7632';        
       }
-
   
       //console.log("Colour: " + this.state.davesgardencolour);
     }
@@ -529,15 +526,16 @@ class Tile extends Component {
 
     return (
         <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity})}>
-        <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
+        <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (<div style={style.imgcont}><center><img src={tileimg} draggable="false" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
+            <p><img src={this.props.imglink} width="100px"></img></p>
             {(this.state.davesgardenph) ? (<p>pH Requirements: {this.state.davesgardenph}</p>) : null}
-            {(this.state.davesgardenwater) ? (<p>Watering frequency: {this.state.davesgardenwater}</p>) : null}
+            {(this.state.davesgardenwater) ? (<p>Watering frequency: every {this.state.davesgardenwater} days</p>) : null}
             {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
             {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
             <p>Last watered: {this.state.daysnotwatered} days ago</p>
