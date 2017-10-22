@@ -182,6 +182,32 @@ const style = {
     letterSpacing:'.055rem',
     border:'none'
   },
+  commentFormPost1: {
+    minWidth:'75px',
+    flex:'1',
+    height:'40px',
+    margin:'5px 3px',
+    fontSize:'1rem',
+    backgroundColor:'#4331a3',
+    borderRadius:'3px',
+    color:'#000',
+    textTransform:'uppercase',
+    letterSpacing:'.055rem',
+    border:'none'
+  },
+  commentFormPost2: {
+    minWidth:'75px',
+    flex:'1',
+    height:'40px',
+    margin:'5px 3px',
+    fontSize:'1rem',
+    backgroundColor:'#7c1123',
+    borderRadius:'3px',
+    color:'#000',
+    textTransform:'uppercase',
+    letterSpacing:'.055rem',
+    border:'none'
+  },
   searchFormText: {
     flex:'4',
     minWidth:'250px',

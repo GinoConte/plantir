@@ -540,12 +540,14 @@ class Plantir extends Component {
 
                           <button
                             value="globalEdit"
+                            style={style.commentFormPost1}
                             onClick={this.handleGlobalEdit}>
                             Batch Edit
                           </button>&nbsp;
 
                           <button 
                             value = "globalDelete"
+                            style={style.commentFormPost2}
                             onClick={this.handleGlobalDeleteTiles}>
                             Batch Delete
                           </button>
