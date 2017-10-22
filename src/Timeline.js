@@ -295,7 +295,6 @@ class Timeline extends Component {
         <div style={style.chartTitle}>
         {(this.props.location) ? (<center><h4>{this.props.location} Seasonal Timeline</h4></center>) : null}
         {(this.props.hoverName) ? (<center><p>Bloom time for <b>{this.props.hoverName}</b></p></center>) : (<p>&nbsp;</p>)}</div>
-        {this.props.hoverBloom}
         <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );
