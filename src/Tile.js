@@ -28,6 +28,7 @@ class Tile extends Component {
       tempVal:'',
       isResult:false,
       davesgardenplant: '',
+      davesgardenplantLong:'',
       davesgardenph: '',
       davesgardensun: '',
       davesgardenwater: '',
@@ -321,6 +322,19 @@ class Tile extends Component {
         let plantname = res.data.name;
         let regex = /^([A-Za-z0-9\s]+),.*/g;
         let match = regex.exec(plantname);
+
+        let normalCut = plantname.split(/,|'/);
+        let nameStr = normalCut[1];
+        if(normalCut.length > 0){
+          nameStr = nameStr + ", " + normalCut[normalCut.length - 1];
+          this.setState({ davesgardenplant: normalCut[1] });
+        } else {
+          this.setState({ davesgardenplant: normalCut[0] });
+        }
+
+
+
+
         if (match) {
           this.setState({ davesgardenplant: match[1] });
         } else {
