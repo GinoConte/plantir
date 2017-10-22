@@ -306,16 +306,18 @@ class Tile extends Component {
   
   //tile select check
   handleSelectChange=()=>{
-      console.log("ori checked state is below");
-      console.log(this.state.tileSelected);
-    this.setState(({ tileSelected }) => (
-      {
-        //everytime when clicking the button, tileSelected state changes
-        tileSelected : !tileSelected,
-        
-      }
-    ));
-
+    if(this.state.tileSelected == true){
+      this.setState({tileSelected:false});
+      //delete id from id List
+      let id = this.props.uniqueID;
+      this.props.onDeleteSelectFromList(id);
+    }
+    else if(this.state.tileSelected == false){
+      this.setState({tileSelected:true});
+      //add id into id list
+      let id = this.props.uniqueID;
+      this.props.onAddSelectIntoList(id);
+    }
   }
   
   findPlantFromId(dgId){
@@ -591,7 +593,6 @@ class Tile extends Component {
                 {(this.state.davesgardenwater) ? (<p>Watering frequency: every {this.state.davesgardenwater} days</p>) : null}
                 {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
                 {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
-                <p>Last watered: {this.state.daysnotwatered} days ago</p>
               </ReactTooltip>
             </center>
 
@@ -601,9 +602,20 @@ class Tile extends Component {
         
         
         <div style={style.stayDown}>
-        {(this.props.tiletypeisplant) ? 
+        {(this.props.tiletypeisplant && this.props.filterState==="None") ? 
+
         (
-        <center><div style={style.wateringRow}>
+        <center><div style={style.wateringRow} data-tip data-for={this.appendTileNum("tooltip2")}>
+
+        <center>
+              <ReactTooltip id={this.appendTileNum("tooltip2")}>
+                <h4>Watering Urgency</h4>
+                <p><i>Click the watering can to water your plant!</i></p>
+                <p>Average temperature this week: {this.props.avgTempThisWeek.toFixed(2)}</p>
+                <p>Forecast: {(this.props.rainThisWeek) ? ("expecting rain") : ("sunny")}</p>
+                <p>Last watered: {this.state.daysnotwatered} days ago</p>
+              </ReactTooltip>
+            </center>
 
         <WaterMeter
           daysnotwatered={this.state.daysnotwatered}
