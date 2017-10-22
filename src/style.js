@@ -66,6 +66,10 @@ const style = {
     //backgroundColor: "#000000",
 
   },
+  imgcontWrapper: {
+    overflow: 'hidden',
+    maxHeight: '60%',
+  },
   imgcont: {
     border: "2px solid",
     borderColor: "#000000",

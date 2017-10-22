@@ -529,18 +529,27 @@ class Tile extends Component {
         <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<div style={style.imgcont}><center><img src={tileimg} draggable="false" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
-          <ReactTooltip id={this.appendTileNum("tooltip")}>
-            <p><b>{this.state.davesgardenplant}</b></p>
-            <p><i>{this.state.davesgardensci}</i></p>
-            <p><img src={this.props.imglink} width="100px"></img></p>
-            {(this.state.davesgardenph) ? (<p>pH Requirements: {this.state.davesgardenph}</p>) : null}
-            {(this.state.davesgardenwater) ? (<p>Watering frequency: every {this.state.davesgardenwater} days</p>) : null}
-            {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
-            {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
-            <p>Last watered: {this.state.daysnotwatered} days ago</p>
-          </ReactTooltip>
-          </center></div>
+        ? (
+          <div style={ style.imgcontWrapper }>
+            <center>
+              <ReactTooltip id={this.appendTileNum("tooltip")}>
+                <p><b>{this.state.davesgardenplant}</b></p>
+                <p><i>{this.state.davesgardensci}</i></p>
+                <p><img src={this.props.imglink} width="100px"></img></p>
+                {(this.state.davesgardenph) ? (<p>pH Requirements: {this.state.davesgardenph}</p>) : null}
+                {(this.state.davesgardenwater) ? (<p>Watering frequency: every {this.state.davesgardenwater} days</p>) : null}
+                {(this.state.davesgardensun) ? (<p>Sunlight needs: {this.state.davesgardensun}</p>) : null}
+                {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
+                <p>Last watered: {this.state.daysnotwatered} days ago</p>
+              </ReactTooltip>
+            </center>
+            <div style={style.imgcont}>
+              <center>
+                <img src={tileimg} draggable="false" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+
+              </center>
+            </div>
+          </div>
         ) : 
         null }
         
