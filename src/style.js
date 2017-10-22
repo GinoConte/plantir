@@ -23,6 +23,7 @@ const style = {
   },
   tilebutton: {
     border: "2px solid ",
+    borderRadius: "6px",
     color: "black",
     backgroundColor: "Transparent",
     marginBottom: "5px",
@@ -188,7 +189,11 @@ const style = {
     height:'40px',
     borderRadius:'3px'
   },
-
+  stayDown: {
+    position: 'absolute',
+    bottom: "5px",
+    width:'inherit',
+  },
   updateLink: {
     textDecoration:'none',
     paddingRight:'15px',

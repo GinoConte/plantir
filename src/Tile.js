@@ -306,16 +306,18 @@ class Tile extends Component {
   
   //tile select check
   handleSelectChange=()=>{
-      console.log("ori checked state is below");
-      console.log(this.state.tileSelected);
-    this.setState(({ tileSelected }) => (
-      {
-        //everytime when clicking the button, tileSelected state changes
-        tileSelected : !tileSelected,
-        
-      }
-    ));
-
+    if(this.state.tileSelected == true){
+      this.setState({tileSelected:false});
+      //delete id from id List
+      let id = this.props.uniqueID;
+      this.props.onDeleteSelectFromList(id);
+    }
+    else if(this.state.tileSelected == false){
+      this.setState({tileSelected:true});
+      //add id into id list
+      let id = this.props.uniqueID;
+      this.props.onAddSelectIntoList(id);
+    }
   }
   
   findPlantFromId(dgId){
@@ -550,6 +552,7 @@ class Tile extends Component {
       tileimg = this.state.davesgardenbigimg;
     }
     var backgroundStr = '';
+    var buttonStr='';
     if(tileColour != undefined){
       let tilegrads = this.hexToRgbA(tileColour);
       let cut = tilegrads.split(/,|\(|\)/);
@@ -566,6 +569,7 @@ class Tile extends Component {
 
       //backgroundStr = cut.toString();
       backgroundStr = 'linear-gradient(rgba('+ cut[1] +','+cut[2]+','+cut[3]+',1),rgba('+ cut[1] +','+cut[2]+','+cut[3]+',0.2)), url('+ imgStr +')';
+      buttonStr = 'linear-gradient(rgba(175,175,175,.6), rgba('+ cut[1] +','+cut[2]+','+cut[3]+',.5),rgba(100,100,100,.6))';
        //backgroundStr = 'url(\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\')';
 
     }
@@ -601,7 +605,10 @@ class Tile extends Component {
         ) : 
         null }
         
+        
+        <div style={style.stayDown}>
         {(this.props.tiletypeisplant && this.props.filterState==="None") ? 
+
         (
         <center><div style={style.wateringRow} data-tip data-for={this.appendTileNum("tooltip2")}>
 
@@ -628,136 +635,136 @@ class Tile extends Component {
           <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
         </div></center>
         ) : null }
-
         <center>
 
-        <div style={style.buttonRow}>
-        <button 
-          style={ style.tilebutton } 
-          onClick={this.openModal}
-          value='Plot'>
-          Edit
-        </button>
+            <div style={style.buttonRow}>
+            <button 
+              style={Object.assign(style.tilebutton, {backgroundImage: buttonStr,})}
+              onClick={this.openModal}
+              value='Plot'>
+              Edit
+            </button>
 
-          <button
-          style={style.tilebutton}
-          value = 'select me'
-          onClick={this.handleSelectChange}>
-          Select
-          </button>
+              <button
+              style={Object.assign(style.tilebutton, {backgroundImage: buttonStr,})}
+              value = 'select me'
+              onClick={this.handleSelectChange}>
+              Select
+              </button>
 
-        </div>
-
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          contentLabel="Tile Information Modal"
-          style={ style }
-        >
-
-          <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
-          <div style={ style.tilebox }>
-            <div style={ style.comment }>
-              <p><b>Properties:</b></p>
-              <ul>
-                <li>Soil type: {this.props.tileprops.soiltype}</li>
-                <li>Moisture: {this.props.tileprops.moisture}</li>
-                <li>Sunlight: {this.props.tileprops.sunlight}</li>
-                <li>pH balance: {this.props.tileprops.ph}</li>
-                <li>Last watered: {this.props.lastwatered.toString()}</li>
-                <li>Ds G ID: {this.props.davesgardenid}</li>
-              </ul>
-              <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
-              <a style={ style.updateLink } href='#' onClick={ this.changeTileType }>Type</a>
-              <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
-              { (this.state.toBeUpdated)
-                ? (<form onSubmit={ this.handlePlotUpdate }>
-                    <select name="soiltype" onChange={this.handleSoilTypeChange}>
-                      <option value="Select" selected>Soil Type</option>
-                      <option value="Loam">Loam</option>
-                      <option value="Sandy">Sandy</option>
-                      <option value="Clay">Clay</option>
-                      <option value="Silty">Silty</option>
-                      <option value="Peaty">Peaty</option>
-                    </select>
-                    <select name="sunlight" onChange={this.handleSunlightChange}>
-                      <option value="Select" selected>Sunlight</option>
-                      <option value="None">None</option>
-                      <option value="Low">Low</option>
-                      <option value="Moderate">Moderate</option>
-                      <option value="High">High</option>
-                    </select>
-                    <select name="moisture" onChange={this.handleMoistureChange}>
-                      <option value="Select" selected>Moisture</option>
-                      <option value="None">None</option>
-                      <option value="Low">Low</option>
-                      <option value="Moderate">Moderate</option>
-                      <option value="High">High</option>
-                      <option value="Drenched">Drenched</option>
-                    </select>
-                    <select name="ph" onChange={this.handlePHChange}>
-                      <option value="Select" selected>pH</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                    </select>
-                    <input
-                      type='submit'
-                      style={ style.commentFormPost }
-                      value='Update' />
-                  </form>)
-                : null}
-                <div>
-                      { (this.state.toChangeTile )
-           ? (<form onSubmit={ this.handleTileTypeUpdate }>
-                  <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
-                    <option value="Select" selected>Tile</option>
-                    <option value="Grass">Grass</option>
-                    <option value="House">House</option>
-                    <option value="Path">Path</option>
-                  </select>
-                  <input
-                    type='submit'
-                    style={ style.commentFormPost }
-                    value='Change' 
-                  />
-                </form>): null}
-                </div>
             </div>
 
-        </div>
-        <Center>
-          <br></br>
-          <form>
+            <Modal
+              isOpen={this.state.modalIsOpen}
+              onAfterOpen={this.afterOpenModal}
+              onRequestClose={this.closeModal}
+              contentLabel="Tile Information Modal"
+              style={ style }
+            >
 
-          <input
-            type='text'
-            placeholder='search me!'
-            style={ style.searchFormText}
-            value={ this.state.tempVal }
-            onChange={this.handleSearchChange} />
+              <h2 ref={subtitle => this.subtitle = subtitle}>Plot Information</h2>
+              <div style={ style.tilebox }>
+                <div style={ style.comment }>
+                  <p><b>Properties:</b></p>
+                  <ul>
+                    <li>Soil type: {this.props.tileprops.soiltype}</li>
+                    <li>Moisture: {this.props.tileprops.moisture}</li>
+                    <li>Sunlight: {this.props.tileprops.sunlight}</li>
+                    <li>pH balance: {this.props.tileprops.ph}</li>
+                    <li>Last watered: {this.props.lastwatered.toString()}</li>
+                    <li>Ds G ID: {this.props.davesgardenid}</li>
+                  </ul>
+                  <a style={ style.updateLink } href='#' onClick={ this.updateTile }>Update</a>
+                  <a style={ style.updateLink } href='#' onClick={ this.changeTileType }>Type</a>
+                  <a style={ style.deleteLink } href='#' onClick={ this.deleteTile }>Delete</a>
+                  { (this.state.toBeUpdated)
+                    ? (<form onSubmit={ this.handlePlotUpdate }>
+                        <select name="soiltype" onChange={this.handleSoilTypeChange}>
+                          <option value="Select" selected>Soil Type</option>
+                          <option value="Loam">Loam</option>
+                          <option value="Sandy">Sandy</option>
+                          <option value="Clay">Clay</option>
+                          <option value="Silty">Silty</option>
+                          <option value="Peaty">Peaty</option>
+                        </select>
+                        <select name="sunlight" onChange={this.handleSunlightChange}>
+                          <option value="Select" selected>Sunlight</option>
+                          <option value="None">None</option>
+                          <option value="Low">Low</option>
+                          <option value="Moderate">Moderate</option>
+                          <option value="High">High</option>
+                        </select>
+                        <select name="moisture" onChange={this.handleMoistureChange}>
+                          <option value="Select" selected>Moisture</option>
+                          <option value="None">None</option>
+                          <option value="Low">Low</option>
+                          <option value="Moderate">Moderate</option>
+                          <option value="High">High</option>
+                          <option value="Drenched">Drenched</option>
+                        </select>
+                        <select name="ph" onChange={this.handlePHChange}>
+                          <option value="Select" selected>pH</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                        <input
+                          type='submit'
+                          style={ style.commentFormPost }
+                          value='Update' />
+                      </form>)
+                    : null}
+                    <div>
+                          { (this.state.toChangeTile )
+               ? (<form onSubmit={ this.handleTileTypeUpdate }>
+                      <select name="selectedtype" onChange={this.handleTileTypeDropdownChange}>
+                        <option value="Select" selected>Tile</option>
+                        <option value="Grass">Grass</option>
+                        <option value="House">House</option>
+                        <option value="Path">Path</option>
+                      </select>
+                      <input
+                        type='submit'
+                        style={ style.commentFormPost }
+                        value='Change' 
+                      />
+                    </form>): null}
+                    </div>
+                </div>
 
-          <button
-            style={ style.commentFormPost }
-            value='submit no refresh' 
-            onClick={ this.handleSearchReq } 
-            > search
-          </button>
-          <button onClick={this.closeModal} style={ style.commentFormPost }>Close</button>
+            </div>
+            <Center>
+              <br></br>
+              <form>
 
-          </form>
-        </Center>
+              <input
+                type='text'
+                placeholder='search me!'
+                style={ style.searchFormText}
+                value={ this.state.tempVal }
+                onChange={this.handleSearchChange} />
+
+              <button
+                style={ style.commentFormPost }
+                value='submit no refresh' 
+                onClick={ this.handleSearchReq } 
+                > search
+              </button>
+              <button onClick={this.closeModal} style={ style.commentFormPost }>Close</button>
+
+              </form>
+            </Center>
 
 
-          { (this.state.isResult)
-            ? <ResultIcon
-            results={this.state.searchRet}
-            onResultClicked={this.handleResultClicked}>
-          </ResultIcon>:null}
-        </Modal>
+            { (this.state.isResult)
+              ? <ResultIcon
+              results={this.state.searchRet}
+              onResultClicked={this.handleResultClicked}>
+            </ResultIcon>:null}
+          </Modal>
         </center>
+      </div>
         
       </div>
     )
