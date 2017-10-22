@@ -452,7 +452,8 @@ class Tile extends Component {
 
 
     var tileColour = this.props.tiletypecolour;
-    
+    var thisOpacity = null;
+
     //get filter colours
     if (this.props.filterState === "Sunlight") {
       if (this.props.tileprops.sunlight === "Moderate") {
@@ -513,7 +514,7 @@ class Tile extends Component {
     //transparent change when selected tiles
     if (this.state.tileSelected == true){
       //when tile got selected, opacity decrese a bit
-      var thisOpacity = 0.7;
+      var thisOpacity = 0.4;
     }
 
     //determine if big img is available
