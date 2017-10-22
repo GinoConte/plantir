@@ -73,6 +73,9 @@ class Tile extends Component {
     this.setTileName = this.setTileName.bind(this);
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
+
+
+    this.hexToRgbA = this.hexToRgbA.bind(this);
     //this.afterSelect = this.afterSelect.bind(this)
 
 
@@ -423,6 +426,19 @@ class Tile extends Component {
     setInterval(this.setTileName, 5000);
   }
 
+  hexToRgbA(hex){
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+        c= hex.substring(1).split('');
+        if(c.length== 3){
+            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c= '0x'+c.join('');
+        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1)';
+    }
+    throw new Error('Bad Hex' + hex);
+  }
+
   render() {
 
     var contents = "Change Tile";
@@ -520,7 +536,7 @@ class Tile extends Component {
           tileColour = '#ff7632';        
       }
   
-      //console.log("Colour: " + this.state.davesgardencolour);
+      //console.log(this.hexToRgbA('#f9f6d4'));
     }
     //transparent change when selected tiles
     if (this.state.tileSelected == true){
@@ -533,13 +549,31 @@ class Tile extends Component {
     if (this.state.davesgardenbigimg) {
       tileimg = this.state.davesgardenbigimg;
     }
+    var backgroundStr = '';
+    if(tileColour != undefined){
+      let tilegrads = this.hexToRgbA(tileColour);
+      let cut = tilegrads.split(/,|\(|\)/);
 
+      let imgStr = '\'' + this.props.imglink +'\'';
+      if (this.state.davesgardenplant == 'House'){
+        imgStr = '\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\'';
+      } else if (this.state.davesgardenplant == 'Path'){
+         imgStr = '\'http://www.texturemate.com/image/view/5553/_original\'';
+      } else if (this.state.davesgardenplant == 'Grass'){
+         imgStr = '\'https://image.freepik.com/free-photo/green-grass-texture_1249-15.jpg\'';
+      }
 
+      //backgroundStr = cut.toString();
+      backgroundStr = 'linear-gradient(rgba('+ cut[1] +','+cut[2]+','+cut[3]+',1),rgba('+ cut[1] +','+cut[2]+','+cut[3]+',0.2)), url('+ imgStr +')';
+       //backgroundStr = 'url(\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\')';
+
+    }
+    //console.log(backgroundStr);
 //{this.props.gridorder} 
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     return (
-        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity})}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr,})}>
         <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
