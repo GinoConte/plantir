@@ -82,6 +82,7 @@ const style = {
     marginRight: "10px",
     objectFit: "fill",
     objectPosition: "center",
+    visibility:'hidden',
   },
   griddiv :{
     //backgroundColor: "#d4ff8c",

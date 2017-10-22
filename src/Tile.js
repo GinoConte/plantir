@@ -576,7 +576,7 @@ class Tile extends Component {
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     return (
-        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr, backgroundPosition: posStr})}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr, backgroundPosition: posStr})}  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}>
         <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
@@ -594,12 +594,7 @@ class Tile extends Component {
                 <p>Last watered: {this.state.daysnotwatered} days ago</p>
               </ReactTooltip>
             </center>
-            <div style={style.imgcont}>
-              <center>
-                <img src={tileimg} draggable="false" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
 
-              </center>
-            </div>
           </div>
         ) : 
         null }
