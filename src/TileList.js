@@ -86,6 +86,8 @@ class TileList extends Component {
           <Tile
             uniqueID={tile['_id']} 
             key={tile['_id']} 
+            onAddSelectIntoList={this.props.onAddSelectIntoList}
+            onDeleteSelectFromList = {this.props.onDeleteSelectFromList}
             onTileDelete={this.props.onTileDelete} 
             onPlotUpdate={this.props.onPlotUpdate} 
             onTileUpdate={this.props.onTileUpdate}  
