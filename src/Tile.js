@@ -513,7 +513,7 @@ class Tile extends Component {
     //transparent change when selected tiles
     if (this.state.tileSelected == true){
       //when tile got selected, opacity decrese a bit
-      thisOpacity = 0.7;
+      var thisOpacity = 0.7;
     }
 
     //determine if big img is available
@@ -531,7 +531,7 @@ class Tile extends Component {
         <center><b>&nbsp;{this.state.davesgardenplant}&nbsp;&nbsp;</b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
-        ? (<center><img src={tileimg} width="100%" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
+        ? (<div style={style.imgcont}><center><img src={tileimg} draggable="false" style={ style.images }  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}/>
           <ReactTooltip id={this.appendTileNum("tooltip")}>
             <p><b>{this.state.davesgardenplant}</b></p>
             <p><i>{this.state.davesgardensci}</i></p>
@@ -541,13 +541,31 @@ class Tile extends Component {
             {(this.state.davesgardenbloom) ? (<p>Bloom time: {this.state.davesgardenbloom}</p>) : null}
             <p>Last watered: {this.state.daysnotwatered} days ago</p>
           </ReactTooltip>
-          </center>
+          </center></div>
         ) : 
         null }
         
         {(this.props.tiletypeisplant) ? 
         (
-        <div className="wateringRow"><center>
+        <center><div style={style.wateringRow}>
+
+        <WaterMeter
+          daysnotwatered={this.state.daysnotwatered}
+          wateringfrequency={this.state.davesgardenwater}
+          rainThisWeek={this.props.rainThisWeek}
+          avgTempThisWeek={this.props.avgTempThisWeek} />
+
+         <button
+            style={style.emptybutton}
+            onClick={this.handleWaterClicked}
+            value='Water'>
+          <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
+        </div></center>
+        ) : null }
+
+        <center>
+
+        <div style={style.buttonRow}>
         <button 
           style={ style.tilebutton } 
           onClick={this.openModal}
@@ -555,20 +573,15 @@ class Tile extends Component {
           Edit
         </button>
 
-         <button
-            style={style.emptybutton}
-            onClick={this.handleWaterClicked}
-            value='Water'>
-          <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
-        <WaterMeter
-          daysnotwatered={this.state.daysnotwatered}
-          wateringfrequency={this.state.davesgardenwater}
-          rainThisWeek={this.props.rainThisWeek}
-          avgTempThisWeek={this.props.avgTempThisWeek} />
+          <button
+          style={style.tilebutton}
+          value = 'select me'
+          onClick={this.handleSelectChange}>
+          Select
+          </button>
 
-        </center></div>
-        ) : null }
-        <center>
+        </div>
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -679,15 +692,7 @@ class Tile extends Component {
           </ResultIcon>:null}
         </Modal>
         </center>
-        <Center>
-          <button
-          style={style.tilebutton}
-          value = 'select me'
-          onClick={this.handleSelectChange}>
-          select
-          </button>
-        </Center>
-
+        
       </div>
     )
   }
