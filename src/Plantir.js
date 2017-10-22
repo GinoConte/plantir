@@ -40,9 +40,7 @@ class Plantir extends Component {
       globalSunlight: '',
       globalMoisture: '',
       globalPh: '',
-
-      globalNewTileTypeName: '',
-      //globalNewDavesGardenColor: '',
+      selectedList: [],
     };
     this.loadTilesFromServer = this.loadTilesFromServer.bind(this);
     this.loadTileTypesFromServer = this.loadTileTypesFromServer.bind(this);
@@ -68,7 +66,10 @@ class Plantir extends Component {
     this.handleGlobalSunlightChange = this.handleGlobalSunlightChange.bind(this);
     this.handleGlobalMoistureChange = this.handleGlobalMoistureChange.bind(this);
     this.handleGlobalPhChange = this.handleGlobalPhChange.bind(this);
-    this.handleGlobalTileTypeDropdownChange = this.handleGlobalTileTypeDropdownChange.bind(this);
+
+    this.addSelectIntoList = this.addSelectIntoList.bind(this);
+    this.deleteSelectFromList = this.deleteSelectFromList.bind(this);
+    this.handleGlobalDeleteTiles = this.handleGlobalDeleteTiles.bind(this);
   }
   getWeather(){
     var reqStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+ this.state.garden.location +'&units=metric&APPID=6a99ef09a79de9a2a3fa190f2d84a2df';
@@ -78,6 +79,18 @@ class Plantir extends Component {
     })
   }
 
+  addSelectIntoList(id){
+    console.log(id);
+    this.state.selectedList.push(id);
+    console.log(this.state.selectedList);
+  }
+
+  deleteSelectFromList(id){
+    console.log(id);
+    this.state.selectedList.pop(id);
+    console.log(this.state.selectedList);
+
+  }
 
 
 
@@ -315,14 +328,10 @@ class Plantir extends Component {
             return this.state.searchRet;
         })
   }
-  handleGlobalTileTypeDropdownChange(e) {
-    this.setState({globalNewTileTypeName: e.target.value});
-  }
+
 
   handleGlobalSoilTypeChange(e) {
     this.setState({globalSoiltype: e.target.value});
-    console.log(e.target.value);
-    console.log("hererherer");
   }
   handleGlobalSunlightChange(e) {
     this.setState({globalSunlight: e.target.value});
@@ -382,32 +391,34 @@ class Plantir extends Component {
   }
 
 
-  //--------globalEdit----------
+  //--------globalEdit(update)----------
   handleGlobalEdit(e){
-    for(var i = 0;i <this.state.data.length;i++){
-
-      console.log(this.state.data[i]);
-      console.log("finally");
+    for(var idIndex = 0; idIndex<this.state.selectedList.length; idIndex++){
+      //for each tile selected, call function to edit tile
+      let plot = {
+        moisture: this.state.globalMoisture,
+        sunlight: this.state.globalSunlight,
+        ph: this.state.globalPh,
+        soiltype: this.state.globalSoiltype,
+      }
+      let id = this.state.selectedList[idIndex];
+      this.handlePlotUpdate(id,plot);
+      console.log("doing global update");
     }
-    
-    
-
-
-    
-    
   }
+  //------------------------------------
 
 
-  //----------------------------
-
-  handleGlobalPlotUpdate(){
-    //nothing for now
+  //------------globalDelete---------------
+  handleGlobalDeleteTiles(e){
+    //for each tile selected,call function to delete tiles
+    for(var idIndex1 = 0; idIndex1<this.state.selectedList.length; idIndex1++){
+      let id = this.state.selectedList[idIndex1];
+      this.handleTileDelete(id);
+      console.log("deleting global tiles");
+    }
   }
-
-
-  handleGlobalDeleteTiles(){
-    //do nothing now
-  }
+  //---------------------------------------
 
 
 
@@ -483,13 +494,6 @@ class Plantir extends Component {
                             <option value="7">7</option>
                           </select>
 
-                          <select name="selectedtype" onChange={this.handleGlobalTileTypeDropdownChange}>
-                            <option value="Select" selected>Tile Type</option>
-                            <option value="Grass">Grass</option>
-                            <option value="House">House</option>
-                            <option value="Path">Path</option>
-                          </select>
-
                           <button 
                             value = "globalDelete"
                             onClick={this.handleGlobalDeleteTiles}>
@@ -499,6 +503,8 @@ class Plantir extends Component {
 
 
       <TileList
+        onAddSelectIntoList={this.addSelectIntoList}
+        onDeleteSelectFromList = {this.deleteSelectFromList}
         onTileDelete={this.handleTileDelete} 
         onTileUpdate={this.handleTileUpdate}
         onPlotUpdate={this.handlePlotUpdate} 
