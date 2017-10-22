@@ -67,7 +67,7 @@ class WeatherWidget extends Component{
 
 		return(
 		<div className="row row-no-gutter"  style={{'display':'inline-block', 'width':'39%','position': 'relative', 'left' : '0px' , 'height' : '200px',}}>
-			<div className="col-md-6" style={{ 'background-color' : '#12266e', 'height': '100%',}}>
+			<div className="col-md-6" style={{ 'background-color' : '#809999', 'height': '100%',}}>
 
 				<div style={{ 'position' : 'relative', 'top': '50%', 'transform': 'translateY(-50%)',}}>
 					<h4 style={{'margin':0 , 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[0]['day']}</h4>
@@ -79,7 +79,7 @@ class WeatherWidget extends Component{
 
 			</div>
 			<div style={{ 'position' : 'relative', 'height': '50%',}}>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#3d4d8a','height': '100%','top':'50%', 'transform':'translateY(-50%)','position':'relative'}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#576E6E','height': '100%','top':'50%', 'transform':'translateY(-50%)','position':'relative'}}>
 					<div>
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[1]['day']}</h4>
 						<center><img src={this.state.finWea[1]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%',}}/></center>
@@ -87,7 +87,7 @@ class WeatherWidget extends Component{
 						<center><h5 style={{'margin':0 , 'color':'#c7c7c7'}}>{this.state.finWea[1]['desc']}</h5></center>
 					</div>
 				</div>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#12266e','height': '100%',}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#739191','height': '100%',}}>
 					<div>	
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[2]['day']}</h4>
 						<center><img src={this.state.finWea[2]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%'}}/></center>
@@ -97,7 +97,7 @@ class WeatherWidget extends Component{
 				</div>
 			</div>
 			<div style={{ 'position' : 'relative', 'height': '50%',}}>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#3d4d8a','height': '100%',}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#739191','height': '100%',}}>
 					<div>
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[3]['day']}</h4>
 						<center><img src={this.state.finWea[3]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%'}}/></center>
@@ -105,7 +105,7 @@ class WeatherWidget extends Component{
 						<center><h5 style={{'margin':0 ,'color':'#c7c7c7'}}>{this.state.finWea[3]['desc']}</h5></center>
 					</div>
 				</div>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#12266e','height': '100%',}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#576E6E','height': '100%',}}>
 					<div>
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[4]['day']}</h4>
 						<center><img src={this.state.finWea[4]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%'}}/></center>

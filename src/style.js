@@ -115,10 +115,11 @@ const style = {
     display: 'inline-block',
   },
   commentBox: {
-    width:'80vw',
+    maxWidth:'1600px',
     margin:'0 auto',
     fontFamily:'Helvetica, sans-serif',
     backgroundColor: '#e1edb4',
+    border: '20px solid rgb(225, 237, 180)',
     //backgroundImage: "url('https://i.imgur.com/Ywcvr7u.jpg')",
   },
   title: {
