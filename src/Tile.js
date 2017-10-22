@@ -338,11 +338,11 @@ class Tile extends Component {
 
 
 
-        if (match) {
-          this.setState({ davesgardenplant: match[1] });
-        } else {
-          this.setState({ davesgardenplant: plantname.substring(0,16) }); //character limit to stay on one line
-        }
+        // if (match) {
+        //   this.setState({ davesgardenplant: match[1] });
+        // } else {
+        //   this.setState({ davesgardenplant: plantname.substring(0,16) }); //character limit to stay on one line
+        // }
         let p = this.state.davesgardenplant;
         //console.log(p);
 
@@ -554,11 +554,12 @@ class Tile extends Component {
       let tilegrads = this.hexToRgbA(tileColour);
       let cut = tilegrads.split(/,|\(|\)/);
 
-      let imgStr = '\'' + this.props.imglink +'\'';
+      let imgStr = '\'' + tileimg +'\'';
+      var posStr = 'center';
       if (this.state.davesgardenplant == 'House'){
         imgStr = '\'http://bgfons.com/uploads/roof_tile/roof_tile_texture4065.jpg\'';
       } else if (this.state.davesgardenplant == 'Path'){
-         imgStr = '\'http://www.texturemate.com/image/view/5553/_original\'';
+         imgStr = '\'http://www.texturemate.com/image/view/5553/\'';
       } else if (this.state.davesgardenplant == 'Grass'){
          imgStr = '\'https://image.freepik.com/free-photo/green-grass-texture_1249-15.jpg\'';
       }
@@ -573,7 +574,7 @@ class Tile extends Component {
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     return (
-        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr,})}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr, backgroundPosition: posStr})}>
         <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
