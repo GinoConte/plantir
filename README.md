@@ -15,6 +15,8 @@ npm install
 npm install react-grid-layout  
 npm run start-dev  
 
+NOTE this project requires python3 to be availiable under the 'python' command. Otherwise you must go into server.js, search for 'python' and replace it with 'python3'
+
 Access on localhost:3000
 
                 __ .---.               
