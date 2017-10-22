@@ -292,7 +292,6 @@ class Timeline extends Component {
 
     return (
       <div className="Timeline" style={{ 'width': '60%', 'display': 'inline-block'}}>
-        {(this.props.hoverName) ? (<p>Bloom time for <b>{this.props.hoverName}</b></p>) : null}
         <AmCharts.React style={{ width: "100%", height: "150px" }} options={config} />
       </div>
     );
@@ -306,3 +305,5 @@ export default Timeline;
         // <p>Bloom time for: {this.props.hoverName}</p>
         // <p>String: {this.props.hoverBloom}</p>
         // <p>Current Month: {this.state.dateSeason}</p>
+
+        //        {(this.props.hoverName) ? (<p>Bloom time for <b>{this.props.hoverName}</b></p>) : null}

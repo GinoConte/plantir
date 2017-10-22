@@ -121,7 +121,7 @@ class TileList extends Component {
     //   paddingRight:0,
     // } layout={layout}
     return (
-      <div>
+      <div style={style.griddiv}>
       <button onClick={this.handleCreateTile}>Create Tile</button>
       <ReactGridLayout cols={12} rowHeight={30} onLayoutChange={this.onLayoutChange} compactType='vertical'>
         {tileNodes}

@@ -78,6 +78,13 @@ const style = {
     objectFit: "fill",
     objectPosition: "center",
   },
+  griddiv :{
+    //backgroundColor: "#d4ff8c",
+  },
+  filterRow: {
+    paddingBottom: "10px",
+    marginTop: "-20px",
+  },
   invisibleImage: {
     opacity: 0,    
     width: "10vmin",
