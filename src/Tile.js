@@ -327,9 +327,9 @@ class Tile extends Component {
         let nameStr = normalCut[1];
         if(normalCut.length > 0){
           nameStr = nameStr + ", " + normalCut[normalCut.length - 1];
-          this.setState({ davesgardenplantLong: normalCut[1] });
+          this.setState({ davesgardenplant: normalCut[1] });
         } else {
-          this.setState({ davesgardenplantLong: normalCut[0] });
+          this.setState({ davesgardenplant: normalCut[0] });
         }
 
 
@@ -540,14 +540,14 @@ class Tile extends Component {
 
     return (
         <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity})}>
-        <center><b><font size="+1">{this.state.davesgardenplantLong}</font></b>
+        <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
         ? (
           <div style={ style.imgcontWrapper }>
             <center>
               <ReactTooltip id={this.appendTileNum("tooltip")}>
-                <p><b>{this.state.davesgardenplantLong}</b></p>
+                <p><b>{this.state.davesgardenplant}</b></p>
                 <p><i>{this.state.davesgardensci}</i></p>
                 <p><img src={this.props.imglink} width="100px"></img></p>
                 {(this.state.davesgardenph) ? (<p>pH Requirements: {this.state.davesgardenph}</p>) : null}
