@@ -291,7 +291,7 @@ class Timeline extends Component {
     };
 
     return (
-      <div className="Timeline" style={{ 'width': '60%', 'display': 'inline-block'}}>
+      <div className="Timeline" style={{ 'width': '55%', 'display': 'inline-block'}}>
         <div style={style.chartTitle}>
         {(this.props.location) ? (<center><h4>{this.props.location} Seasonal Timeline</h4></center>) : null}
         {(this.props.hoverName) ? (<center><p>Bloom time for <b>{this.props.hoverName}</b></p></center>) : (<p>&nbsp;</p>)}</div>

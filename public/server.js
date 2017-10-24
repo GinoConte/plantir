@@ -301,7 +301,7 @@ router.route('/search/:search_str')
 	// 		console.log($(stdout));
 	// }
 
-		const prog = spawn('python', ['scraper/scraper.py', req.params.search_str]);
+		const prog = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
 		prog.stderr.on('data', (data) =>{
       /*const prog3 = spawn('python3', ['scraper/scraper.py', req.params.search_str]);
       prog3.stdout.on('data', (data) =>{

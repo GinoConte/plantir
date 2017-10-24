@@ -7,7 +7,7 @@ class WeatherWidget extends Component{
 
 	constructor(props) {
 		super(props);
-		this.state= {
+		this.state = {
 			hello:'world',
 			defImg:'https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/',
 			defImgend:'.png',
@@ -66,7 +66,7 @@ class WeatherWidget extends Component{
 
 
 		return(
-		<div className="row row-no-gutter"  style={{'display':'inline-block', 'width':'39%','position': 'relative', 'left' : '0px' , 'height' : '200px',}}>
+		<div className="row row-no-gutter"  style={{'display':'inline-block', 'width':'45%','position': 'relative', 'left' : '0px' , 'height' : '200px',}}>
 			<div className="col-md-6" style={{ 'background-color' : '#809999', 'height': '100%',}}>
 
 				<div style={{ 'position' : 'relative', 'top': '50%', 'transform': 'translateY(-50%)',}}>
@@ -79,10 +79,10 @@ class WeatherWidget extends Component{
 
 			</div>
 			<div style={{ 'position' : 'relative', 'height': '50%',}}>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#576E6E','height': '100%','top':'50%', 'transform':'translateY(-50%)','position':'relative'}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#576E6E','height': '100%','top':'50%', 'transform':'translateY(-50%)','position':'relative', 'zIndex':'3',}}>
 					<div>
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[1]['day']}</h4>
-						<center><img src={this.state.finWea[1]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%',}}/></center>
+						<center><img src={this.state.finWea[1]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%','zIndex':'3',}}/></center>
 						<center><h5 style={{'margin':0 , 'color':'#c7c7c7'}}>{this.state.finWea[1]['temp']}°C</h5></center>
 						<center><h5 style={{'margin':0 , 'color':'#c7c7c7'}}>{this.state.finWea[1]['desc']}</h5></center>
 					</div>
@@ -97,10 +97,10 @@ class WeatherWidget extends Component{
 				</div>
 			</div>
 			<div style={{ 'position' : 'relative', 'height': '50%',}}>
-				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#739191','height': '100%',}}>
+				<div className="col-md-3" style={{ 'display':'inline-block','background-color' : '#739191','height': '100%','zIndex':'3',}}>
 					<div>
 						<h4 style={{'margin':0,'margin-top':'20px', 'font':'bold','color': '#fffb1f'}}>{this.state.finWea[3]['day']}</h4>
-						<center><img src={this.state.finWea[3]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%'}}/></center>
+						<center><img src={this.state.finWea[3]['icon']} style={{'margin-top':'-50px','margin-left':'90px', 'max-width': '50%','zIndex':'3',}}/></center>
 						<center><h5 style={{'margin':0 ,'color':'#c7c7c7'}}>{this.state.finWea[3]['temp']}°C</h5></center>
 						<center><h5 style={{'margin':0 ,'color':'#c7c7c7'}}>{this.state.finWea[3]['desc']}</h5></center>
 					</div>

@@ -204,7 +204,8 @@ class Tile extends Component {
     this.subtitle.style.color = '#f00';
   }
 
-  closeModal() {
+  closeModal(e) {
+    e.preventDefault();
     this.setState({isResult: false});
     this.setState({modalIsOpen: false});
   }
@@ -606,7 +607,7 @@ class Tile extends Component {
 //style={Object.assign(style.tile, {backgroundColor: tileColour})}
 
     return (
-        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr, backgroundPosition: posStr})}  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}>
+        <div style={Object.assign(style.tile, {backgroundColor: tileColour,opacity: thisOpacity, backgroundImage: backgroundStr, backgroundPosition: posStr, backgroundSize: 'cover'})}  onMouseOver={this.handleTileHover} onClick={this.handleBiologyClicked} data-tip data-for={this.appendTileNum("tooltip")}>
         <center><b><font size="+1">{this.state.davesgardenplant}</font></b>
         </center>
         { (this.props.tiletypeisplant && (this.props.filterState === "None")) 
@@ -645,20 +646,27 @@ class Tile extends Component {
         (
         <center><div style={style.wateringRow} data-tip data-for={this.appendTileNum("tooltip2")}>
 
-
+        <div onMouseOver={()=>{this.hideToolTip(this.appendTileNum('bigT'))}}
+            onMouseOut={()=>{this.showToolTip(this.appendTileNum('bigT'))}}>
         <WaterMeter
           daysnotwatered={this.state.daysnotwatered}
           wateringfrequency={this.state.davesgardenwater}
           rainThisWeek={this.props.rainThisWeek}
-          avgTempThisWeek={this.props.avgTempThisWeek} />
+          avgTempThisWeek={this.props.avgTempThisWeek}
+           />
 
          <button
             style={style.emptybutton}
-            onMouseOver={()=>{this.hideToolTip(this.appendTileNum('bigT'))}}
-            onMouseOut={()=>{this.showToolTip(this.appendTileNum('bigT'))}}
             onClick={this.handleWaterClicked}
             value='Water'>
           <img src='https://i.imgur.com/9KRykNG.png' width='25'></img></button>
+
+
+
+
+           </div>
+
+
         </div></center>
         ) : null }
         <center>
